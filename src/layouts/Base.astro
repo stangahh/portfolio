@@ -1,4 +1,21 @@
 ---
+import '@fontsource/cormorant-garamond/400.css';
+import '@fontsource/cormorant-garamond/400-italic.css';
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource/cormorant-garamond/700.css';
+import '@fontsource/spectral/300.css';
+import '@fontsource/spectral/300-italic.css';
+import '@fontsource/spectral/400.css';
+import '@fontsource/spectral/400-italic.css';
+import '@fontsource/spectral/500.css';
+import '@fontsource/jetbrains-mono/300.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/instrument-sans/400.css';
+import '@fontsource/instrument-sans/500.css';
+import '@fontsource/instrument-sans/600.css';
+import '@fontsource/instrument-sans/700.css';
+
 interface Props {
   title?: string;
   description?: string;
@@ -12,9 +29,6 @@ const { title = "Your Name", description = "Engineer. Builder. Human." } = Astro
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
     <style is:global>
       * { margin: 0; padding: 0; box-sizing: border-box; }
 
