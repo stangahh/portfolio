@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import TreeRings from '../components/TreeRings.astro';
 import { posts } from '../data/posts';
 import { projects } from '../data/projects';
 import { skillGroups } from '../data/skills';
@@ -56,6 +57,9 @@ const featuredProjects = projects.slice(0, 3);
       </div>
     </div>
   </section>
+
+  <!-- Tree Ring Growth -->
+  <TreeRings />
 
   <!-- Featured Projects -->
   <section class="section-narrow">

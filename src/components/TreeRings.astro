@@ -1,0 +1,210 @@
+---
+// Autumn Tree Ring Growth — scroll-triggered section divider
+// 8 concentric ellipses (cream → amber → rust → bark) with feTurbulence organic wobble
+---
+
+<section class="rings-section" id="treeRingsSection" aria-hidden="true">
+  <div class="rings-inner">
+    <div class="rings-svg-wrap">
+      <svg id="treeRingsSvg" viewBox="0 0 560 380" aria-hidden="true">
+        <defs>
+          <filter id="tr-warp" x="-15%" y="-15%" width="130%" height="130%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.022"
+              numOctaves="4"
+              seed="7"
+              result="noise"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale="11"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+        <g id="treeRingsGroup" filter="url(#tr-warp)"></g>
+      </svg>
+    </div>
+
+    <div class="rings-prose">
+      <p class="label">growth rings</p>
+      <h2>Eight years<br /><em>of craft.</em></h2>
+      <p>
+        From junior to architect — each ring a year of systems built, teams
+        levelled up, and craft deepened.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rings-section {
+    position: relative;
+    z-index: 10;
+    padding: clamp(48px, 8vh, 100px) clamp(24px, 5vw, 80px);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .rings-inner {
+    display: flex;
+    align-items: center;
+    gap: 56px;
+  }
+
+  .rings-svg-wrap {
+    flex-shrink: 0;
+    width: clamp(240px, 38vw, 400px);
+  }
+
+  .rings-svg-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .rings-prose {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .rings-prose h2 {
+    font-size: clamp(32px, 4vw, 54px);
+    margin-top: 12px;
+    margin-bottom: 20px;
+    line-height: 1.05;
+  }
+
+  .rings-prose p:last-child {
+    font-size: 15px;
+    color: var(--chalk-dim);
+    line-height: 1.85;
+    max-width: 340px;
+  }
+
+  @media (max-width: 768px) {
+    .rings-inner {
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .rings-svg-wrap {
+      width: clamp(200px, 65vw, 300px);
+      align-self: center;
+    }
+
+    .rings-prose p:last-child {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const NS = "http://www.w3.org/2000/svg";
+    const CX = 280, CY = 190; // centre of 560×380 viewBox
+
+    // Innermost → outermost: cream core expanding to dark bark
+    const RINGS = [
+      { rx: 16,  ry: 11,  fill: "rgba(240,232,215,0.92)", stroke: "rgba(215,198,168,0.55)" },
+      { rx: 43,  ry: 29,  fill: "rgba(222,202,160,0.78)", stroke: "rgba(198,172,122,0.50)" },
+      { rx: 76,  ry: 51,  fill: "rgba(207,168,102,0.66)", stroke: "rgba(184,144,76,0.52)"  },
+      { rx: 110, ry: 73,  fill: "rgba(196,122,58,0.58)",  stroke: "rgba(170,100,40,0.55)"  },
+      { rx: 146, ry: 97,  fill: "rgba(174,96,36,0.52)",   stroke: "rgba(148,78,26,0.55)"   },
+      { rx: 184, ry: 123, fill: "rgba(139,69,19,0.47)",   stroke: "rgba(112,52,14,0.55)"   },
+      { rx: 224, ry: 149, fill: "rgba(96,44,10,0.42)",    stroke: "rgba(70,32,8,0.55)"     },
+      { rx: 266, ry: 177, fill: "rgba(52,26,6,0.38)",     stroke: "rgba(32,16,3,0.55)"     },
+    ];
+
+    function easeOutBack(t) {
+      const c1 = 1.70158, c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+
+    function animateRing(el, targetRx, targetRy, delay) {
+      setTimeout(() => {
+        const duration = 750;
+        const start = performance.now();
+
+        function step(now) {
+          const raw    = Math.min(1, (now - start) / duration);
+          const eased  = easeOutBack(raw);
+          const clampE = Math.max(0, eased);
+
+          el.setAttribute("rx", (targetRx * clampE).toFixed(2));
+          el.setAttribute("ry", (targetRy * clampE).toFixed(2));
+          el.style.opacity = Math.min(1, raw * 2).toFixed(3);
+
+          if (raw < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }, delay);
+    }
+
+    function buildRings() {
+      const g = document.getElementById("treeRingsGroup");
+      if (!g) return;
+      g.innerHTML = "";
+
+      // Append outermost first so inner rings render on top
+      [...RINGS].reverse().forEach((ring) => {
+        const el = document.createElementNS(NS, "ellipse");
+        el.setAttribute("cx", CX);
+        el.setAttribute("cy", CY);
+        el.setAttribute("rx", 0);
+        el.setAttribute("ry", 0);
+        el.setAttribute("fill", ring.fill);
+        el.setAttribute("stroke", ring.stroke);
+        el.setAttribute("stroke-width", "0.9");
+        el.style.opacity = "0";
+        g.appendChild(el);
+      });
+    }
+
+    function revealRings() {
+      const g = document.getElementById("treeRingsGroup");
+      if (!g) return;
+      // querySelectorAll order = outermost…innermost; reverse → innermost first
+      const ellipses = [...g.querySelectorAll("ellipse")].reverse();
+      ellipses.forEach((el, i) => {
+        const ring = RINGS[i];
+        animateRing(el, ring.rx, ring.ry, i * 95);
+      });
+    }
+
+    let revealed = false;
+
+    function init() {
+      const section = document.getElementById("treeRingsSection");
+      if (!section) return;
+
+      buildRings();
+      revealed = false;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !revealed) {
+            revealed = true;
+            revealRings();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.2 }
+      );
+
+      observer.observe(section);
+    }
+
+    if (document.readyState === "complete") {
+      init();
+    } else {
+      window.addEventListener("load", init);
+    }
+
+    document.addEventListener("astro:page-load", init);
+  })();
+</script>
