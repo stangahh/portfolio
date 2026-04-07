@@ -201,10 +201,18 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
   .project-block {
     padding: 48px 0;
     border-bottom: 1px solid var(--chalk-faint);
-    transition: opacity 0.2s;
+    transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    max-height: 2000px;
+    overflow: hidden;
   }
 
-  .project-block[hidden] { display: none; }
+  .project-block.hidden {
+    opacity: 0;
+    max-height: 0;
+    padding: 0;
+    border: none;
+    pointer-events: none;
+  }
 
   .block-eyebrow {
     display: flex;
@@ -287,16 +295,22 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
   .block-links a:hover { opacity: 0.7; }
 
   .no-results {
-    display: none;
     font-family: "JetBrains Mono", monospace;
     font-size: 12px;
     letter-spacing: 2px;
     color: var(--chalk-dim);
     padding: 48px 0;
     text-transform: uppercase;
+    opacity: 0;
+    max-height: 0;
+    transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+    overflow: hidden;
   }
 
-  .no-results.visible { display: block; }
+  .no-results.visible {
+    opacity: 1;
+    max-height: 200px;
+  }
 
   @media (max-width: 768px) {
     .projects-wrap { padding-top: 60px; }
@@ -367,6 +381,10 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
       padding: 24px 16px;
     }
 
+    .project-block.hidden {
+      padding: 0;
+    }
+
     .block-title {
       font-size: clamp(20px, 5vw, 28px);
     }
@@ -404,7 +422,7 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
       blocks.forEach(block => {
         const techs = block.dataset.techs || '';
         const show = activeTech === 'all' || techs.includes(activeTech);
-        block.hidden = !show;
+        block.classList.toggle('hidden', !show);
         if (show) visible++;
       });
       if (noResults) noResults.classList.toggle('visible', visible === 0);

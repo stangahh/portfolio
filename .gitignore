@@ -28,3 +28,6 @@ Thumbs.db
 
 # playwright mcp artifacts
 .playwright-mcp/
+
+# claude code
+.claude/

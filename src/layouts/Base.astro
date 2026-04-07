@@ -63,8 +63,8 @@ const {
 
       :root {
         --bg: #0f1014;
-        --grid-line: rgba(255, 255, 255, 0.025);
-        --grid-major: rgba(255, 255, 255, 0.045);
+        --grid-line: rgba(255, 255, 255, 0.01);
+        --grid-major: rgba(255, 255, 255, 0.02);
         --chalk: rgba(235, 230, 220, 0.85);
         --chalk-bright: rgba(235, 230, 220, 0.95);
         --chalk-dim: rgba(235, 230, 220, 0.4);
@@ -363,10 +363,11 @@ const {
         padding: 48px clamp(24px, 5vw, 80px);
         padding-bottom: 100px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         gap: 24px;
-        flex-wrap: wrap;
+        text-align: center;
       }
 
       footer p {
@@ -380,6 +381,7 @@ const {
         display: flex;
         gap: 24px;
         list-style: none;
+        justify-content: center;
       }
 
       footer .footer-links a {
@@ -395,13 +397,19 @@ const {
         color: var(--warm);
       }
 
+      footer .footer-tagline {
+        font-family: "Spectral", serif;
+        font-style: italic;
+        font-size: 14px;
+        color: var(--chalk-dim);
+        margin-top: 12px;
+      }
+
       @media (max-width: 768px) {
         footer {
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
           padding: 32px 16px;
           padding-bottom: 100px;
+          gap: 20px;
         }
 
         footer p {
@@ -414,6 +422,10 @@ const {
 
         footer .footer-links a {
           font-size: 10px;
+        }
+
+        footer .footer-tagline {
+          font-size: 12px;
         }
       }
 
@@ -429,6 +441,9 @@ const {
         text-transform: uppercase;
         padding: 0;
         transition: color 0.12s;
+        width: 115px;
+        text-align: right;
+        flex-shrink: 0;
       }
 
       .particle-toggle:hover {
@@ -557,7 +572,6 @@ const {
     </div>
 
     <footer>
-      <p>© {new Date().getFullYear()} Jesse Stanger</p>
       <ul class="footer-links">
         <li>
           <a href="https://github.com/stangahh" target="_blank" rel="noopener"
@@ -574,6 +588,8 @@ const {
             >email</a>
         </li>
       </ul>
+      <p class="footer-tagline">design inspired by <a href="https://o16g.com/" target="_blank" rel="noopener">o16g</a></p>
+      <p>© {new Date().getFullYear()} Jesse Stanger</p>
     </footer>
 
     <div class="scroll-controls">
@@ -677,6 +693,23 @@ const {
 
       // Run after view transitions
       document.addEventListener("astro:page-load", initScrollControls);
+    </script>
+
+    <script is:inline>
+      /* ── Progress bar scroll tracker ── */
+      (function () {
+        const bar = document.getElementById("progress");
+        if (!bar) return;
+
+        const updateProgress = () => {
+          const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+          bar.style.width = pct + "%";
+        };
+
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        updateProgress();
+        document.addEventListener("astro:page-load", updateProgress);
+      })();
     </script>
 
     <script is:inline>
