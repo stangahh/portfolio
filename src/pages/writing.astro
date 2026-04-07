@@ -1,139 +1,400 @@
 ---
 import Base from '../layouts/Base.astro';
+import { posts } from '../data/posts';
 
-const posts = [
-  {
-    slug: "post-one",
-    title: "Something I figured out",
-    date: "Apr 7, 2026",
-    description: "A short teaser about what this post is about. Why it matters. What you'll take away.",
-    tags: ["systems", "engineering"],
-  },
-  {
-    slug: "post-two",
-    title: "Another thing worth writing about",
-    date: "Mar 15, 2026",
-    description: "Brief teaser for the second post. Keep it honest.",
-    tags: ["tools"],
-  },
-];
+const grouped: Record<string, { label: string; id: string; posts: typeof posts }> = {};
+for (const post of posts) {
+  if (!grouped[post.dateId]) grouped[post.dateId] = { label: post.dateGroup, id: post.dateId, posts: [] };
+  grouped[post.dateId].posts.push(post);
+}
+const groups = Object.values(grouped);
+const categories = ["all", "technical", "essays", "notes", "personal"];
 ---
 <Base title="Writing — Your Name" description="Things I've written.">
-  <section class="page-hero">
-    <p class="label fade-up fade-up-1">writing</p>
-    <h1 class="fade-up fade-up-2">Things I've<br/><em>thought about.</em></h1>
-  </section>
+  <div class="writing-wrap">
 
-  <section class="section-narrow">
-    <div class="divider"></div>
-    <div class="post-list">
-      {posts.map(post => (
-        <a href={`/writing/${post.slug}`} class="post-item">
-          <div class="post-meta">
-            <span class="post-date">{post.date}</span>
-            <div class="post-tags">
-              {post.tags.map(t => <span class="tag">{t}</span>)}
-            </div>
-          </div>
-          <div class="post-body">
-            <h2>{post.title}</h2>
-            <p>{post.description}</p>
-          </div>
-          <span class="post-arrow">→</span>
-        </a>
-      ))}
+    <header class="writing-hero">
+      <p class="label fade-up fade-up-1">writing</p>
+      <h1 class="fade-up fade-up-2">The <em>Archive</em></h1>
+      <p class="hero-sub fade-up fade-up-3">{posts.length} pieces across {groups.length} months</p>
+    </header>
+
+    <div class="tab-controls">
+      <div class="tabs">
+        {categories.map((cat, i) => (
+          <button class:list={["tab-btn", { active: i === 0 }]} data-cat={cat}>{cat}</button>
+        ))}
+      </div>
+      <input type="text" class="search-input" id="searchInput" placeholder="search..." autocomplete="off" />
     </div>
-  </section>
+
+    <div class="writing-layout">
+      <aside class="writing-sidebar" id="writingSidebar">
+        {groups.map((g, i) => (
+          <a class:list={["sidebar-item", { active: i === 0 }]} href={`#${g.id}`} data-target={g.id}>
+            <span class="sidebar-label">{g.label}</span>
+          </a>
+        ))}
+      </aside>
+
+      <main class="writing-main" id="writingMain">
+        {groups.map(g => (
+          <section class="date-group" id={g.id} data-group={g.id}>
+            <h3 class="date-heading">{g.label}</h3>
+            {g.posts.map(post => (
+              <article
+                class="resource-card"
+                data-cat={post.category}
+                data-search={`${post.title} ${post.tags.join(' ')} ${post.category}`.toLowerCase()}
+              >
+                <div class="resource-badges">
+                  <span class="resource-badge">{post.category}</span>
+                  {post.tags.map(t => <span class="resource-badge">{t}</span>)}
+                </div>
+                <h2 class="resource-title">
+                  <a href={`/writing/${post.slug}`}>{post.title}</a>
+                </h2>
+                <div class="resource-body">
+                  <p>{post.description}</p>
+                </div>
+                <div class="resource-meta">
+                  <span class="resource-date">{post.date}</span>
+                </div>
+                <div class="resource-tags">
+                  {post.tags.map(t => <span class="resource-tag">{t}</span>)}
+                </div>
+              </article>
+            ))}
+          </section>
+        ))}
+        <p class="no-results" id="noResults">No posts match that filter.</p>
+      </main>
+    </div>
+
+  </div>
 </Base>
 
 <style>
-  .page-hero {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 clamp(24px, 6vw, 120px) 80px;
-    max-width: 900px;
+  .writing-wrap {
+    padding-top: 80px; /* nav height */
+  }
+
+  /* ── Hero ── */
+  .writing-hero {
+    padding: clamp(60px, 10vh, 120px) clamp(24px, 5vw, 80px) 48px;
+    max-width: 1200px;
     margin: 0 auto;
-    width: 100%;
   }
 
-  .page-hero h1 { font-size: clamp(48px, 7vw, 100px); margin-top: 16px; line-height: 1; }
-
-  .section-narrow {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: clamp(60px, 8vh, 100px) clamp(24px, 4vw, 60px);
+  .writing-hero h1 {
+    font-size: clamp(48px, 7vw, 96px);
+    margin-top: 12px;
+    line-height: 1;
   }
 
-  .post-list { display: flex; flex-direction: column; }
-
-  .post-item {
-    display: flex;
-    gap: 32px;
-    align-items: flex-start;
-    padding: 40px 0;
-    border-bottom: 1px solid var(--chalk-faint);
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-
-  .post-item:first-child { border-top: 1px solid var(--chalk-faint); }
-  .post-item:hover { opacity: 0.75; }
-
-  .post-meta {
-    min-width: 120px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-top: 4px;
-  }
-
-  .post-date {
+  .hero-sub {
     font-family: "JetBrains Mono", monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--warm-num);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--chalk-dim);
+    margin-top: 20px;
     text-transform: uppercase;
   }
 
-  .post-tags { display: flex; flex-direction: column; gap: 4px; }
+  /* ── Tab bar ── */
+  .tab-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 5vw, 80px);
+    border-bottom: 1px solid var(--chalk-faint);
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 24px;
+  }
 
-  .tag {
+  .tabs {
+    display: flex;
+    gap: 0;
+  }
+
+  .tab-btn {
     font-family: "JetBrains Mono", monospace;
-    font-size: 9px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    background: none;
+    border: 1px solid transparent;
+    border-bottom: none;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    position: relative;
+    bottom: -1px; /* sit on the border-bottom line */
+  }
+
+  .tab-btn:hover { color: var(--chalk); }
+
+  .tab-btn.active {
+    color: var(--warm);
+    border-color: var(--warm-border);
+    background: rgba(196, 122, 58, 0.04);
+  }
+
+  .search-input {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--chalk-faint);
+    color: var(--chalk);
+    padding: 8px 4px;
+    width: 180px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input::placeholder { color: var(--chalk-faint); }
+  .search-input:focus { border-color: var(--warm-border); }
+
+  /* ── Two-column layout ── */
+  .writing-layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 60vh;
+  }
+
+  /* ── Sidebar ── */
+  .writing-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    padding: 24px 0;
+    border-right: 1px solid var(--chalk-faint);
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .sidebar-item {
+    display: block;
+    padding: 6px 16px 6px 14px;
+    margin-bottom: 2px;
+    border-left: 2px solid transparent;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--chalk-dim);
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+
+  .sidebar-item:hover { color: var(--chalk); }
+
+  .sidebar-item.active {
+    border-left-color: var(--warm);
+    background: rgba(196, 122, 58, 0.05);
+    color: var(--chalk);
+  }
+
+  .sidebar-label { display: block; }
+
+  /* ── Main feed ── */
+  .writing-main {
+    flex: 1;
+    padding: 24px 30px 80px;
+    min-width: 0;
+  }
+
+  .date-group { margin-bottom: 48px; }
+
+  .date-heading {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--chalk-faint);
+    font-weight: 400;
+  }
+
+  /* ── Resource card ── */
+  .resource-card {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--chalk-faint);
+  }
+
+  .resource-card:first-of-type { border-top: 1px solid var(--chalk-faint); }
+
+  .resource-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .resource-badge {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    font-weight: 400;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--cool);
-    border: 1px solid var(--cool-border);
+    background: rgba(14, 165, 201, 0.08);
+    border: 0.667px solid rgba(14, 165, 201, 0.2);
+    padding: 3px 10px;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .resource-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    color: var(--chalk-bright);
+  }
+
+  .resource-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .resource-title a:hover { color: var(--warm); }
+
+  .resource-body p {
+    font-size: 15px;
+    color: var(--chalk-dim);
+    line-height: 1.75;
+    max-width: 680px;
+  }
+
+  .resource-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 14px;
+    margin-bottom: 12px;
+  }
+
+  .resource-date {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(235, 230, 220, 0.5);
+  }
+
+  .resource-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .resource-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--chalk);
+    border: 0.667px solid rgba(235, 230, 220, 0.12);
     padding: 2px 8px;
     display: inline-block;
-    width: fit-content;
   }
 
-  .post-body { flex: 1; }
+  /* ── States ── */
+  .resource-card[hidden] { display: none; }
 
-  .post-body h2 {
-    font-size: clamp(20px, 2.5vw, 30px);
-    color: var(--chalk-bright);
-    margin-bottom: 10px;
-    line-height: 1.2;
-  }
-
-  .post-body p {
-    font-size: 14px;
-    color: var(--chalk-dim);
-    font-style: italic;
-    line-height: 1.7;
-  }
-
-  .post-arrow {
+  .no-results {
+    display: none;
     font-family: "JetBrains Mono", monospace;
-    color: var(--warm);
-    padding-top: 4px;
-    opacity: 0;
-    transition: opacity 0.2s;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--chalk-dim);
+    padding: 48px 0;
+    text-transform: uppercase;
   }
 
-  .post-item:hover .post-arrow { opacity: 1; }
+  .no-results.visible { display: block; }
+
+  .date-group[hidden] { display: none; }
 </style>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.resource-card');
+  const groups = document.querySelectorAll<HTMLElement>('.date-group');
+  const noResults = document.getElementById('noResults');
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+  const sidebarItems = document.querySelectorAll<HTMLAnchorElement>('.sidebar-item');
+
+  let activeCat = 'all';
+  let searchTerm = '';
+
+  function filter() {
+    let visible = 0;
+
+    groups.forEach(group => {
+      let groupVisible = 0;
+      const groupCards = group.querySelectorAll<HTMLElement>('.resource-card');
+      groupCards.forEach(card => {
+        const catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
+        const searchMatch = !searchTerm || (card.dataset.search || '').includes(searchTerm);
+        const show = catMatch && searchMatch;
+        card.hidden = !show;
+        if (show) { groupVisible++; visible++; }
+      });
+      group.hidden = groupVisible === 0;
+    });
+
+    if (noResults) {
+      noResults.classList.toggle('visible', visible === 0);
+    }
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeCat = tab.dataset.cat || 'all';
+      filter();
+    });
+  });
+
+  searchInput?.addEventListener('input', () => {
+    searchTerm = searchInput.value.toLowerCase().trim();
+    filter();
+  });
+
+  // Sidebar: highlight active section on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        sidebarItems.forEach(item => {
+          item.classList.toggle('active', item.dataset.target === id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  groups.forEach(g => observer.observe(g));
+
+  // Smooth sidebar scroll on click (prevent default + manual scroll)
+  sidebarItems.forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault();
+      const id = item.dataset.target;
+      if (id) {
+        const target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>

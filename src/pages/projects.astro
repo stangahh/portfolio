@@ -1,167 +1,330 @@
 ---
 import Base from '../layouts/Base.astro';
+import { projects } from '../data/projects';
 
-const projects = [
-  {
-    num: "01",
-    name: "Project Alpha",
-    description: "A longer description of what this project does. The problem it solves, why you built it, and what was technically interesting about it.",
-    tags: ["TypeScript", "Rust", "Postgres", "Docker"],
-    github: "https://github.com/yourusername/project-alpha",
-    live: "https://project-alpha.example.com",
-    status: "active",
-  },
-  {
-    num: "02",
-    name: "Project Beta",
-    description: "Description of the second project. Focus on outcomes and impact over technical implementation details.",
-    tags: ["Go", "Kubernetes", "gRPC"],
-    github: "https://github.com/yourusername/project-beta",
-    status: "active",
-  },
-  {
-    num: "03",
-    name: "Project Gamma",
-    description: "A tool for doing some specific thing. It does it well and I'm proud of the implementation.",
-    tags: ["Python", "FastAPI", "ML"],
-    github: "https://github.com/yourusername/project-gamma",
-    status: "archived",
-  },
-  {
-    num: "04",
-    name: "Project Delta",
-    description: "Small utility that scratches a personal itch. A few hundred people use it.",
-    tags: ["Bash", "Rust"],
-    github: "https://github.com/yourusername/project-delta",
-    status: "active",
-  },
-];
+const allTechs = [...new Set(projects.flatMap(p => p.tags))];
+const activeCount = projects.filter(p => p.status === "active").length;
+const archivedCount = projects.filter(p => p.status === "archived").length;
 ---
 <Base title="Projects — Your Name" description="Things I've built.">
-  <section class="page-hero">
-    <p class="label fade-up fade-up-1">work</p>
-    <h1 class="fade-up fade-up-2">Things I've<br/><em>built.</em></h1>
-  </section>
+  <div class="projects-wrap">
 
-  <section class="section-narrow">
-    <div class="divider"></div>
-    <div class="project-list">
-      {projects.map(p => (
-        <article class="project-card">
-          <div class="project-num-col">
-            <span class="num">{p.num}</span>
-            {p.status === "archived" && <span class="status-tag">archived</span>}
+    <header class="projects-hero">
+      <p class="label fade-up fade-up-1">work</p>
+      <h1 class="fade-up fade-up-2">Things I've<br/><em>built.</em></h1>
+    </header>
+
+    <div class="projects-layout">
+
+      <!-- Sidebar: stats + tech filters -->
+      <aside class="projects-sidebar">
+        <p class="sidebar-section-label">the work</p>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-num">{projects.length}</span>
+            <span class="stat-label">projects</span>
           </div>
-          <div class="project-body">
-            <h2>{p.name}</h2>
-            <p>{p.description}</p>
-            <div class="project-tags">
-              {p.tags.map(t => <span class="tag">{t}</span>)}
+          <div class="stat">
+            <span class="stat-num">{activeCount}</span>
+            <span class="stat-label">active</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">{archivedCount}</span>
+            <span class="stat-label">archived</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">{allTechs.length}</span>
+            <span class="stat-label">technologies</span>
+          </div>
+        </div>
+
+        <div class="tech-cloud">
+          <button class="tech-btn active" data-tech="all">all</button>
+          {allTechs.map(tech => (
+            <button class="tech-btn" data-tech={tech.toLowerCase()}>{tech}</button>
+          ))}
+        </div>
+      </aside>
+
+      <!-- Main: editorial project blocks -->
+      <main class="projects-main" id="projectsMain">
+        {projects.map(p => (
+          <article
+            class="project-block"
+            data-techs={p.tags.map(t => t.toLowerCase()).join(' ')}
+            data-status={p.status}
+          >
+            <div class="block-eyebrow">
+              <span class="block-num">{p.num}</span>
+              <span class="block-year">{p.year}</span>
+              {p.status === "archived" && <span class="archived-pill">archived</span>}
             </div>
-            <div class="project-links">
+            <h2 class="block-title">{p.name}</h2>
+            <p class="block-desc">{p.description}</p>
+            <div class="block-techs">
+              {p.tags.map(t => <span class="block-tech">{t}</span>)}
+            </div>
+            <div class="block-links">
               {p.github && <a href={p.github} target="_blank" rel="noopener">github →</a>}
               {p.live && <a href={p.live} target="_blank" rel="noopener">live →</a>}
             </div>
-          </div>
-        </article>
-      ))}
+          </article>
+        ))}
+        <p class="no-results" id="noResults">No projects match that filter.</p>
+      </main>
+
     </div>
-  </section>
+  </div>
 </Base>
 
 <style>
-  .page-hero {
+  .projects-wrap { padding-top: 80px; }
+
+  /* ── Hero ── */
+  .projects-hero {
+    padding: clamp(60px, 10vh, 120px) clamp(24px, 5vw, 80px) 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .projects-hero h1 {
+    font-size: clamp(48px, 7vw, 96px);
+    margin-top: 12px;
+    line-height: 1;
+  }
+
+  /* ── Two-column layout ── */
+  .projects-layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid var(--chalk-faint);
     min-height: 60vh;
+  }
+
+  /* ── Sidebar ── */
+  .projects-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    padding: 32px 0;
+    border-right: 1px solid var(--chalk-faint);
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .sidebar-section-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    padding: 0 20px;
+    margin-bottom: 24px;
+  }
+
+  /* ── Stats ── */
+  .stats {
+    padding: 0 20px;
+    margin-bottom: 32px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 clamp(24px, 6vw, 120px) 80px;
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
+    gap: 20px;
   }
 
-  .page-hero h1 { font-size: clamp(48px, 7vw, 100px); margin-top: 16px; line-height: 1; }
-
-  .section-narrow {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: clamp(60px, 8vh, 100px) clamp(24px, 4vw, 60px);
-  }
-
-  .project-list { display: flex; flex-direction: column; }
-
-  .project-card {
+  .stat {
     display: flex;
-    gap: 28px;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--chalk-bright);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+  }
+
+  /* ── Tech cloud ── */
+  .tech-cloud {
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid var(--chalk-faint);
+    padding-top: 24px;
+    margin-top: 8px;
+  }
+
+  .tech-btn {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--chalk-dim);
+    background: none;
+    border: 0.667px solid var(--chalk-faint);
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    text-transform: lowercase;
+  }
+
+  .tech-btn:hover {
+    color: var(--chalk);
+    border-color: rgba(235, 230, 220, 0.25);
+  }
+
+  .tech-btn.active {
+    color: var(--warm);
+    border-color: var(--warm-border);
+    background: rgba(196, 122, 58, 0.06);
+  }
+
+  /* ── Main feed ── */
+  .projects-main {
+    flex: 1;
+    padding: 0 30px 80px;
+    min-width: 0;
+  }
+
+  /* ── Project block ── */
+  .project-block {
     padding: 48px 0;
     border-bottom: 1px solid var(--chalk-faint);
+    transition: opacity 0.2s;
   }
 
-  .project-card:first-child { border-top: 1px solid var(--chalk-faint); }
+  .project-block[hidden] { display: none; }
 
-  .project-num-col {
+  .block-eyebrow {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    min-width: 40px;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
   }
 
-  .num {
+  .block-num {
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: 10px;
+    letter-spacing: 3px;
     color: var(--warm-num);
-    letter-spacing: 2px;
-    padding-top: 6px;
   }
 
-  .status-tag {
+  .block-year {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--chalk-dim);
+  }
+
+  .archived-pill {
     font-family: "JetBrains Mono", monospace;
     font-size: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--chalk-dim);
-    border: 1px solid var(--chalk-faint);
-    padding: 2px 6px;
+    border: 0.667px solid var(--chalk-faint);
+    padding: 2px 8px;
   }
 
-  .project-body { flex: 1; }
-
-  .project-body h2 {
-    font-size: clamp(22px, 3vw, 36px);
-    margin-bottom: 12px;
+  .block-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    color: var(--chalk-bright);
+    line-height: 1.1;
+    margin-bottom: 16px;
   }
 
-  .project-body p {
+  .block-desc {
     font-size: 15px;
     color: var(--chalk-dim);
     line-height: 1.8;
+    max-width: 620px;
     margin-bottom: 20px;
-    max-width: 600px;
   }
 
-  .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .block-techs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
 
-  .tag {
+  .block-tech {
     font-family: "JetBrains Mono", monospace;
     font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--cool);
-    border: 1px solid var(--cool-border);
-    padding: 3px 10px;
+    letter-spacing: 1px;
+    color: var(--chalk);
+    border: 0.667px solid rgba(235, 230, 220, 0.12);
+    padding: 2px 8px;
   }
 
-  .project-links { display: flex; gap: 20px; }
+  .block-links {
+    display: flex;
+    gap: 20px;
+  }
 
-  .project-links a {
+  .block-links a {
     font-family: "JetBrains Mono", monospace;
     font-size: 11px;
     letter-spacing: 2px;
     color: var(--warm);
+    text-decoration: none;
     transition: opacity 0.2s;
   }
 
-  .project-links a:hover { opacity: 0.7; }
+  .block-links a:hover { opacity: 0.7; }
+
+  .no-results {
+    display: none;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--chalk-dim);
+    padding: 48px 0;
+    text-transform: uppercase;
+  }
+
+  .no-results.visible { display: block; }
 </style>
+
+<script>
+  const techBtns = document.querySelectorAll<HTMLButtonElement>('.tech-btn');
+  const blocks = document.querySelectorAll<HTMLElement>('.project-block');
+  const noResults = document.getElementById('noResults');
+
+  let activeTech = 'all';
+
+  function filter() {
+    let visible = 0;
+    blocks.forEach(block => {
+      const techs = block.dataset.techs || '';
+      const show = activeTech === 'all' || techs.includes(activeTech);
+      block.hidden = !show;
+      if (show) visible++;
+    });
+    if (noResults) noResults.classList.toggle('visible', visible === 0);
+  }
+
+  techBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      techBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTech = btn.dataset.tech || 'all';
+      filter();
+    });
+  });
+</script>

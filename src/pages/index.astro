@@ -1,16 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
+import { posts } from '../data/posts';
+import { projects } from '../data/projects';
+import { skillGroups } from '../data/skills';
+
+const recentPosts = posts.slice(0, 2);
+const hasRecentPosts = recentPosts.length > 0;
+const featuredProjects = projects.slice(0, 3);
 ---
-<Base title="Your Name — Engineer. Builder." description="Personal site of Your Name.">
+<Base title="Jesse Stanger — Senior Full Stack Engineer" description="Senior Full Stack Software Engineer based in Melbourne.">
   <!-- Hero -->
   <section class="hero">
     <div class="hero-inner">
-      <p class="label fade-up fade-up-1">engineer · builder · human</p>
+      <p class="label fade-up fade-up-1">senior full stack engineer · ai tooling · ownership</p>
       <h1 class="hero-title fade-up fade-up-2">
-        Your<br/><em>Name</em>
+        Jesse<br/><em>Stanger</em>
       </h1>
       <p class="hero-sub fade-up fade-up-3">
-        Building things that matter, one commit at a time.
+        Eight years accelerating teams at the forefront of AI. Obsessive attention to detail, uncompromising quality.
       </p>
       <div class="hero-cta fade-up fade-up-4">
         <a href="/about" class="btn-primary">about me →</a>
@@ -30,21 +37,21 @@ import Base from '../layouts/Base.astro';
           <span class="num">01</span>
           <div>
             <strong>Role</strong>
-            <p>Senior Engineer @ Some Company</p>
+            <p>Senior Full Stack Engineer @ Versent</p>
           </div>
         </div>
         <div class="currently-item">
           <span class="num">02</span>
           <div>
-            <strong>Building</strong>
-            <p>Something interesting on the side</p>
+            <strong>Focus</strong>
+            <p>Full-stack engineering on distributed systems and infrastructure challenges</p>
           </div>
         </div>
         <div class="currently-item">
           <span class="num">03</span>
           <div>
-            <strong>Reading</strong>
-            <p>Whatever's interesting this week</p>
+            <strong>Building</strong>
+            <p>This site — and whatever catches my attention on weekends</p>
           </div>
         </div>
       </div>
@@ -59,50 +66,18 @@ import Base from '../layouts/Base.astro';
       <h2>Projects</h2>
     </div>
     <div class="project-list">
-      <article class="project-card">
-        <span class="num">01</span>
-        <div class="project-body">
-          <h3>Project Name</h3>
-          <p>A short description of what this does and why it matters. Built with TypeScript and curiosity.</p>
-          <div class="project-tags">
-            <span class="tag">TypeScript</span>
-            <span class="tag">Rust</span>
-            <span class="tag">Postgres</span>
+      {featuredProjects.map(p => (
+        <article class="project-card">
+          <span class="num">{p.num}</span>
+          <div class="project-body">
+            <h3>{p.name}</h3>
+            <p>{p.description}</p>
+            <div class="project-tags">
+              {p.tags.map(t => <span class="tag">{t}</span>)}
+            </div>
           </div>
-          <div class="project-links">
-            <a href="https://github.com" target="_blank" rel="noopener">github →</a>
-            <a href="#" target="_blank" rel="noopener">live →</a>
-          </div>
-        </div>
-      </article>
-      <article class="project-card">
-        <span class="num">02</span>
-        <div class="project-body">
-          <h3>Another Project</h3>
-          <p>What this does. The interesting technical problem it solves and what you learned building it.</p>
-          <div class="project-tags">
-            <span class="tag">Go</span>
-            <span class="tag">Docker</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com" target="_blank" rel="noopener">github →</a>
-          </div>
-        </div>
-      </article>
-      <article class="project-card">
-        <span class="num">03</span>
-        <div class="project-body">
-          <h3>Third Thing</h3>
-          <p>Brief description. Keep it honest, keep it interesting.</p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">ML</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com" target="_blank" rel="noopener">github →</a>
-          </div>
-        </div>
-      </article>
+        </article>
+      ))}
     </div>
     <a href="/projects" class="see-all">all projects →</a>
   </section>
@@ -115,58 +90,36 @@ import Base from '../layouts/Base.astro';
       <h2>Skills</h2>
     </div>
     <div class="skills-grid">
-      <div class="skill-group">
-        <h3 class="skill-group-title">Languages</h3>
-        <ul>
-          <li>TypeScript / JavaScript</li>
-          <li>Rust</li>
-          <li>Go</li>
-          <li>Python</li>
-          <li>SQL</li>
-        </ul>
-      </div>
-      <div class="skill-group">
-        <h3 class="skill-group-title">Infrastructure</h3>
-        <ul>
-          <li>Docker / Kubernetes</li>
-          <li>AWS / GCP</li>
-          <li>Terraform</li>
-          <li>CI/CD</li>
-        </ul>
-      </div>
-      <div class="skill-group">
-        <h3 class="skill-group-title">Domains</h3>
-        <ul>
-          <li>Distributed Systems</li>
-          <li>Developer Tooling</li>
-          <li>AI / Agents</li>
-          <li>Platform Engineering</li>
-        </ul>
-      </div>
+      {skillGroups.map(group => (
+        <div class="skill-group">
+          <h3 class="skill-group-title">{group.title}</h3>
+          <ul>
+            {group.skills.map(skill => <li>{skill}</li>)}
+          </ul>
+        </div>
+      ))}
     </div>
   </section>
 
-  <!-- Writing -->
-  <section class="section-narrow">
-    <div class="divider"></div>
-    <div class="section-header">
-      <p class="label">writing</p>
-      <h2>Recent Posts</h2>
-    </div>
-    <div class="post-list">
-      <a href="/writing/post-one" class="post-item">
-        <span class="post-date">Apr 2026</span>
-        <h3>Something I figured out</h3>
-        <p>A short teaser about what the post covers and why it's worth reading.</p>
-      </a>
-      <a href="/writing/post-two" class="post-item">
-        <span class="post-date">Mar 2026</span>
-        <h3>Another thing worth writing about</h3>
-        <p>Brief teaser.</p>
-      </a>
-    </div>
-    <a href="/writing" class="see-all">all posts →</a>
-  </section>
+  {hasRecentPosts && (
+    <section class="section-narrow">
+      <div class="divider"></div>
+      <div class="section-header">
+        <p class="label">writing</p>
+        <h2>Recent Posts</h2>
+      </div>
+      <div class="post-list">
+        {recentPosts.map(post => (
+          <a href={`/writing/${post.slug}`} class="post-item">
+            <span class="post-date">{post.dateGroup}</span>
+            <h3>{post.title}</h3>
+            <p>{post.description}</p>
+          </a>
+        ))}
+      </div>
+      <a href="/writing" class="see-all">all posts →</a>
+    </section>
+  )}
 </Base>
 
 <style>
@@ -250,7 +203,7 @@ import Base from '../layouts/Base.astro';
     text-transform: uppercase;
     color: var(--chalk-dim);
     z-index: 15;
-    animation: fadeIn 1s ease 1.8s forwards;
+    animation: fadeIn 0.8s ease 1.2s forwards;
     opacity: 0;
   }
 
@@ -315,7 +268,7 @@ import Base from '../layouts/Base.astro';
   .project-body h3 { font-size: clamp(20px, 2.5vw, 28px); margin-bottom: 10px; }
   .project-body p { font-size: 15px; color: var(--chalk-dim); line-height: 1.7; margin-bottom: 16px; }
 
-  .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .project-tags { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .tag {
     font-family: "JetBrains Mono", monospace;
@@ -326,18 +279,6 @@ import Base from '../layouts/Base.astro';
     border: 1px solid var(--cool-border);
     padding: 3px 10px;
   }
-
-  .project-links { display: flex; gap: 20px; }
-
-  .project-links a {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: var(--warm);
-    transition: opacity 0.2s;
-  }
-
-  .project-links a:hover { opacity: 0.7; }
 
   .see-all {
     display: inline-block;
