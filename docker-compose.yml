@@ -10,6 +10,8 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - ASTRO_FILE_WATCHER_POLLING=true
+      - ASTRO_TELEMETRY_DISABLED=true
     profiles:
       - dev
 

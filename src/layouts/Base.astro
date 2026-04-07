@@ -115,6 +115,7 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
         padding: 20px clamp(24px, 5vw, 80px);
         background: linear-gradient(to bottom, rgba(15,16,20,.95) 0%, transparent 100%);
         backdrop-filter: blur(2px);
+        gap: 40px;
       }
 
       .nav-logo {
@@ -124,19 +125,29 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
         color: var(--chalk-bright);
         text-decoration: none;
         letter-spacing: -0.01em;
+        flex-shrink: 0;
+      }
+
+      .nav-right {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+        flex-shrink: 0;
       }
 
       .nav-links {
         display: flex;
         gap: 32px;
         list-style: none;
+        flex: 1;
+        justify-content: center;
       }
 
       .nav-links a {
         font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
+        font-size: 13px;
         letter-spacing: 3px;
-        text-transform: lowercase;
+        text-transform: uppercase;
         color: var(--chalk-dim);
         text-decoration: none;
         transition: color 0.2s;
@@ -145,6 +156,12 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
       .nav-links a:hover,
       .nav-links a.active {
         color: var(--warm);
+      }
+
+      .nav-separator {
+        color: var(--warm);
+        font-size: 14px;
+        opacity: 0.6;
       }
 
       /* Progress bar */
@@ -193,7 +210,7 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
       /* Mono label style */
       .label {
         font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
+        font-size: 14px;
         letter-spacing: 6px;
         text-transform: uppercase;
         color: var(--warm);
@@ -213,7 +230,6 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
         position: relative;
         z-index: 10;
         padding: 48px clamp(24px, 5vw, 80px);
-        border-top: 1px solid var(--chalk-faint);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -245,6 +261,78 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
 
       footer .footer-links a:hover { color: var(--warm); }
 
+      /* Particle effects toggle */
+      .particle-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--chalk-dim);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 0;
+        transition: color 0.2s;
+      }
+
+      .particle-toggle:hover {
+        color: var(--warm);
+      }
+
+      /* Scroll controls */
+      .scroll-controls {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 12px;
+        z-index: 20;
+      }
+
+      .scroll-btn {
+        background: none;
+        border: 1px solid var(--warm-border);
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        color: var(--warm);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: border-color 0.2s, background 0.2s, opacity 0.3s ease, transform 0.3s ease, width 0.3s ease, margin 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transform: scale(1);
+        width: auto;
+        margin: 0;
+        box-shadow: 0 0 8px rgba(196, 122, 58, 0.15);
+        backdrop-filter: blur(3px);
+      }
+
+      .scroll-btn:hover {
+        border-color: var(--warm);
+        background: rgba(196, 122, 58, 0.08);
+      }
+
+      .scroll-btn:active {
+        background: rgba(196, 122, 58, 0.15);
+      }
+
+      .scroll-btn.hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.8);
+        width: 0;
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
+
       /* Scrollbar */
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: var(--bg); }
@@ -269,12 +357,15 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
     <nav>
       <a href="/" class="nav-logo">Jesse Stanger</a>
       <ul class="nav-links">
-        <li><a href="/">home</a></li>
-        <li><a href="/about">about</a></li>
-        <li><a href="/projects">projects</a></li>
-        <li><a href="/writing">writing</a></li>
-        <li><a href="/links">links</a></li>
+        <li><a href="/">HOME</a></li>
+        <li><a href="/about">ABOUT</a></li>
+        <li><a href="/projects">PROJECTS</a></li>
+        <li><a href="/writing">WRITING</a></li>
+        <li><a href="/links">LINKS</a></li>
       </ul>
+      <div class="nav-right">
+        <button class="particle-toggle" id="particleToggle" aria-label="Toggle particle effects">PARTICLES ON</button>
+      </div>
     </nav>
 
     <div id="content">
@@ -289,6 +380,11 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
         <li><a href="mailto:me@stangahh.dev">email</a></li>
       </ul>
     </footer>
+
+    <div class="scroll-controls">
+      <button id="scrollUp" class="scroll-btn" aria-label="Go to top">top</button>
+      <button id="scrollDown" class="scroll-btn" aria-label="Go to bottom">bottom</button>
+    </div>
 
     <script>
       // Progress bar on scroll
@@ -305,6 +401,59 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
           link.classList.add('active');
         }
       });
+
+      // Particle effects toggle
+      const particleToggle = document.getElementById('particleToggle');
+      const canvas = document.getElementById('driftCanvas');
+
+      const isParticlesEnabled = () => {
+        return localStorage.getItem('particlesEnabled') !== 'false';
+      };
+
+      const updateParticleUI = () => {
+        const enabled = isParticlesEnabled();
+        if (enabled) {
+          canvas.style.opacity = '0.85';
+          particleToggle.textContent = 'PARTICLES ON';
+        } else {
+          canvas.style.opacity = '0';
+          particleToggle.textContent = 'PARTICLES OFF';
+        }
+      };
+
+      particleToggle.addEventListener('click', () => {
+        const enabled = isParticlesEnabled();
+        localStorage.setItem('particlesEnabled', enabled ? 'false' : 'true');
+        updateParticleUI();
+      });
+
+      // Initialize particle state on load
+      window.addEventListener('load', updateParticleUI);
+      updateParticleUI();
+
+      // Scroll controls - show/hide based on position
+      const scrollUpBtn = document.getElementById('scrollUp');
+      const scrollDownBtn = document.getElementById('scrollDown');
+
+      const updateScrollButtons = () => {
+        const isAtTop = window.scrollY < 100;
+        const isAtBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight - 100;
+
+        scrollUpBtn.classList.toggle('hidden', isAtTop);
+        scrollDownBtn.classList.toggle('hidden', isAtBottom);
+      };
+
+      scrollUpBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      scrollDownBtn.addEventListener('click', () => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      });
+
+      window.addEventListener('scroll', updateScrollButtons, { passive: true });
+      window.addEventListener('load', updateScrollButtons);
+      updateScrollButtons();
     </script>
 
     <script is:inline>

@@ -24,7 +24,6 @@ const featuredProjects = projects.slice(0, 3);
         <a href="/projects" class="btn-ghost">see my work</a>
       </div>
     </div>
-    <div class="hero-scroll">scroll</div>
   </section>
 
   <!-- Currently -->
@@ -191,32 +190,7 @@ const featuredProjects = projects.slice(0, 3);
 
   .btn-ghost:hover { border-color: var(--warm); color: var(--chalk-bright); }
 
-  .hero-scroll {
-    position: fixed;
-    bottom: 28px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 10px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: var(--chalk-dim);
-    z-index: 15;
-    animation: fadeIn 0.8s ease 1.2s forwards;
-    opacity: 0;
-  }
-
-  .hero-scroll::after {
-    content: "";
-    display: block;
-    width: 1px;
-    height: 28px;
-    background: linear-gradient(to bottom, var(--warm), transparent);
-    margin: 8px auto 0;
-  }
-
-  @keyframes fadeIn { to { opacity: 1; } }
+@keyframes fadeIn { to { opacity: 1; } }
 
   .section-narrow {
     max-width: 800px;
@@ -338,3 +312,4 @@ const featuredProjects = projects.slice(0, 3);
   .post-item h3 { font-size: clamp(18px, 2vw, 24px); margin-bottom: 8px; color: var(--chalk-bright); }
   .post-item p { font-size: 14px; color: var(--chalk-dim); font-style: italic; }
 </style>
+
