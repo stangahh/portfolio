@@ -1,5 +1,4 @@
 ---
-import DriftField from "../components/DriftField.astro";
 import { ClientRouter } from "astro:transitions";
 import "@fontsource/cormorant-garamond/400.css";
 import "@fontsource/cormorant-garamond/400-italic.css";
@@ -36,24 +35,6 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <ClientRouter />
-    <script is:inline>
-      // Set initial canvas opacity BEFORE render and after view transitions
-      (function () {
-        const setCanvasOpacity = () => {
-          const canvas = document.getElementById("driftCanvas");
-          if (canvas) {
-            canvas.style.opacity =
-              localStorage.getItem("particlesEnabled") !== "false"
-                ? "0.85"
-                : "0";
-          }
-        };
-        // Run immediately on page load
-        setCanvasOpacity();
-        // Run after view transitions
-        document.addEventListener("astro:after-swap", setCanvasOpacity);
-      })();
-    </script>
     <style is:global>
       * {
         margin: 0;
@@ -243,15 +224,6 @@ const {
           flex: 0 1 auto;
         }
 
-        .nav-right {
-          gap: 8px;
-          flex-shrink: 0;
-        }
-
-        .particle-toggle {
-          font-size: 10px;
-          letter-spacing: 2px;
-        }
       }
 
       @media (max-width: 480px) {
@@ -266,11 +238,6 @@ const {
         }
 
         .nav-links a {
-          font-size: 9px;
-          letter-spacing: 1px;
-        }
-
-        .particle-toggle {
           font-size: 9px;
           letter-spacing: 1px;
         }
@@ -544,27 +511,6 @@ const {
         }
       }
 
-      /* Particle effects toggle */
-      .particle-toggle {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: var(--chalk-dim);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 13px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        padding: 0;
-        transition: color 0.12s;
-        width: 115px;
-        text-align: right;
-        flex-shrink: 0;
-      }
-
-      .particle-toggle:hover {
-        color: var(--warm);
-      }
-
       /* Scroll controls */
       .scroll-controls {
         position: fixed;
@@ -679,14 +625,6 @@ const {
         overflow: visible;
       }
 
-      /* Drift canvas */
-      #driftCanvas {
-        position: fixed;
-        inset: 0;
-        z-index: 3;
-        pointer-events: none;
-        opacity: 0.85;
-      }
     </style>
   </head>
   <body>
@@ -694,7 +632,6 @@ const {
     <svg id="myceliumSvg" aria-hidden="true"></svg>
     <div class="chalk-texture"></div>
     <svg id="coniferSvg" aria-hidden="true"></svg>
-    <canvas id="driftCanvas"></canvas>
     <canvas id="leafCanvas" aria-hidden="true"></canvas>
     <div class="progress-bar" id="progress"></div>
 
@@ -706,13 +643,6 @@ const {
         <li><a href="/writing">WRITING</a></li>
         <li><a href="/links">LINKS</a></li>
       </ul>
-      <div class="nav-right">
-        <button
-          class="particle-toggle"
-          id="particleToggle"
-          aria-label="Toggle particle effects">PARTICLES ON</button
-        >
-      </div>
     </nav>
 
     <div id="content">
@@ -748,51 +678,6 @@ const {
         >bottom</button
       >
     </div>
-
-    <script is:inline>
-      // Initialize on every page load/view transition
-      function initPage() {
-        const particleToggle = document.getElementById("particleToggle");
-        const canvas = document.getElementById("driftCanvas");
-
-        // Prevent duplicate event listeners
-        if (particleToggle._hasParticleListener) return;
-        particleToggle._hasParticleListener = true;
-
-        const isParticlesEnabled = () => {
-          return localStorage.getItem("particlesEnabled") !== "false";
-        };
-
-        const updateParticleUI = () => {
-          const enabled = isParticlesEnabled();
-          if (enabled) {
-            canvas.style.opacity = "0.85";
-            particleToggle.textContent = "PARTICLES ON";
-          } else {
-            canvas.style.opacity = "0";
-            particleToggle.textContent = "PARTICLES OFF";
-          }
-        };
-
-        particleToggle.addEventListener("click", () => {
-          const enabled = isParticlesEnabled();
-          localStorage.setItem("particlesEnabled", enabled ? "false" : "true");
-          updateParticleUI();
-        });
-
-        updateParticleUI();
-      }
-
-      // Run on initial load
-      if (document.readyState === "complete") {
-        initPage();
-      } else {
-        window.addEventListener("load", initPage);
-      }
-
-      // Run after view transitions
-      document.addEventListener("astro:page-load", initPage);
-    </script>
 
     <script is:inline>
 // Scroll controls - show/hide based on position
@@ -861,145 +746,10 @@ const {
     </script>
 
     <script is:inline>
-      /* ── Ember Stream — scroll-driven rising particles ── */
       (function () {
-        let animationId = null;
-        let embers = [];
-        let lastTs = 0;
-        let W, H;
-        let scrollVel = 0;
-        let lastScrollY = 0;
-        let smoothVel = 0;
-
-        const WARM = [196, 122, 58];
-        const COOL = [14, 165, 201];
-
-        const lerp = (a, b, t) => a + (b - a) * t;
-        const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-        const lerpRGB = (a, b, t) => [
-          lerp(a[0], b[0], t),
-          lerp(a[1], b[1], t),
-          lerp(a[2], b[2], t),
-        ];
-        const rgba = (c, a) =>
-          `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a.toFixed(3)})`;
-
-        function resize() {
-          const canvas = document.getElementById("driftCanvas");
-          if (!canvas) return;
-          const ctx = canvas.getContext("2d");
-          W = canvas.width = window.innerWidth;
-          H = canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener(
-          "scroll",
-          () => {
-            scrollVel = window.scrollY - lastScrollY;
-            lastScrollY = window.scrollY;
-          },
-          { passive: true },
-        );
-
-        class Ember {
-          constructor(fromBottom) {
-            this.reset(fromBottom);
-          }
-
-          reset(fromBottom) {
-            this.x = Math.random() * W;
-            this.y = fromBottom ? H + Math.random() * 60 : Math.random() * H;
-            this.vy = -(Math.random() * 0.4 + 0.15);
-            this.vx = (Math.random() - 0.5) * 0.08;
-            this.phase = Math.random() * Math.PI * 2;
-            this.freq = Math.random() * 0.0005 + 0.0001;
-            this.r = Math.random() * 2.2 + 0.8;
-            this.life = 0;
-            this.decay = Math.random() * 0.0015 + 0.0006;
-          }
-
-          update(ts, boost) {
-            const scrollPush = clamp(boost * 0.4, -0.6, 1.2);
-            this.y += this.vy - scrollPush;
-            this.x += this.vx + Math.sin(ts * this.freq + this.phase) * 0.18;
-            this.life += this.decay;
-
-            if (
-              this.life > 1 ||
-              this.y < -20 ||
-              this.x < -40 ||
-              this.x > W + 40
-            ) {
-              this.reset(true);
-            }
-          }
-
-          draw(ctx) {
-            let alpha = 1;
-            if (this.life < 0.2) alpha = this.life / 0.2;
-            else if (this.life > 0.7) alpha = 1 - (this.life - 0.7) / 0.3;
-            alpha = clamp(alpha, 0, 1) * 0.65;
-
-            const t = clamp(1 - this.y / H, 0, 1);
-            const col = lerpRGB(WARM, COOL, t);
-
-            const g = ctx.createRadialGradient(
-              this.x,
-              this.y,
-              0,
-              this.x,
-              this.y,
-              this.r * 3.5,
-            );
-            g.addColorStop(0, rgba(col, alpha));
-            g.addColorStop(0.45, rgba(col, alpha * 0.2));
-            g.addColorStop(1, rgba(col, 0));
-            ctx.fillStyle = g;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.r * 3.5, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-
-        function init() {
-          const canvas = document.getElementById("driftCanvas");
-          if (!canvas) return;
-          const ctx = canvas.getContext("2d");
-
-          resize();
-          embers = Array.from({ length: 55 }, () => new Ember(false));
-        }
-
+        // ember stream removed
         function frame(ts) {
-          const canvas = document.getElementById("driftCanvas");
-          if (!canvas) return;
-          const ctx = canvas.getContext("2d");
-
-          const dt = ts - lastTs;
-          lastTs = ts;
-          smoothVel = lerp(smoothVel, scrollVel, 0.2);
-          scrollVel = 0;
-
-          ctx.clearRect(0, 0, W, H);
-          embers.forEach((e) => {
-            e.update(ts, smoothVel);
-            e.draw(ctx);
-          });
-
-          animationId = requestAnimationFrame(frame);
         }
-
-        function start() {
-          if (animationId) cancelAnimationFrame(animationId);
-          init();
-          animationId = requestAnimationFrame(frame);
-        }
-
-        window.addEventListener("resize", resize);
-        start();
-
-        // Re-initialize after view transitions
-        document.addEventListener("astro:page-load", start);
       })();
     </script>
 
@@ -1289,11 +1039,12 @@ const {
       (function () {
         const NS = "http://www.w3.org/2000/svg";
 
-        // Three layers: far (faint/slow) → near (darker/faster)
+        // Three layers: far (faint/slow) → near (darker/faster).
+        // rate is multiplied by viewport height, so shift is page-length-independent.
         const LAYERS = [
-          { opacity: 0.11, rate: 0.04, baseYFrac: 0.76, minH: 22, maxH: 52,  seed: 11 },
-          { opacity: 0.18, rate: 0.12, baseYFrac: 0.84, minH: 38, maxH: 88,  seed: 31 },
-          { opacity: 0.28, rate: 0.22, baseYFrac: 0.91, minH: 58, maxH: 130, seed: 53 },
+          { opacity: 0.11, rate: 0.06, baseYFrac: 0.76, minH: 22, maxH: 52,  seed: 11 },
+          { opacity: 0.18, rate: 0.14, baseYFrac: 0.84, minH: 38, maxH: 88,  seed: 31 },
+          { opacity: 0.28, rate: 0.24, baseYFrac: 0.91, minH: 58, maxH: 130, seed: 53 },
         ];
         const FILL = "rgb(25,44,18)";
 
@@ -1350,9 +1101,13 @@ const {
         }
 
         function tick() {
-          const scrollY = window.scrollY;
+          // Normalise to scroll progress (0→1) then multiply by a fixed
+          // viewport-fraction so the shift is the same on short and long pages.
+          const scrollable = document.body.scrollHeight - window.innerHeight;
+          const progress   = scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0;
+          const H          = window.innerHeight;
           for (const { el, rate } of layerEls) {
-            el.style.transform = `translateY(${-scrollY * rate}px)`;
+            el.style.transform = `translateY(${-progress * H * rate}px)`;
           }
         }
 
