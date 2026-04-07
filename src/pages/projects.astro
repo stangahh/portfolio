@@ -9,7 +9,7 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
 <Base title="Projects — Your Name" description="Things I've built.">
   <div class="projects-wrap">
 
-    <header class="projects-hero">
+    <header class="editorial-hero">
       <p class="label fade-up fade-up-1">work</p>
       <h1 class="fade-up fade-up-2">Things I've<br/><em>built.</em></h1>
     </header>
@@ -80,19 +80,6 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
 
 <style>
   .projects-wrap { padding-top: 80px; }
-
-  /* ── Hero ── */
-  .projects-hero {
-    padding: clamp(60px, 10vh, 120px) clamp(24px, 5vw, 80px) 48px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .projects-hero h1 {
-    font-size: clamp(48px, 7vw, 96px);
-    margin-top: 12px;
-    line-height: 1;
-  }
 
   /* ── Two-column layout ── */
   .projects-layout {
@@ -314,14 +301,6 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
 
   @media (max-width: 768px) {
     .projects-wrap { padding-top: 60px; }
-
-    .projects-hero {
-      padding: 40px 16px 32px;
-    }
-
-    .projects-hero h1 {
-      font-size: clamp(36px, 6vw, 60px);
-    }
 
     .projects-layout {
       flex-direction: column;

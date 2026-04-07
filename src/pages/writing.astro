@@ -13,7 +13,7 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
 <Base title="Writing — Your Name" description="Things I've written.">
   <div class="writing-wrap">
 
-    <header class="writing-hero">
+    <header class="editorial-hero">
       <p class="label fade-up fade-up-1">writing</p>
       <h1 class="fade-up fade-up-2">The <em>Archive</em></h1>
       <p class="hero-sub fade-up fade-up-3">{posts.length} pieces across {groups.length} months</p>
@@ -79,20 +79,7 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
     padding-top: 80px; /* nav height */
   }
 
-  /* ── Hero ── */
-  .writing-hero {
-    padding: clamp(60px, 10vh, 120px) clamp(24px, 5vw, 80px) 48px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .writing-hero h1 {
-    font-size: clamp(48px, 7vw, 96px);
-    margin-top: 12px;
-    line-height: 1;
-  }
-
-  .hero-sub {
+.hero-sub {
     font-family: "JetBrains Mono", monospace;
     font-size: 11px;
     letter-spacing: 3px;
@@ -328,14 +315,6 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
   @media (max-width: 768px) {
     .writing-wrap {
       padding-top: 60px;
-    }
-
-    .writing-hero {
-      padding: 40px 16px 32px;
-    }
-
-    .writing-hero h1 {
-      font-size: clamp(36px, 6vw, 60px);
     }
 
     .writing-layout {

@@ -164,32 +164,6 @@ const featuredProjects = projects.slice(0, 3);
     justify-content: center;
   }
 
-  .btn-primary {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: lowercase;
-    color: var(--bg);
-    background: var(--warm);
-    padding: 10px 24px;
-    transition: opacity 0.2s;
-  }
-
-  .btn-primary:hover { opacity: 0.85; }
-
-  .btn-ghost {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: lowercase;
-    color: var(--warm);
-    border: 1px solid var(--warm-border);
-    padding: 10px 24px;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .btn-ghost:hover { border-color: var(--warm); color: var(--chalk-bright); }
-
   @media (max-width: 768px) {
     .hero {
       min-height: 80vh;
@@ -208,20 +182,6 @@ const featuredProjects = projects.slice(0, 3);
     .hero-cta {
       gap: 12px;
     }
-
-    .btn-primary,
-    .btn-ghost {
-      font-size: 11px;
-      padding: 8px 16px;
-    }
-  }
-
-@keyframes fadeIn { to { opacity: 1; } }
-
-  .section-narrow {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: clamp(60px, 10vh, 120px) clamp(24px, 4vw, 60px);
   }
 
   .section-header { margin-bottom: 48px; }
@@ -231,15 +191,6 @@ const featuredProjects = projects.slice(0, 3);
   .currently .label { margin-bottom: 32px; display: block; }
   .currently-items { display: flex; flex-direction: column; gap: 24px; }
   .currently-item { display: flex; gap: 24px; align-items: flex-start; }
-
-  .num {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    color: var(--warm-num);
-    letter-spacing: 2px;
-    padding-top: 3px;
-    min-width: 28px;
-  }
 
   .currently-item strong {
     font-family: "Instrument Sans", sans-serif;
@@ -279,18 +230,6 @@ const featuredProjects = projects.slice(0, 3);
     border: 1px solid var(--cool-border);
     padding: 3px 10px;
   }
-
-  .see-all {
-    display: inline-block;
-    margin-top: 40px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--chalk-dim);
-    transition: color 0.2s;
-  }
-
-  .see-all:hover { color: var(--warm); }
 
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 40px; }
 

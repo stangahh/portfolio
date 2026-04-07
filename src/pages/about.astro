@@ -125,30 +125,7 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  .page-hero {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 clamp(24px, 6vw, 120px) 80px;
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .page-hero h1 {
-    font-size: clamp(48px, 7vw, 100px);
-    margin-top: 16px;
-    line-height: 1;
-  }
-
-  .section-narrow {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: clamp(60px, 8vh, 100px) clamp(24px, 4vw, 60px);
-  }
-
-  .bio {
+.bio {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -184,15 +161,7 @@ import Base from '../layouts/Base.astro';
     min-width: 80px;
   }
 
-  .num {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    color: var(--warm-num);
-    letter-spacing: 2px;
-    padding-top: 3px;
-  }
-
-  .timeline-date {
+.timeline-date {
     font-family: "JetBrains Mono", monospace;
     font-size: 10px;
     letter-spacing: 2px;
@@ -265,19 +234,6 @@ import Base from '../layouts/Base.astro';
   }
 
   @media (max-width: 768px) {
-    .page-hero {
-      min-height: 50vh;
-      padding: 0 16px 60px;
-    }
-
-    .page-hero h1 {
-      font-size: clamp(36px, 6vw, 60px);
-    }
-
-    .section-narrow {
-      padding: 40px 16px;
-    }
-
     .bio p {
       font-size: clamp(14px, 1.4vw, 16px);
       line-height: 1.8;

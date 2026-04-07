@@ -191,6 +191,33 @@ const {
       }
 
       @media (max-width: 768px) {
+        .page-hero {
+          min-height: 50vh;
+          padding: 0 16px 60px;
+        }
+
+        .page-hero h1 {
+          font-size: clamp(36px, 6vw, 60px);
+        }
+
+        .section-narrow {
+          padding: 40px 16px;
+        }
+
+        .editorial-hero {
+          padding: 40px 16px 32px;
+        }
+
+        .editorial-hero h1 {
+          font-size: clamp(36px, 6vw, 60px);
+        }
+
+        .btn-primary,
+        .btn-ghost {
+          font-size: 11px;
+          padding: 8px 16px;
+        }
+
         nav {
           flex-wrap: wrap;
           gap: 12px;
@@ -346,6 +373,94 @@ const {
         text-transform: uppercase;
         color: var(--warm);
       }
+
+      /* Numbered items (e.g. 01, 02, prev, now) */
+      .num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--warm-num);
+        letter-spacing: 2px;
+        padding-top: 3px;
+        min-width: 28px;
+      }
+
+      /* Section container */
+      .section-narrow {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: clamp(60px, 10vh, 120px) clamp(24px, 4vw, 60px);
+      }
+
+      /* Page hero (about, links) */
+      .page-hero {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 clamp(24px, 6vw, 120px) 80px;
+        max-width: 900px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .page-hero h1 {
+        font-size: clamp(48px, 7vw, 100px);
+        margin-top: 16px;
+        line-height: 1;
+      }
+
+      /* Editorial hero (projects, writing) */
+      .editorial-hero {
+        padding: clamp(60px, 10vh, 120px) clamp(24px, 5vw, 80px) 48px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .editorial-hero h1 {
+        font-size: clamp(48px, 7vw, 96px);
+        margin-top: 12px;
+        line-height: 1;
+      }
+
+      /* Buttons */
+      .btn-primary {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 3px;
+        text-transform: lowercase;
+        color: var(--bg);
+        background: var(--warm);
+        padding: 10px 24px;
+        transition: opacity 0.2s;
+      }
+
+      .btn-primary:hover { opacity: 0.85; }
+
+      .btn-ghost {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 3px;
+        text-transform: lowercase;
+        color: var(--warm);
+        border: 1px solid var(--warm-border);
+        padding: 10px 24px;
+        transition: border-color 0.2s, color 0.2s;
+      }
+
+      .btn-ghost:hover { border-color: var(--warm); color: var(--chalk-bright); }
+
+      /* "See all" link */
+      .see-all {
+        display: inline-block;
+        margin-top: 40px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 3px;
+        color: var(--chalk-dim);
+        transition: color 0.2s;
+      }
+
+      .see-all:hover { color: var(--warm); }
 
       /* Divider */
       .divider {
