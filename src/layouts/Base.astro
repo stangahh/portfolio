@@ -649,11 +649,22 @@ const {
         background: var(--warm-border);
       }
 
+      /* Mycelium circuit tracer */
+      #myceliumSvg {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+        overflow: visible;
+      }
+
       /* Drift canvas */
       #driftCanvas {
         position: fixed;
         inset: 0;
-        z-index: 2;
+        z-index: 3;
         pointer-events: none;
         opacity: 0.85;
       }
@@ -661,6 +672,7 @@ const {
   </head>
   <body>
     <div class="graph-paper"></div>
+    <svg id="myceliumSvg" aria-hidden="true"></svg>
     <div class="chalk-texture"></div>
     <canvas id="driftCanvas"></canvas>
     <div class="progress-bar" id="progress"></div>
@@ -967,6 +979,287 @@ const {
 
         // Re-initialize after view transitions
         document.addEventListener("astro:page-load", start);
+      })();
+    </script>
+
+    <script is:inline>
+      /* ── Mycelium Circuit Tracer ── */
+      (function () {
+        const NS = "http://www.w3.org/2000/svg";
+
+        // Seeded LCG random — reproducible layout on every load
+        function makePRNG(seed) {
+          let s = seed;
+          return () => {
+            s = (s * 16807) % 2147483647;
+            if (s <= 0) s += 2147483646;
+            return (s - 1) / 2147483646;
+          };
+        }
+
+        // Catmull-Rom → cubic bezier SVG path string
+        function spline(pts) {
+          if (pts.length < 2) return "";
+          const T = 0.38;
+          const fx = n => n.toFixed(1);
+          let d = `M${fx(pts[0].x)},${fx(pts[0].y)}`;
+          for (let i = 0; i < pts.length - 1; i++) {
+            const p0 = pts[Math.max(i - 1, 0)];
+            const p1 = pts[i];
+            const p2 = pts[i + 1];
+            const p3 = pts[Math.min(i + 2, pts.length - 1)];
+            const c1x = p1.x + (p2.x - p0.x) * T;
+            const c1y = p1.y + (p2.y - p0.y) * T;
+            const c2x = p2.x - (p3.x - p1.x) * T;
+            const c2y = p2.y - (p3.y - p1.y) * T;
+            d += ` C${fx(c1x)},${fx(c1y)} ${fx(c2x)},${fx(c2y)} ${fx(p2.x)},${fx(p2.y)}`;
+          }
+          return d;
+        }
+
+        // Color progression: amber → rust → forest green
+        const AMBER  = [196, 122, 58];
+        const RUST   = [139, 69, 19];
+        const FOREST = [45, 74, 30];
+
+        function lerp3(a, b, t) {
+          return [
+            (a[0] + (b[0] - a[0]) * t) | 0,
+            (a[1] + (b[1] - a[1]) * t) | 0,
+            (a[2] + (b[2] - a[2]) * t) | 0,
+          ];
+        }
+
+        function getColor(yFrac) {
+          const t = Math.max(0, Math.min(1, yFrac));
+          const [r, g, b] = t < 0.5
+            ? lerp3(AMBER, RUST, t * 2)
+            : lerp3(RUST, FOREST, (t - 0.5) * 2);
+          return `rgb(${r},${g},${b})`;
+        }
+
+        function svgEl(tag, attrs) {
+          const e = document.createElementNS(NS, tag);
+          for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, String(v));
+          return e;
+        }
+
+        // Hexagonal spore-node path (flat-top orientation)
+        function hexPath(cx, cy, r) {
+          const pts = Array.from({ length: 6 }, (_, i) => {
+            const a = i * Math.PI / 3 - Math.PI / 6;
+            return `${(cx + Math.cos(a) * r).toFixed(1)},${(cy + Math.sin(a) * r).toFixed(1)}`;
+          });
+          return `M${pts.join("L")}Z`;
+        }
+
+        // Add a smoothed path and register it for scroll reveal
+        function addPath(g, items, pts, attrs, startP, endP) {
+          const d = spline(pts);
+          if (!d) return null;
+          const path = svgEl("path", { d, fill: "none", "stroke-linecap": "round", ...attrs });
+          g.appendChild(path);
+          const len = path.getTotalLength();
+          path.style.strokeDasharray = len;
+          path.style.strokeDashoffset = len;
+          items.push({ el: path, len, startP, endP });
+          return path;
+        }
+
+        // Animation state
+        let items = [];    // { el, len, startP, endP }
+        let nodeEls = [];  // { el, startP }
+
+        function build() {
+          const svg = document.getElementById("myceliumSvg");
+          if (!svg) return;
+
+          const W = window.innerWidth;
+          const H = window.innerHeight;
+          svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+          svg.innerHTML = "";
+          items = [];
+          nodeEls = [];
+
+          const rng = makePRNG(1337);
+
+          // ── Defs: glow filters ──────────────────────────────
+          const defs = svgEl("defs", {});
+          defs.innerHTML = `
+            <filter id="mc-glow" x="-60%" y="-60%" width="220%" height="220%"
+                    color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+            <filter id="mc-node" x="-200%" y="-200%" width="500%" height="500%"
+                    color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          `;
+          svg.appendChild(defs);
+
+          const g = svgEl("g", {});
+          svg.appendChild(g);
+
+          // ── Trunk: diagonal wind across full viewport ───────
+          const N = 22;
+          const trunkPts = [];
+          for (let i = 0; i < N; i++) {
+            const t = i / (N - 1);
+            // Diagonal: left-of-center top → right-of-center bottom
+            const bx = W * (0.22 + t * 0.56);
+            const by = H * t;
+            // Multi-frequency organic curvature (same as o16g technique)
+            const ox = Math.sin(t * Math.PI * 3.7 + 0.4) * W * 0.07
+                     + Math.sin(t * Math.PI * 8.3 + 1.1) * W * 0.022
+                     + (rng() - 0.5) * W * 0.025;
+            const oy = (rng() - 0.5) * H * 0.022;
+            trunkPts.push({
+              x: Math.max(8, Math.min(W - 8, bx + ox)),
+              y: Math.max(8, Math.min(H - 8, by + oy)),
+            });
+          }
+
+          addPath(g, items, trunkPts, {
+            stroke: getColor(0.08),
+            "stroke-width": "1.8",
+            opacity: "0.6",
+            filter: "url(#mc-glow)",
+          }, 0, 0.38);
+
+          // ── Branches from each trunk waypoint ───────────────
+          for (let i = 2; i < N - 2; i++) {
+            const t = i / (N - 1);
+            const pt = trunkPts[i];
+            const yFrac = pt.y / H;
+            const color = getColor(yFrac);
+
+            // Trunk has reached this waypoint at this scroll progress
+            const trunkAt = t * 0.38;
+
+            const nBranches = rng() > 0.42 ? 2 : 1;
+
+            for (let b = 0; b < nBranches; b++) {
+              // Alternate sides: even → right, odd → left
+              const side = b === 0 ? 1 : -1;
+              const baseAngle = (rng() * 0.9 + 0.2) * side;
+              const branchLen = W * (0.07 + rng() * 0.1);
+              const nSteps = Math.floor(4 + rng() * 4);
+
+              // Walk the branch with angle drift
+              const bp = [{ ...pt }];
+              let bx = pt.x, by2 = pt.y, ba = baseAngle;
+              for (let s = 1; s <= nSteps; s++) {
+                ba += (rng() - 0.5) * 0.55;
+                bx = Math.max(5, Math.min(W - 5, bx + Math.cos(ba) * branchLen / nSteps));
+                by2 = Math.max(5, Math.min(H - 5, by2 + Math.sin(ba) * branchLen / nSteps));
+                bp.push({ x: bx, y: by2 });
+              }
+
+              const bStart = trunkAt;
+              const bEnd   = bStart + 0.2;
+
+              addPath(g, items, bp, {
+                stroke: color,
+                "stroke-width": "0.85",
+                opacity: "0.48",
+              }, bStart, bEnd);
+
+              // ── Gen-2 sub-branch ─────────────────────────────
+              const midPt = bp[Math.floor(bp.length * 0.55)];
+              if (rng() > 0.36) {
+                const sa    = ba + (rng() - 0.5) * 1.1;
+                const sLen  = branchLen * 0.42;
+                const sSteps = Math.floor(3 + rng() * 3);
+                const sp = [{ ...midPt }];
+                let sx = midPt.x, sy = midPt.y, sAngle = sa;
+                for (let s = 1; s <= sSteps; s++) {
+                  sAngle += (rng() - 0.5) * 0.65;
+                  sx = Math.max(5, Math.min(W - 5, sx + Math.cos(sAngle) * sLen / sSteps));
+                  sy = Math.max(5, Math.min(H - 5, sy + Math.sin(sAngle) * sLen / sSteps));
+                  sp.push({ x: sx, y: sy });
+                }
+
+                const sStart = bStart + (bEnd - bStart) * 0.55;
+                const sEnd   = sStart + 0.13;
+
+                addPath(g, items, sp, {
+                  stroke: getColor(yFrac + 0.12),
+                  "stroke-width": "0.42",
+                  opacity: "0.33",
+                }, sStart, sEnd);
+
+                // Spore node at gen-2 tip
+                const sTip  = sp[sp.length - 1];
+                const sNode = svgEl("path", {
+                  d: hexPath(sTip.x, sTip.y, 2.2),
+                  fill: getColor(yFrac + 0.15),
+                  "fill-opacity": "0.75",
+                  stroke: "none",
+                  filter: "url(#mc-node)",
+                  opacity: "0",
+                });
+                g.appendChild(sNode);
+                nodeEls.push({ el: sNode, startP: sEnd - 0.01 });
+              }
+
+              // Spore node at gen-1 branch tip
+              const tip  = bp[bp.length - 1];
+              const node = svgEl("path", {
+                d: hexPath(tip.x, tip.y, 3.2),
+                fill: color,
+                "fill-opacity": "0.85",
+                stroke: "none",
+                filter: "url(#mc-node)",
+                opacity: "0",
+              });
+              g.appendChild(node);
+              nodeEls.push({ el: node, startP: bEnd - 0.02 });
+            }
+          }
+        }
+
+        function tick() {
+          if (!items.length) return;
+          const scrollable = document.body.scrollHeight - window.innerHeight;
+          const progress = scrollable > 10 ? window.scrollY / scrollable : 0;
+
+          for (const { el, len, startP, endP } of items) {
+            const p = Math.max(0, Math.min(1, (progress - startP) / (endP - startP)));
+            el.style.strokeDashoffset = len * (1 - p);
+          }
+
+          for (const { el, startP } of nodeEls) {
+            const p = Math.max(0, Math.min(1, (progress - startP) / 0.06));
+            el.setAttribute("opacity", p.toFixed(3));
+          }
+        }
+
+        function init() {
+          const svg = document.getElementById("myceliumSvg");
+          if (!svg) return;
+          build();
+          tick();
+        }
+
+        window.addEventListener("scroll", tick, { passive: true });
+        window.addEventListener("resize", () => { build(); tick(); });
+
+        if (document.readyState === "complete") {
+          init();
+        } else {
+          window.addEventListener("load", init);
+        }
+
+        document.addEventListener("astro:page-load", init);
       })();
     </script>
   </body>
