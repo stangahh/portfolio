@@ -190,6 +190,32 @@ const featuredProjects = projects.slice(0, 3);
 
   .btn-ghost:hover { border-color: var(--warm); color: var(--chalk-bright); }
 
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 80vh;
+      padding: 0 16px;
+    }
+
+    .hero-title {
+      font-size: clamp(40px, 8vw, 80px);
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 1.5vw, 18px);
+      max-width: 100%;
+    }
+
+    .hero-cta {
+      gap: 12px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      font-size: 11px;
+      padding: 8px 16px;
+    }
+  }
+
 @keyframes fadeIn { to { opacity: 1; } }
 
   .section-narrow {

@@ -130,4 +130,52 @@ const links = [
   }
 
   .link-card:hover .link-arrow { opacity: 1; }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      min-height: 50vh;
+      padding: 0 16px 60px;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(36px, 6vw, 60px);
+    }
+
+    .section-narrow {
+      padding: 40px 16px;
+      gap: 48px;
+    }
+
+    .link-group > .label {
+      margin-bottom: 16px;
+    }
+
+    .link-card {
+      gap: 12px;
+      padding: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .link-left {
+      gap: 4px;
+    }
+
+    .link-platform {
+      font-size: 12px;
+    }
+
+    .link-handle {
+      font-size: 11px;
+    }
+
+    .link-desc {
+      font-size: 12px;
+      flex: 100%;
+    }
+
+    .link-arrow {
+      opacity: 1;
+      font-size: 12px;
+    }
+  }
 </style>

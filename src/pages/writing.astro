@@ -324,6 +324,50 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
   .no-results.visible { display: block; }
 
   .date-group[hidden] { display: none; }
+
+  @media (max-width: 768px) {
+    .writing-wrap {
+      padding-top: 60px;
+    }
+
+    .writing-hero {
+      padding: 40px 16px 32px;
+    }
+
+    .writing-hero h1 {
+      font-size: clamp(36px, 6vw, 60px);
+    }
+
+    .writing-layout {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .writing-sidebar {
+      width: 100%;
+      order: -1;
+    }
+
+    .resource-card {
+      padding: 20px 16px;
+    }
+
+    .resource-title {
+      font-size: clamp(18px, 4vw, 24px);
+    }
+
+    .resource-body p {
+      font-size: 14px;
+    }
+
+    .resource-badge {
+      font-size: 10px;
+    }
+
+    .resource-tag {
+      font-size: 9px;
+    }
+  }
 </style>
 
 <script>

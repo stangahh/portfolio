@@ -158,6 +158,34 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
         color: var(--warm);
       }
 
+      @media (max-width: 768px) {
+        nav {
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+
+        .nav-links {
+          order: 3;
+          width: 100%;
+          gap: 16px;
+          justify-content: center;
+          padding-top: 12px;
+          border-top: 1px solid var(--chalk-faint);
+        }
+
+        .nav-links a {
+          font-size: 11px;
+        }
+
+        .nav-right {
+          gap: 12px;
+        }
+
+        .particle-toggle {
+          font-size: 11px;
+        }
+      }
+
       .nav-separator {
         color: var(--warm);
         font-size: 14px;
@@ -261,6 +289,27 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
 
       footer .footer-links a:hover { color: var(--warm); }
 
+      @media (max-width: 768px) {
+        footer {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          padding: 32px 16px;
+        }
+
+        footer p {
+          font-size: 10px;
+        }
+
+        footer .footer-links {
+          gap: 16px;
+        }
+
+        footer .footer-links a {
+          font-size: 10px;
+        }
+      }
+
       /* Particle effects toggle */
       .particle-toggle {
         background: none;
@@ -331,6 +380,18 @@ const { title = "Jesse Stanger", description = "Senior Full Stack Engineer. Melb
         margin: 0;
         padding: 0;
         border: none;
+      }
+
+      @media (max-width: 768px) {
+        .scroll-controls {
+          bottom: 20px;
+        }
+
+        .scroll-btn {
+          padding: 5px 10px;
+          font-size: 9px;
+          letter-spacing: 1px;
+        }
       }
 
       /* Scrollbar */

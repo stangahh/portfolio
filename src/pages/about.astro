@@ -263,4 +263,61 @@ import Base from '../layouts/Base.astro';
     font-family: "JetBrains Mono", monospace;
     color: var(--warm);
   }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      min-height: 50vh;
+      padding: 0 16px 60px;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(36px, 6vw, 60px);
+    }
+
+    .section-narrow {
+      padding: 40px 16px;
+    }
+
+    .bio p {
+      font-size: clamp(14px, 1.4vw, 16px);
+      line-height: 1.8;
+    }
+
+    .timeline-item {
+      gap: 16px;
+      padding: 24px 0;
+    }
+
+    .timeline-meta {
+      min-width: 60px;
+    }
+
+    .timeline-body h3 {
+      font-size: clamp(16px, 1.8vw, 20px);
+    }
+
+    .timeline-company {
+      font-size: 11px;
+    }
+
+    .timeline-body p:last-child {
+      font-size: 13px;
+    }
+
+    .link-card {
+      gap: 12px;
+      padding: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .link-platform {
+      font-size: 12px;
+      min-width: auto;
+    }
+
+    .link-handle {
+      font-size: 11px;
+      flex: auto;
+    }
+  }
 </style>
