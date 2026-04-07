@@ -1,43 +1,31 @@
-# Astro Starter Kit: Minimal
+# Jesse Stanger — Portfolio
 
-```sh
-npm create astro@latest -- --template minimal
+Personal site built with Astro. Design inspired by [o16g](https://o16g.com).
+
+## Features
+
+- SPA-like navigation with [View Transitions](https://docs.astro.build/en/guides/view-transitions/)
+- Dark theme with grid background
+- Optional particle effects
+- Project filtering with smooth animations
+- Scroll progress bar
+- Mobile responsive
+
+## Setup
+
+```bash
+npm install
+npm run dev # local dev at http://localhost:4321
+npm run build # production build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### Docker
 
-## 🚀 Project Structure
+```bash
+# Development
+docker compose --profile dev up
+docker compose --profile dev restart dev
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+# Production
+docker compose --profile prod up # http://localhost:8080
 ```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
