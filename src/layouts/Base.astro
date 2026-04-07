@@ -1,4 +1,5 @@
 ---
+import DriftField from '../components/DriftField.astro';
 import '@fontsource/cormorant-garamond/400.css';
 import '@fontsource/cormorant-garamond/400-italic.css';
 import '@fontsource/cormorant-garamond/600.css';
@@ -248,11 +249,21 @@ const { title = "Your Name", description = "Engineer. Builder. Human." } = Astro
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: var(--bg); }
       ::-webkit-scrollbar-thumb { background: var(--warm-border); }
+
+      /* Drift canvas */
+      #driftCanvas {
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.85;
+      }
     </style>
   </head>
   <body>
     <div class="graph-paper"></div>
     <div class="chalk-texture"></div>
+    <canvas id="driftCanvas"></canvas>
     <div class="progress-bar" id="progress"></div>
 
     <nav>
@@ -294,6 +305,148 @@ const { title = "Your Name", description = "Engineer. Builder. Human." } = Astro
           link.classList.add('active');
         }
       });
+    </script>
+
+    <script is:inline>
+    /* ── Drift Field animation ── */
+    (function () {
+      const canvas = document.getElementById('driftCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const WARM  = [196, 122,  58];
+      const COOL  = [ 14, 165, 201];
+      const CHALK = [235, 230, 220];
+
+      let W, H, nodes = [], signals = [];
+      let lastScrollY = 0, scrollVel = 0, scrollProgress = 0;
+      let lastTs = 0, signalTimer = 0;
+
+      const COUNT = 70;
+      const CONNECT = 170;
+      const MAX_SIGNALS = 18;
+      const SIGNAL_MS = 260;
+
+      const lerp  = (a, b, t) => a + (b - a) * t;
+      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+      const lerpRGB = (a, b, t) => [lerp(a[0],b[0],t), lerp(a[1],b[1],t), lerp(a[2],b[2],t)];
+      const rgba    = (c, a) => `rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a.toFixed(3)})`;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      class Particle {
+        constructor(scatter) {
+          this.phase  = Math.random() * Math.PI * 2;
+          this.freq   = Math.random() * 0.0006 + 0.0003;
+          this.r      = Math.random() * 1.4 + 0.4;
+          this.baseVx = (Math.random() - 0.5) * 0.35;
+          this.baseVy = (Math.random() - 0.5) * 0.35;
+          this.x = Math.random() * W;
+          this.y = scatter ? Math.random() * H : -10;
+        }
+        update(ts, wx, wy) {
+          this.x += this.baseVx + Math.sin(ts * this.freq + this.phase) * 0.45 + wx;
+          this.y += this.baseVy + Math.cos(ts * this.freq * 0.7 + this.phase + 1.3) * 0.35 + wy;
+          if (this.x < -60) this.x = W + 60;
+          if (this.x > W+60) this.x = -60;
+          if (this.y < -60) this.y = H + 60;
+          if (this.y > H+60) this.y = -60;
+        }
+      }
+
+      class Signal {
+        constructor(a, b) {
+          this.a = a; this.b = b;
+          this.t = 0;
+          this.spd = Math.random() * 0.009 + 0.004;
+          this.done = false;
+        }
+        update() { this.t += this.spd; if (this.t >= 1) this.done = true; }
+        draw(col) {
+          const x = lerp(this.a.x, this.b.x, this.t);
+          const y = lerp(this.a.y, this.b.y, this.t);
+          const g = ctx.createRadialGradient(x, y, 0, x, y, 8);
+          g.addColorStop(0,   rgba(col, 0.95));
+          g.addColorStop(0.4, rgba(col, 0.28));
+          g.addColorStop(1,   rgba(col, 0));
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(x, y, 8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function spawnSignal() {
+        if (signals.length >= MAX_SIGNALS) return;
+        const a = nodes[Math.floor(Math.random() * nodes.length)];
+        const near = nodes.filter(n => {
+          const d = Math.hypot(n.x - a.x, n.y - a.y);
+          return d > 15 && d < CONNECT;
+        });
+        if (!near.length) return;
+        signals.push(new Signal(a, near[Math.floor(Math.random() * near.length)]));
+      }
+
+      function init() {
+        resize();
+        nodes = Array.from({ length: COUNT }, () => new Particle(true));
+      }
+
+      function frame(ts) {
+        const dt = ts - lastTs; lastTs = ts;
+        signalTimer += dt;
+
+        const sy = window.scrollY;
+        scrollVel = sy - lastScrollY; lastScrollY = sy;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        scrollProgress = maxScroll > 0 ? clamp(sy / maxScroll, 0, 1) : 0;
+
+        const wind = clamp(scrollVel * 0.06, -5, 5);
+        const accent = lerpRGB(WARM, COOL, scrollProgress);
+
+        ctx.clearRect(0, 0, W, H);
+
+        /* connections */
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i], b = nodes[j];
+            const d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < CONNECT) {
+              ctx.strokeStyle = rgba(CHALK, (1 - d / CONNECT) * 0.10);
+              ctx.lineWidth = 0.6;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        /* nodes */
+        nodes.forEach(n => {
+          n.update(ts, wind * 0.12, wind);
+          const a = clamp(0.28 + Math.abs(scrollVel) * 0.018, 0.1, 0.8);
+          ctx.fillStyle = rgba(accent, a);
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        /* signals */
+        if (signalTimer > SIGNAL_MS) { spawnSignal(); signalTimer = 0; }
+        signals = signals.filter(s => !s.done);
+        signals.forEach(s => { s.update(); s.draw(accent); });
+
+        requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', resize);
+      init();
+      requestAnimationFrame(frame);
+    })();
     </script>
   </body>
 </html>
