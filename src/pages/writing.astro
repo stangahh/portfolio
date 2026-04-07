@@ -1,0 +1,139 @@
+---
+import Base from '../layouts/Base.astro';
+
+const posts = [
+  {
+    slug: "post-one",
+    title: "Something I figured out",
+    date: "Apr 7, 2026",
+    description: "A short teaser about what this post is about. Why it matters. What you'll take away.",
+    tags: ["systems", "engineering"],
+  },
+  {
+    slug: "post-two",
+    title: "Another thing worth writing about",
+    date: "Mar 15, 2026",
+    description: "Brief teaser for the second post. Keep it honest.",
+    tags: ["tools"],
+  },
+];
+---
+<Base title="Writing — Your Name" description="Things I've written.">
+  <section class="page-hero">
+    <p class="label fade-up fade-up-1">writing</p>
+    <h1 class="fade-up fade-up-2">Things I've<br/><em>thought about.</em></h1>
+  </section>
+
+  <section class="section-narrow">
+    <div class="divider"></div>
+    <div class="post-list">
+      {posts.map(post => (
+        <a href={`/writing/${post.slug}`} class="post-item">
+          <div class="post-meta">
+            <span class="post-date">{post.date}</span>
+            <div class="post-tags">
+              {post.tags.map(t => <span class="tag">{t}</span>)}
+            </div>
+          </div>
+          <div class="post-body">
+            <h2>{post.title}</h2>
+            <p>{post.description}</p>
+          </div>
+          <span class="post-arrow">→</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 clamp(24px, 6vw, 120px) 80px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .page-hero h1 { font-size: clamp(48px, 7vw, 100px); margin-top: 16px; line-height: 1; }
+
+  .section-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(60px, 8vh, 100px) clamp(24px, 4vw, 60px);
+  }
+
+  .post-list { display: flex; flex-direction: column; }
+
+  .post-item {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--chalk-faint);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .post-item:first-child { border-top: 1px solid var(--chalk-faint); }
+  .post-item:hover { opacity: 0.75; }
+
+  .post-meta {
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 4px;
+  }
+
+  .post-date {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--warm-num);
+    text-transform: uppercase;
+  }
+
+  .post-tags { display: flex; flex-direction: column; gap: 4px; }
+
+  .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cool);
+    border: 1px solid var(--cool-border);
+    padding: 2px 8px;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .post-body { flex: 1; }
+
+  .post-body h2 {
+    font-size: clamp(20px, 2.5vw, 30px);
+    color: var(--chalk-bright);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .post-body p {
+    font-size: 14px;
+    color: var(--chalk-dim);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .post-arrow {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--warm);
+    padding-top: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .post-item:hover .post-arrow { opacity: 1; }
+</style>

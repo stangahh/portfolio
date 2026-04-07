@@ -1,0 +1,285 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = "Your Name", description = "Engineer. Builder. Human." } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+    <style is:global>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      :root {
+        --bg: #0f1014;
+        --grid-line: rgba(255,255,255,.025);
+        --grid-major: rgba(255,255,255,.045);
+        --chalk: rgba(235,230,220,.85);
+        --chalk-bright: rgba(235,230,220,.95);
+        --chalk-dim: rgba(235,230,220,.4);
+        --chalk-faint: rgba(235,230,220,.2);
+        --warm: #c47a3a;
+        --warm-glow: rgba(196,122,58,.08);
+        --warm-text: rgba(255,228,200,.92);
+        --warm-sub: rgba(220,180,145,.7);
+        --warm-border: rgba(196,122,58,.2);
+        --warm-num: rgba(196,122,58,.5);
+        --cool: #0ea5c9;
+        --cool-border: rgba(14,165,201,.2);
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--bg);
+        color: var(--chalk);
+        font-family: Spectral, Georgia, serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* Graph paper background */
+      .graph-paper {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-image:
+          linear-gradient(var(--grid-line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+          linear-gradient(var(--grid-major) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+        background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+        background-position: -1px -1px;
+        pointer-events: none;
+      }
+
+      .graph-paper::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(at 50% 40%, transparent 30%, rgba(0,0,0,.6) 100%);
+        pointer-events: none;
+      }
+
+      /* Chalk texture */
+      .chalk-texture {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        mix-blend-mode: multiply;
+        opacity: 0.15;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' seed='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      }
+
+      /* Main content layer */
+      #content {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px clamp(24px, 5vw, 80px);
+        background: linear-gradient(to bottom, rgba(15,16,20,.95) 0%, transparent 100%);
+        backdrop-filter: blur(2px);
+      }
+
+      .nav-logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--chalk-bright);
+        text-decoration: none;
+        letter-spacing: -0.01em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: lowercase;
+        color: var(--chalk-dim);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--warm);
+      }
+
+      /* Progress bar */
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(196,122,58,.9), rgba(220,180,145,.7));
+        z-index: 200;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+
+      /* Typography */
+      h1, h2, h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 700;
+        line-height: 1.05;
+        color: var(--chalk-bright);
+      }
+
+      em { color: var(--warm); font-style: italic; }
+
+      strong { color: var(--warm); font-weight: 500; }
+
+      a { color: var(--chalk); text-decoration: none; }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+
+      .fade-up { animation: fadeUp 1.2s ease forwards; opacity: 0; }
+      .fade-up-1 { animation-delay: 0.3s; }
+      .fade-up-2 { animation-delay: 0.6s; }
+      .fade-up-3 { animation-delay: 0.9s; }
+      .fade-up-4 { animation-delay: 1.2s; }
+
+      /* Mono label style */
+      .label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--warm);
+      }
+
+      /* Divider */
+      .divider {
+        width: 1px;
+        height: 60px;
+        background: linear-gradient(to bottom, var(--warm), transparent);
+        margin: 0 auto;
+        opacity: 0.4;
+      }
+
+      /* Footer */
+      footer {
+        position: relative;
+        z-index: 10;
+        padding: 48px clamp(24px, 5vw, 80px);
+        border-top: 1px solid var(--chalk-faint);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      footer p {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--chalk-dim);
+      }
+
+      footer .footer-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+      }
+
+      footer .footer-links a {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--chalk-dim);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      footer .footer-links a:hover { color: var(--warm); }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: var(--bg); }
+      ::-webkit-scrollbar-thumb { background: var(--warm-border); }
+    </style>
+  </head>
+  <body>
+    <div class="graph-paper"></div>
+    <div class="chalk-texture"></div>
+    <div class="progress-bar" id="progress"></div>
+
+    <nav>
+      <a href="/" class="nav-logo">your name</a>
+      <ul class="nav-links">
+        <li><a href="/">home</a></li>
+        <li><a href="/about">about</a></li>
+        <li><a href="/projects">projects</a></li>
+        <li><a href="/writing">writing</a></li>
+        <li><a href="/links">links</a></li>
+      </ul>
+    </nav>
+
+    <div id="content">
+      <slot />
+    </div>
+
+    <footer>
+      <p>© {new Date().getFullYear()} your name</p>
+      <ul class="footer-links">
+        <li><a href="https://github.com/yourusername" target="_blank" rel="noopener">github</a></li>
+        <li><a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">linkedin</a></li>
+        <li><a href="mailto:you@example.com">email</a></li>
+      </ul>
+    </footer>
+
+    <script>
+      // Progress bar on scroll
+      const bar = document.getElementById('progress');
+      window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+        if (bar) bar.style.width = pct + '%';
+      });
+
+      // Active nav link
+      const links = document.querySelectorAll('.nav-links a');
+      links.forEach(link => {
+        if (link.getAttribute('href') === window.location.pathname) {
+          link.classList.add('active');
+        }
+      });
+    </script>
+  </body>
+</html>

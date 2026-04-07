@@ -1,0 +1,229 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="About — Your Name" description="About Your Name.">
+  <section class="page-hero">
+    <p class="label fade-up fade-up-1">about</p>
+    <h1 class="fade-up fade-up-2">The human<br/>behind the code.</h1>
+  </section>
+
+  <section class="section-narrow">
+    <div class="divider"></div>
+    <div class="bio">
+      <p>
+        I'm a software engineer based in <strong>Your City</strong>. I've spent the last
+        N years building distributed systems, developer tools, and occasionally
+        things that catch on fire in production.
+      </p>
+      <p>
+        Currently working at <strong>Some Company</strong> where I focus on platform
+        engineering. Before that I was at <strong>Previous Company</strong> doing something
+        interesting.
+      </p>
+      <p>
+        I believe software should be simple, honest, and maintainable. I write about
+        what I learn, build in the open when I can, and try not to take myself too seriously.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-narrow">
+    <div class="divider"></div>
+    <p class="label">experience</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <span class="num">now</span>
+          <span class="timeline-date">2024 —</span>
+        </div>
+        <div class="timeline-body">
+          <h3>Senior Software Engineer</h3>
+          <p class="timeline-company">Some Company</p>
+          <p>What you do here. The problems you solve. The impact you have.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <span class="num">prev</span>
+          <span class="timeline-date">2021 — 2024</span>
+        </div>
+        <div class="timeline-body">
+          <h3>Software Engineer</h3>
+          <p class="timeline-company">Previous Company</p>
+          <p>What you built. What you learned. What you shipped.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <span class="num">edu</span>
+          <span class="timeline-date">2017 — 2021</span>
+        </div>
+        <div class="timeline-body">
+          <h3>B.S. Computer Science</h3>
+          <p class="timeline-company">Your University</p>
+          <p>Thesis on something interesting. Graduated with honors or didn't.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-narrow">
+    <div class="divider"></div>
+    <p class="label">find me</p>
+    <div class="links-grid">
+      <a href="https://github.com/yourusername" target="_blank" rel="noopener" class="link-card">
+        <span class="link-platform">GitHub</span>
+        <span class="link-handle">@yourusername</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" class="link-card">
+        <span class="link-platform">LinkedIn</span>
+        <span class="link-handle">/in/yourusername</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="https://twitter.com/yourusername" target="_blank" rel="noopener" class="link-card">
+        <span class="link-platform">Twitter / X</span>
+        <span class="link-handle">@yourusername</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="mailto:you@example.com" class="link-card">
+        <span class="link-platform">Email</span>
+        <span class="link-handle">you@example.com</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 clamp(24px, 6vw, 120px) 80px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(48px, 7vw, 100px);
+    margin-top: 16px;
+    line-height: 1;
+  }
+
+  .section-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(60px, 8vh, 100px) clamp(24px, 4vw, 60px);
+  }
+
+  .bio {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 40px;
+  }
+
+  .bio p {
+    font-size: clamp(16px, 1.6vw, 19px);
+    font-weight: 300;
+    line-height: 1.9;
+    color: rgba(235,230,220,.8);
+  }
+
+  .timeline {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--chalk-faint);
+  }
+
+  .timeline-item:first-child { border-top: 1px solid var(--chalk-faint); }
+
+  .timeline-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 80px;
+  }
+
+  .timeline-date {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--chalk-dim);
+  }
+
+  .timeline-body { flex: 1; }
+
+  .timeline-body h3 {
+    font-size: clamp(18px, 2vw, 24px);
+    margin-bottom: 4px;
+  }
+
+  .timeline-company {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .timeline-body p:last-child {
+    font-size: 14px;
+    color: var(--chalk-dim);
+    line-height: 1.7;
+  }
+
+  .links-grid {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--chalk-faint);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .link-card:first-child { border-top: 1px solid var(--chalk-faint); }
+  .link-card:hover { opacity: 0.7; }
+
+  .link-platform {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--chalk-bright);
+    min-width: 120px;
+  }
+
+  .link-handle {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--chalk-dim);
+    flex: 1;
+  }
+
+  .link-arrow {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--warm);
+  }
+</style>

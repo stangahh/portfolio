@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+
+const projects = [
+  {
+    num: "01",
+    name: "Project Alpha",
+    description: "A longer description of what this project does. The problem it solves, why you built it, and what was technically interesting about it.",
+    tags: ["TypeScript", "Rust", "Postgres", "Docker"],
+    github: "https://github.com/yourusername/project-alpha",
+    live: "https://project-alpha.example.com",
+    status: "active",
+  },
+  {
+    num: "02",
+    name: "Project Beta",
+    description: "Description of the second project. Focus on outcomes and impact over technical implementation details.",
+    tags: ["Go", "Kubernetes", "gRPC"],
+    github: "https://github.com/yourusername/project-beta",
+    status: "active",
+  },
+  {
+    num: "03",
+    name: "Project Gamma",
+    description: "A tool for doing some specific thing. It does it well and I'm proud of the implementation.",
+    tags: ["Python", "FastAPI", "ML"],
+    github: "https://github.com/yourusername/project-gamma",
+    status: "archived",
+  },
+  {
+    num: "04",
+    name: "Project Delta",
+    description: "Small utility that scratches a personal itch. A few hundred people use it.",
+    tags: ["Bash", "Rust"],
+    github: "https://github.com/yourusername/project-delta",
+    status: "active",
+  },
+];
+---
+<Base title="Projects — Your Name" description="Things I've built.">
+  <section class="page-hero">
+    <p class="label fade-up fade-up-1">work</p>
+    <h1 class="fade-up fade-up-2">Things I've<br/><em>built.</em></h1>
+  </section>
+
+  <section class="section-narrow">
+    <div class="divider"></div>
+    <div class="project-list">
+      {projects.map(p => (
+        <article class="project-card">
+          <div class="project-num-col">
+            <span class="num">{p.num}</span>
+            {p.status === "archived" && <span class="status-tag">archived</span>}
+          </div>
+          <div class="project-body">
+            <h2>{p.name}</h2>
+            <p>{p.description}</p>
+            <div class="project-tags">
+              {p.tags.map(t => <span class="tag">{t}</span>)}
+            </div>
+            <div class="project-links">
+              {p.github && <a href={p.github} target="_blank" rel="noopener">github →</a>}
+              {p.live && <a href={p.live} target="_blank" rel="noopener">live →</a>}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 clamp(24px, 6vw, 120px) 80px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .page-hero h1 { font-size: clamp(48px, 7vw, 100px); margin-top: 16px; line-height: 1; }
+
+  .section-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(60px, 8vh, 100px) clamp(24px, 4vw, 60px);
+  }
+
+  .project-list { display: flex; flex-direction: column; }
+
+  .project-card {
+    display: flex;
+    gap: 28px;
+    padding: 48px 0;
+    border-bottom: 1px solid var(--chalk-faint);
+  }
+
+  .project-card:first-child { border-top: 1px solid var(--chalk-faint); }
+
+  .project-num-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 40px;
+  }
+
+  .num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--warm-num);
+    letter-spacing: 2px;
+    padding-top: 6px;
+  }
+
+  .status-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    border: 1px solid var(--chalk-faint);
+    padding: 2px 6px;
+  }
+
+  .project-body { flex: 1; }
+
+  .project-body h2 {
+    font-size: clamp(22px, 3vw, 36px);
+    margin-bottom: 12px;
+  }
+
+  .project-body p {
+    font-size: 15px;
+    color: var(--chalk-dim);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    max-width: 600px;
+  }
+
+  .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+
+  .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cool);
+    border: 1px solid var(--cool-border);
+    padding: 3px 10px;
+  }
+
+  .project-links { display: flex; gap: 20px; }
+
+  .project-links a {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--warm);
+    transition: opacity 0.2s;
+  }
+
+  .project-links a:hover { opacity: 0.7; }
+</style>

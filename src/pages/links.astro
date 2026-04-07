@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+
+const links = [
+  {
+    category: "Code",
+    items: [
+      { label: "GitHub", handle: "@yourusername", url: "https://github.com/yourusername", description: "All my open source work" },
+      { label: "npm", handle: "yourusername", url: "https://www.npmjs.com/~yourusername", description: "Published packages" },
+    ]
+  },
+  {
+    category: "Social",
+    items: [
+      { label: "LinkedIn", handle: "/in/yourusername", url: "https://linkedin.com/in/yourusername", description: "Professional network" },
+      { label: "Twitter / X", handle: "@yourusername", url: "https://twitter.com/yourusername", description: "Occasional thoughts" },
+      { label: "Bluesky", handle: "@yourusername.bsky.social", url: "https://bsky.app/profile/yourusername.bsky.social", description: "More occasional thoughts" },
+    ]
+  },
+  {
+    category: "Contact",
+    items: [
+      { label: "Email", handle: "you@example.com", url: "mailto:you@example.com", description: "Best way to reach me" },
+      { label: "RSS", handle: "/rss.xml", url: "/rss.xml", description: "Subscribe to the blog" },
+    ]
+  },
+];
+---
+<Base title="Links — Your Name" description="Where to find me online.">
+  <section class="page-hero">
+    <p class="label fade-up fade-up-1">links</p>
+    <h1 class="fade-up fade-up-2">Where to<br/><em>find me.</em></h1>
+  </section>
+
+  <section class="section-narrow">
+    <div class="divider"></div>
+    {links.map(group => (
+      <div class="link-group">
+        <p class="label">{group.category}</p>
+        <div class="link-list">
+          {group.items.map(item => (
+            <a href={item.url} target={item.url.startsWith('http') ? "_blank" : "_self"} rel="noopener" class="link-card">
+              <div class="link-left">
+                <span class="link-platform">{item.label}</span>
+                <span class="link-handle">{item.handle}</span>
+              </div>
+              <span class="link-desc">{item.description}</span>
+              <span class="link-arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .page-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 clamp(24px, 6vw, 120px) 80px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .page-hero h1 { font-size: clamp(48px, 7vw, 100px); margin-top: 16px; line-height: 1; }
+
+  .section-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(60px, 8vh, 100px) clamp(24px, 4vw, 60px);
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  .link-group { display: flex; flex-direction: column; gap: 0; }
+
+  .link-group > .label { margin-bottom: 24px; }
+
+  .link-list { display: flex; flex-direction: column; }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--chalk-faint);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .link-card:first-child { border-top: 1px solid var(--chalk-faint); }
+  .link-card:hover { opacity: 0.75; }
+
+  .link-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 160px;
+  }
+
+  .link-platform {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--chalk-bright);
+  }
+
+  .link-handle {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--warm);
+    letter-spacing: 1px;
+  }
+
+  .link-desc {
+    font-size: 13px;
+    color: var(--chalk-dim);
+    font-style: italic;
+    flex: 1;
+  }
+
+  .link-arrow {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--warm);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .link-card:hover .link-arrow { opacity: 1; }
+</style>
