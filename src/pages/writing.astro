@@ -1,11 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-import { posts } from '../data/posts';
+import { getCollection } from 'astro:content';
 
-const grouped: Record<string, { label: string; id: string; posts: typeof posts }> = {};
-for (const post of posts) {
-  if (!grouped[post.dateId]) grouped[post.dateId] = { label: post.dateGroup, id: post.dateId, posts: [] };
-  grouped[post.dateId].posts.push(post);
+const allPosts = await getCollection('writing');
+allPosts.sort((a, b) => b.data.dateId.localeCompare(a.data.dateId));
+
+type PostEntry = typeof allPosts[number];
+const grouped: Record<string, { label: string; id: string; posts: PostEntry[] }> = {};
+for (const post of allPosts) {
+  const { dateId, dateGroup } = post.data;
+  if (!grouped[dateId]) grouped[dateId] = { label: dateGroup, id: dateId, posts: [] };
+  grouped[dateId].posts.push(post);
 }
 const groups = Object.values(grouped);
 const categories = ["all", "technical", "essays", "notes", "personal"];
@@ -16,7 +21,7 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
     <header class="editorial-hero">
       <p class="label fade-up fade-up-1">writing</p>
       <h1 class="fade-up fade-up-2">The <em>Archive</em></h1>
-      <p class="hero-sub fade-up fade-up-3">{posts.length} pieces across {groups.length} months</p>
+      <p class="hero-sub fade-up fade-up-3">{allPosts.length} pieces across {groups.length} months</p>
     </header>
 
     <div class="tab-controls">
@@ -44,24 +49,24 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
             {g.posts.map(post => (
               <article
                 class="resource-card"
-                data-cat={post.category}
-                data-search={`${post.title} ${post.tags.join(' ')} ${post.category}`.toLowerCase()}
+                data-cat={post.data.category}
+                data-search={`${post.data.title} ${post.data.tags.join(' ')} ${post.data.category}`.toLowerCase()}
               >
                 <div class="resource-badges">
-                  <span class="resource-badge">{post.category}</span>
-                  {post.tags.map(t => <span class="resource-badge">{t}</span>)}
+                  <span class="resource-badge">{post.data.category}</span>
+                  {post.data.tags.map(t => <span class="resource-badge">{t}</span>)}
                 </div>
                 <h2 class="resource-title">
-                  <a href={`/writing/${post.slug}`}>{post.title}</a>
+                  <a href={`/writing/${post.id}`}>{post.data.title}</a>
                 </h2>
                 <div class="resource-body">
-                  <p>{post.description}</p>
+                  <p>{post.data.description}</p>
                 </div>
                 <div class="resource-meta">
-                  <span class="resource-date">{post.date}</span>
+                  <span class="resource-date">{post.data.date}</span>
                 </div>
                 <div class="resource-tags">
-                  {post.tags.map(t => <span class="resource-tag">{t}</span>)}
+                  {post.data.tags.map(t => <span class="resource-tag">{t}</span>)}
                 </div>
               </article>
             ))}

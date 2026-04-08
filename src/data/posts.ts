@@ -1,15 +1,4 @@
-export interface Post {
-  slug: string;
-  title: string;
-  date: string;
-  dateGroup: string;
-  dateId: string;
-  description: string;
-  tags: string[];
-  category: string;
-}
-
-export const posts: Post[] = [
-  // Add posts here as you write them
-  // Posts will automatically appear on both /writing and home page
-];
+// Posts are defined as markdown files in src/content/writing/
+// Add a new .md file there to publish a post — no changes needed here.
+//
+// Frontmatter schema: src/content/config.ts
