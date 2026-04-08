@@ -675,6 +675,7 @@ const {
         <li><a href="/projects">PROJECTS</a></li>
         <li><a href="/writing">WRITING</a></li>
         <li><a href="/links">LINKS</a></li>
+        <li><a href="/culture">CULTURE</a></li>
       </ul>
     </nav>
     <button id="leafToggle" class="particle-toggle" aria-label="Toggle falling leaves">✦ leaves</button>
@@ -886,7 +887,7 @@ const {
           items = [];
           nodeEls = [];
 
-          const rng = makePRNG(1337);
+          const rng = makePRNG(Date.now());
 
           // ── Defs: glow filters ──────────────────────────────
           const defs = svgEl("defs", {});
