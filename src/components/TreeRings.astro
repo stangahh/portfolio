@@ -126,7 +126,7 @@
 
     function animateRing(el, targetRx, targetRy, delay) {
       setTimeout(() => {
-        const duration = 750;
+        const duration = 500;
         const start = performance.now();
 
         function step(now) {
@@ -172,7 +172,7 @@
       const ellipses = [...g.querySelectorAll("ellipse")].reverse();
       ellipses.forEach((el, i) => {
         const ring = RINGS[i];
-        animateRing(el, ring.rx, ring.ry, i * 95);
+        animateRing(el, ring.rx, ring.ry, i * 60);
       });
     }
 

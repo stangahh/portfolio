@@ -1,5 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import { experiences } from '../data/experiences';
+
+const sortedExperiences = [...experiences].sort((a, b) => {
+  if (!a.endDate) return -1;
+  if (!b.endDate) return 1;
+  return new Date(b.endDate).getTime() - new Date(a.endDate).getTime();
+});
 ---
 <Base title="About — Jesse Stanger" description="About Jesse Stanger.">
   <section class="page-hero">
@@ -32,72 +39,19 @@ import Base from '../layouts/Base.astro';
     <div class="divider"></div>
     <p class="label">experience</p>
     <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-meta">
-          <span class="num">now</span>
-          <span class="timeline-date">Oct 2024 —</span>
+      {sortedExperiences.map((exp) => (
+        <div class={`timeline-item ${exp.canstarGroup ? 'canstar-group' : ''}`}>
+          <div class="timeline-meta">
+            <span class="num">{exp.type}</span>
+            <span class="timeline-date">{exp.dateDisplay}</span>
+          </div>
+          <div class="timeline-body">
+            <h3>{exp.title}</h3>
+            <p class="timeline-company">{exp.company}</p>
+            {exp.description && <p>{exp.description}</p>}
+          </div>
         </div>
-        <div class="timeline-body">
-          <h3>Senior Software Engineer</h3>
-          <p class="timeline-company">Versent</p>
-          <p>Working with many different companies on their most difficult challenges. Everywhere from startups to major enterprise, applying full-stack engineering to distributed systems and infrastructure challenges.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">
-          <span class="num">prev</span>
-          <span class="timeline-date">2023 — 2024</span>
-        </div>
-        <div class="timeline-body">
-          <h3>Senior Software Engineer</h3>
-          <p class="timeline-company">Shell Energy Australia — UX Platform</p>
-          <p>Responsible for a React/TypeScript microfrontend platform and shared component library serving multiple product teams. Provided technical guidance on design systems, collaborated with downstream teams, and architected new features across the SDLC.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">
-          <span class="num">prev</span>
-          <span class="timeline-date">2022 — 2023</span>
-        </div>
-        <div class="timeline-body">
-          <h3>Software Engineer</h3>
-          <p class="timeline-company">Redbubble — Artist Experience</p>
-          <p>Worked on a bleeding-edge platform improving the artist marketplace experience. Introduced dynamic rendering fidelity to the Three.js pipeline, migrated to React Three Fiber, and improved WebGL 2.0 cross-browser compatibility.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">
-          <span class="num">prev</span>
-          <span class="timeline-date">2021 — 2022</span>
-        </div>
-        <div class="timeline-body">
-          <h3>Senior Full Stack Developer</h3>
-          <p class="timeline-company">Roubler</p>
-          <p>Architected and deployed OAuth 2.0 and OpenID Connect Provider (Ory Hydra) to production at scale. Test-driven development on mission-critical systems for billing, expenses, leave, and timesheets.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">
-          <span class="num">prev</span>
-          <span class="timeline-date">2020 — 2021</span>
-        </div>
-        <div class="timeline-body">
-          <h3>Senior Software Developer</h3>
-          <p class="timeline-company">Easier Australia</p>
-          <p>Implemented secure, repeatable solutions for secret management, identity/access management, and DevOps on Kubernetes using infrastructure-as-code. Built complex Dockerized application ecosystems and orchestrated deployments to AWS.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-meta">
-          <span class="num">edu</span>
-          <span class="timeline-date">2014 — 2017</span>
-        </div>
-        <div class="timeline-body">
-          <h3>B. Information Technology / B. Business</h3>
-          <p class="timeline-company">Queensland University of Technology</p>
-          <p>Majored in Computer Science and Marketing. Built a foundation in systems thinking, design, and the intersection of technology and business.</p>
-        </div>
-      </div>
+      ))}
     </div>
   </section>
 
@@ -158,7 +112,32 @@ import Base from '../layouts/Base.astro';
     display: flex;
     flex-direction: column;
     gap: 6px;
-    min-width: 80px;
+    width: 90px;
+    flex-shrink: 0;
+  }
+
+  .timeline-item.canstar-group {
+    position: relative;
+  }
+
+  .timeline-item.canstar-group::before {
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 24px;
+    bottom: -20px;
+    width: 2px;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--chalk-faint) 0,
+      var(--chalk-faint) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+
+  .timeline-item.canstar-group:first-child::before {
+    top: 10px;
   }
 
 .timeline-date {
@@ -240,12 +219,29 @@ import Base from '../layouts/Base.astro';
     }
 
     .timeline-item {
-      gap: 16px;
+      flex-direction: column;
+      gap: 8px;
       padding: 24px 0;
     }
 
     .timeline-meta {
-      min-width: 60px;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .timeline-meta .num {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--warm);
+      min-width: 30px;
+    }
+
+    .timeline-meta .timeline-date {
+      font-size: 10px;
+      letter-spacing: 1px;
     }
 
     .timeline-body h3 {

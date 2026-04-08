@@ -170,7 +170,7 @@ import Base from '../layouts/Base.astro';
           <span class="fit-question">Feedback</span>
           <div class="spectrum-wrap" tabindex="0">
             <span class="spectrum-pole">infrequent</span>
-            <div class="score-bar"><div class="score-fill score-fill--cool" style="width: 20%"></div></div>
+            <div class="score-bar"><div class="score-fill" style="width: 20%"></div></div>
             <span class="spectrum-pole">constant</span>
             <span class="score-label">1 / 5</span>
             <div class="spectrum-tooltip">
@@ -195,7 +195,7 @@ import Base from '../layouts/Base.astro';
           <span class="fit-question">Async by default</span>
           <div class="spectrum-wrap" tabindex="0">
             <span class="spectrum-pole">async</span>
-            <div class="score-bar"><div class="score-fill score-fill--cool" style="width: 20%"></div></div>
+            <div class="score-bar"><div class="score-fill" style="width: 20%"></div></div>
             <span class="spectrum-pole">real-time</span>
             <span class="score-label">1 / 5</span>
             <div class="spectrum-tooltip">
@@ -300,7 +300,7 @@ import Base from '../layouts/Base.astro';
           <span class="fit-question">Team size</span>
           <div class="spectrum-wrap" tabindex="0">
             <span class="spectrum-pole">small</span>
-            <div class="score-bar"><div class="score-fill score-fill--cool" style="width: 20%"></div></div>
+            <div class="score-bar"><div class="score-fill" style="width: 20%"></div></div>
             <span class="spectrum-pole">large</span>
             <span class="score-label">1 / 5</span>
             <div class="spectrum-tooltip">
@@ -316,7 +316,7 @@ import Base from '../layouts/Base.astro';
           <span class="fit-question">On-call</span>
           <div class="spectrum-wrap" tabindex="0">
             <span class="spectrum-pole">won't do it</span>
-            <div class="score-bar"><div class="score-fill score-fill--cool" style="width: 20%"></div></div>
+            <div class="score-bar"><div class="score-fill" style="width: 20%"></div></div>
             <span class="spectrum-pole">happy to carry</span>
             <span class="score-label">1 / 5</span>
             <div class="spectrum-tooltip">
@@ -373,7 +373,7 @@ import Base from '../layouts/Base.astro';
           <span class="fit-question">Testing</span>
           <div class="spectrum-wrap" tabindex="0">
             <span class="spectrum-pole">ad-hoc / manual</span>
-            <div class="score-bar"><div class="score-fill score-fill--bright" style="width: 100%"></div></div>
+            <div class="score-bar"><div class="score-fill" style="width: 100%"></div></div>
             <span class="spectrum-pole">TDD always</span>
             <span class="score-label">5 / 5</span>
             <div class="spectrum-tooltip">
@@ -405,7 +405,7 @@ import Base from '../layouts/Base.astro';
           <span class="fit-question">Learning</span>
           <div class="spectrum-wrap" tabindex="0">
             <span class="spectrum-pole">learn as needed</span>
-            <div class="score-bar"><div class="score-fill score-fill--bright" style="width: 100%"></div></div>
+            <div class="score-bar"><div class="score-fill" style="width: 100%"></div></div>
             <span class="spectrum-pole">primary sources first</span>
             <span class="score-label">5 / 5</span>
             <div class="spectrum-tooltip">
@@ -421,7 +421,7 @@ import Base from '../layouts/Base.astro';
           <span class="fit-question">CI/CD and automation</span>
           <div class="spectrum-wrap" tabindex="0">
             <span class="spectrum-pole">manual is fine</span>
-            <div class="score-bar"><div class="score-fill score-fill--bright" style="width: 100%"></div></div>
+            <div class="score-bar"><div class="score-fill" style="width: 100%"></div></div>
             <span class="spectrum-pole">automate everything</span>
             <span class="score-label">5 / 5</span>
             <div class="spectrum-tooltip">
@@ -656,12 +656,14 @@ import Base from '../layouts/Base.astro';
 
   .score-fill {
     height: 100%;
-    background: var(--warm);
     border-radius: 2px;
   }
 
-  .score-fill--cool { background: var(--cool); }
-  .score-fill--bright { background: #6ee7b7; }
+  .score-fill[style*="width: 20%"],
+  .score-fill[style*="width: 40%"] { background: #3b82f6; }
+  .score-fill[style*="width: 60%"],
+  .score-fill[style*="width: 80%"] { background: var(--warm); }
+  .score-fill[style*="width: 100%"] { background: #ea580c; }
 
   .score-label {
     font-family: "JetBrains Mono", monospace;

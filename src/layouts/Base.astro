@@ -674,8 +674,8 @@ const {
         <li><a href="/about">ABOUT</a></li>
         <li><a href="/projects">PROJECTS</a></li>
         <li><a href="/writing">WRITING</a></li>
-        <li><a href="/links">LINKS</a></li>
         <li><a href="/culture">CULTURE</a></li>
+        <li><a href="/links">LINKS</a></li>
       </ul>
     </nav>
     <button id="leafToggle" class="particle-toggle" aria-label="Toggle falling leaves">✦ leaves</button>
@@ -791,6 +791,13 @@ const {
     <script is:inline>
       /* ── Mycelium Circuit Tracer ── */
       (function () {
+        if (window.__myceliumBound) {
+          // Listeners already registered — just re-run init for this navigation
+          if (window.__myceliumInit) window.__myceliumInit();
+          return;
+        }
+        window.__myceliumBound = true;
+
         const NS = "http://www.w3.org/2000/svg";
 
         // Seeded LCG random — reproducible layout on every load
@@ -823,25 +830,8 @@ const {
           return d;
         }
 
-        // Color progression: amber → rust → forest green
-        const AMBER  = [196, 122, 58];
-        const RUST   = [139, 69, 19];
-        const FOREST = [45, 74, 30];
-
-        function lerp3(a, b, t) {
-          return [
-            (a[0] + (b[0] - a[0]) * t) | 0,
-            (a[1] + (b[1] - a[1]) * t) | 0,
-            (a[2] + (b[2] - a[2]) * t) | 0,
-          ];
-        }
-
-        function getColor(yFrac) {
-          const t = Math.max(0, Math.min(1, yFrac));
-          const [r, g, b] = t < 0.5
-            ? lerp3(AMBER, RUST, t * 2)
-            : lerp3(RUST, FOREST, (t - 0.5) * 2);
-          return `rgb(${r},${g},${b})`;
+        function getColor() {
+          return "rgb(235,230,220)";
         }
 
         function svgEl(tag, attrs) {
@@ -887,7 +877,12 @@ const {
           items = [];
           nodeEls = [];
 
-          const rng = makePRNG(Date.now());
+          let _seed = sessionStorage.getItem("mycelium-seed");
+          if (!_seed) {
+            _seed = String(Math.floor(Math.random() * 2147483647) + 1);
+            sessionStorage.setItem("mycelium-seed", _seed);
+          }
+          const rng = makePRNG(Number(_seed));
 
           // ── Defs: glow filters ──────────────────────────────
           const defs = svgEl("defs", {});
@@ -935,9 +930,9 @@ const {
           }
 
           addPath(g, items, trunkPts, {
-            stroke: getColor(0.08),
+            stroke: getColor(),
             "stroke-width": "1.8",
-            opacity: "0.6",
+            opacity: "0.18",
             filter: "url(#mc-glow)",
           }, 0, 0.38);
 
@@ -974,9 +969,9 @@ const {
               const bEnd   = bStart + 0.2;
 
               addPath(g, items, bp, {
-                stroke: color,
+                stroke: getColor(),
                 "stroke-width": "0.85",
-                opacity: "0.48",
+                opacity: "0.13",
               }, bStart, bEnd);
 
               // ── Gen-2 sub-branch ─────────────────────────────
@@ -998,17 +993,17 @@ const {
                 const sEnd   = sStart + 0.13;
 
                 addPath(g, items, sp, {
-                  stroke: getColor(yFrac + 0.12),
+                  stroke: getColor(),
                   "stroke-width": "0.42",
-                  opacity: "0.33",
+                  opacity: "0.10",
                 }, sStart, sEnd);
 
                 // Spore node at gen-2 tip
                 const sTip  = sp[sp.length - 1];
                 const sNode = svgEl("path", {
                   d: hexPath(sTip.x, sTip.y, 2.2),
-                  fill: getColor(yFrac + 0.15),
-                  "fill-opacity": "0.75",
+                  fill: getColor(),
+                  "fill-opacity": "0.25",
                   stroke: "none",
                   filter: "url(#mc-node)",
                   opacity: "0",
@@ -1021,8 +1016,8 @@ const {
               const tip  = bp[bp.length - 1];
               const node = svgEl("path", {
                 d: hexPath(tip.x, tip.y, 3.2),
-                fill: color,
-                "fill-opacity": "0.85",
+                fill: getColor(),
+                "fill-opacity": "0.30",
                 stroke: "none",
                 filter: "url(#mc-node)",
                 opacity: "0",
@@ -1060,8 +1055,10 @@ const {
           tick();
         }
 
+        window.__myceliumInit = init;
+
         window.addEventListener("scroll", tick, { passive: true });
-        window.addEventListener("resize", () => { build(); tick(); });
+        window.addEventListener("resize", init);
 
         if (document.readyState === "complete") {
           init();
@@ -1076,6 +1073,9 @@ const {
     <script is:inline>
       /* ── Conifer Silhouette Fog Layers ── */
       (function () {
+        if (window.__coniferBound) { if (window.__coniferInit) window.__coniferInit(); return; }
+        window.__coniferBound = true;
+
         const NS = "http://www.w3.org/2000/svg";
 
         // Three layers: far (faint/slow) → near (darker/faster).
@@ -1158,6 +1158,8 @@ const {
           tick();
         }
 
+        window.__coniferInit = init;
+
         window.addEventListener("scroll", tick, { passive: true });
         window.addEventListener("resize", () => { build(); tick(); });
 
@@ -1174,6 +1176,9 @@ const {
     <script is:inline>
       /* ── Falling Leaf Parallax ── */
       (function () {
+        if (window.__leavesBound) { if (window.__leavesInit) window.__leavesInit(); return; }
+        window.__leavesBound = true;
+
         const COLORS = ["#c47a3a", "#8b4513", "#d4a017", "#a06030"];
         const COUNT  = 6;
 
