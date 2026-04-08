@@ -13,14 +13,6 @@ updates:
     reviewers:
       - "stangahh"
     versioning-strategy: increase
-    update-types:
-      - patch
-      - minor
-
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
 
   - package-ecosystem: "docker"
     directory: "/"
