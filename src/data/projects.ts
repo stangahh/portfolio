@@ -1,75 +1,70 @@
 export interface Project {
-  num: string;
   name: string;
   year: string;
   description: string;
   tags: string[];
-  github: string;
-  status: "active" | "archived";
+  github?: string;
 }
 
 export const projects: Project[] = [
   {
-    num: "01",
-    name: "Full-Stack Engineering at Scale",
-    year: "2024-present",
-    description: "Working with enterprises and startups on their most difficult distributed systems and infrastructure challenges. Applying lessons learned from microfrontends, 3D rendering optimization, and OAuth 2.0 architecture to solve problems at scale.",
-    tags: ["Distributed Systems", "Full-Stack", "Infrastructure", "AWS", "Kubernetes"],
-    github: "",
-    status: "active",
+    name: "Major Bank — Mandate Management Platform",
+    year: "2025-present",
+    description: "Senior engineer performing lead-level delivery on the enterprise mandate management platform at a major Australian bank. Architected migration from legacy to new systems while preserving capabilities. Became subject matter expert in Temporal workflow orchestration for complex async processes. Pioneered AI-accelerated engineering practices with custom Claude agents and MCP configurations, multiplying team throughput. Owned end-to-end epic delivery including mandate cancellation and suspension workflows.",
+    tags: ["TypeScript", "Temporal", "AI-Accelerated Development", "Enterprise", "Leadership"],
   },
   {
-    num: "02",
+    name: "Klir Skin AI Platform",
+    year: "2024-2025",
+    description: "Lead technical consultant architecting complete NestJS microservices platform for skincare AI startup. Designed AWS infrastructure (ECS, RDS, S3) with Sceptre/CloudFormation handling 100k concurrent users. Implemented Playwright-based data scraping service with BrightData CDP integration. Established CI/CD via GitHub Actions with comprehensive documentation and knowledge transfer.",
+    tags: ["NestJS", "AWS", "Playwright", "Docker", "Infrastructure as Code"],
+  },
+  {
     name: "UX Platform & Component Library",
     year: "2023-2024",
-    description: "Microfrontend platform and shared React component library powering multiple product teams at Shell Energy. Built on React, TypeScript, and single-spa. Responsible for extending, maintaining, and supporting the platform while providing technical guidance on design system aspects. Collaborated with many downstream teams to accelerate their workflows.",
+    description: "Senior engineer extending and maintaining microfrontend platform and shared React component library at Shell Energy. Built on React, TypeScript, and single-spa. Provided technical guidance on design system aspects and component APIs. Collaborated with multiple downstream teams to accelerate delivery and maintain platform reliability.",
     tags: ["React", "TypeScript", "single-spa", "Design Systems", "Microfrontends"],
-    github: "",
-    status: "active",
   },
   {
-    num: "03",
+    name: "State Government OpenData Platform",
+    year: "2024",
+    description: "Backend engineer on government data platform using CKAN OData extension for an Australian state government agency. Delivered three critical features: user API token management UI, file download security improvements, and hard-delete user purge API with compliance controls. Contributed effectively despite limited system access, demonstrating ability to deliver on unfamiliar platforms.",
+    tags: ["CKAN", "OData", "Python", "Government Compliance", "API Design"],
+  },
+  {
     name: "3D Marketplace Rendering Pipeline",
-    year: "Aug 2022-Jan 2023",
-    description: "Overhauled the Three.js rendering pipeline for Redbubble's artist marketplace. Introduced dynamic rendering fidelity to dramatically improve performance and responsiveness across mobile, tablet, and desktop. Migrated to React Three Fiber to improve developer productivity and reduce cognitive load. Improved WebGL 2.0 cross-browser compatibility.",
-    tags: ["Three.js", "React Three Fiber", "WebGL", "TypeScript", "Performance"],
-    github: "",
-    status: "active",
+    year: "2022-2023",
+    description: "Optimized Three.js rendering pipeline for Redbubble's artist marketplace. Introduced dynamic rendering fidelity to improve performance across mobile, tablet, and desktop devices. Implemented improved coordinate system for accurate artwork placement. Migrated to React Three Fiber for improved developer productivity and reduced cognitive load.",
+    tags: ["Three.js", "React Three Fiber", "WebGL 2.0", "TypeScript", "Performance"],
   },
   {
-    num: "04",
     name: "OAuth 2.0 / OIDC Provider",
-    year: "Mar 2021-Feb 2022",
-    description: "Architected and deployed an OAuth 2.0 and OpenID Connect Provider (Ory Hydra) to production scale alongside the principal architect at Roubler. Implemented test-driven development on mission-critical business logic for billing, expenses, leave, and timesheets. Improved CI speed by Dockerizing the testing and deployment pipeline to AWS.",
-    tags: ["OAuth 2.0", "OIDC", "Kubernetes", "AWS", "Docker", "Identity"],
-    github: "",
-    status: "active",
+    year: "2021-2022",
+    description: "Architected Roubler's in-house authentication system, replacing Auth0 with ORY Hydra — an OIDC-certified OAuth 2.0 server. Built the surrounding auth service in Express/TypeScript: custom login, consent, logout, MFA (email, SMS, TOTP via otplib), and PKCE authorization code flows. Integrated JWT validation (jsonwebtoken, jwks-rsa) across GraphQL and REST API layers. Taken from ADR and design document through MVP to production scale in partnership with the company architect.",
+    tags: ["ORY Hydra", "OAuth 2.0", "OIDC", "Express", "TypeScript", "MFA", "JWT", "PostgreSQL"],
   },
   {
-    num: "05",
-    name: "DevOps & Infrastructure as Code",
-    year: "Oct 2020-Mar 2021",
-    description: "Implemented secure, repeatable, and scalable solutions for secret management, identity and access management, and DevOps on Kubernetes at Easier. Built and managed complex Dockerized application ecosystems. Orchestrated secure and consistent deployment to AWS with continuous integration and deployment pipelines.",
-    tags: ["Kubernetes", "Docker", "AWS", "Infrastructure as Code", "Terraform"],
-    github: "",
-    status: "active",
+    name: "Workforce Platform — Mission-Critical Systems",
+    year: "2021-2022",
+    description: "Implemented test-driven development across Roubler's mission-critical workforce management systems — billing, expenses, leave, and timesheets. Built on a Node.js/TypeScript monorepo with PostgreSQL. Established rigorous TDD practices where correctness is non-negotiable. Dockerized the full development and CI environment via Docker Compose and CircleCI, significantly improving feedback speed and deployment reliability.",
+    tags: ["Node.js", "TypeScript", "TDD", "PostgreSQL", "Docker", "CircleCI"],
   },
   {
-    num: "06",
-    name: "Shared Component Library & Public Website",
-    year: "Mar-Oct 2020",
-    description: "Lead developer on a project implementing a shared component library and new Angular 8+ redesigned public-facing website at Canstar. Managed a team of 4, responsible for task creation, estimation, prioritization, delegation, and release. Brought new design to production with high code quality.",
-    tags: ["Angular", "Design Systems", "Component Library", "Leadership"],
-    github: "",
-    status: "archived",
-  },
-  {
-    num: "07",
     name: "GraphQL Federation Platform",
-    year: "Jul 2019-Mar 2020",
-    description: "Lead developer architecting a GraphQL server stack on Kubernetes using Apollo GraphQL and GraphQL Federation. Researched and designed all AWS infrastructure while maintaining high security and scalability standards. Heavily involved in planning, implementation, and delivery of a production-ready platform.",
-    tags: ["GraphQL", "Node.js", "Apollo", "Kubernetes", "AWS"],
-    github: "",
-    status: "archived",
+    year: "2020",
+    description: "Lead architect on GraphQL federation platform built on Kubernetes at Canstar. Researched and documented the full system architecture, led a team of 8, and integrated Apollo Server across multiple backend services. Brought the platform from design through production deployment.",
+    tags: ["GraphQL", "Apollo", "Node.js", "Kubernetes", "AWS"],
+  },
+  {
+    name: "Ad-blocker Monetization Feature",
+    year: "2019-2020",
+    description: "Designed and built a UX workaround for ad-blocked users at Canstar, recovering revenue lost to ad blockers. Required deep research into ad-blocking behaviour, creative front-end engineering, and close collaboration with product and commercial stakeholders. Feature was directly attributed to $550k AUD in recovered annual revenue.",
+    tags: ["Angular", "TypeScript", "UX Engineering", "Revenue Impact"],
+  },
+  {
+    name: "Angular SPA & Component Libraries",
+    year: "2018-2019",
+    description: "Led the Full Site Release epic at Canstar — migrating all non-Angular pages to Angular, converting the website to a full SPA with lazy loading and server-side rendering. Built and maintained shared component libraries (CNSU, cnsu-animations, cnsui-presentation) used across all Canstar products.",
+    tags: ["Angular", "TypeScript", "RxJS", "SSR", "Component Libraries"],
   },
 ];

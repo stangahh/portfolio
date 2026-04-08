@@ -3,8 +3,6 @@ import Base from '../layouts/Base.astro';
 import { projects } from '../data/projects';
 
 const allTechs = [...new Set(projects.flatMap(p => p.tags))];
-const activeCount = projects.filter(p => p.status === "active").length;
-const archivedCount = projects.filter(p => p.status === "archived").length;
 ---
 <Base title="Projects — Jesse Stanger" description="Things I've built.">
   <div class="projects-wrap">
@@ -26,14 +24,6 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
             <span class="stat-label">projects</span>
           </div>
           <div class="stat">
-            <span class="stat-num">{activeCount}</span>
-            <span class="stat-label">active</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num">{archivedCount}</span>
-            <span class="stat-label">archived</span>
-          </div>
-          <div class="stat">
             <span class="stat-num">{allTechs.length}</span>
             <span class="stat-label">technologies</span>
           </div>
@@ -53,12 +43,9 @@ const archivedCount = projects.filter(p => p.status === "archived").length;
           <article
             class="project-block"
             data-techs={p.tags.map(t => t.toLowerCase()).join(' ')}
-            data-status={p.status}
           >
             <div class="block-eyebrow">
-              <span class="block-num">{p.num}</span>
               <span class="block-year">{p.year}</span>
-              {p.status === "archived" && <span class="archived-pill">archived</span>}
             </div>
             <h2 class="block-title">{p.name}</h2>
             <p class="block-desc">{p.description}</p>
