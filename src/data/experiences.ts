@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
     endDate: null,
     dateDisplay: "Oct 2024 —",
     type: "now",
-    description: "Working with many different companies on their most difficult challenges. From startups to major enterprise, applying full-stack engineering to distributed systems and infrastructure challenges across varied tech stacks and domains.",
+    description: "Consulting engineer solving complex technical challenges across startups and enterprises. Leading architecture design, building microservices platforms (NestJS, AWS), and pioneering AI-accelerated development practices. Recent clients: Klir Skin AI (startup platform), Australian state government agency (open data platform), Major Australian bank (enterprise systems).",
   },
   {
     num: "prev",
