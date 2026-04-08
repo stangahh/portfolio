@@ -24,6 +24,10 @@ src/
 
 Automatically deployed to Cloudflare Pages on `main` branch push via GitHub Actions.
 
+## UI changes — visual verification
+
+After making any UI change (components, layouts, styles, pages), always verify the result in Playwright against the local dev server before considering the task done.
+
 ## Subagents — research and investigation
 
 When instructed to "research", "investigate", "explore", or "look into" something, always delegate to a subagent via the Agent tool. This keeps research context isolated from the main conversation and prevents context bloat. Return only a concise summary of findings to the main conversation — not the full raw output.
