@@ -10,7 +10,7 @@ export const projects: Project[] = [
   {
     name: "Major Bank — Mandate Management Platform",
     year: "2025-present",
-    description: "Senior engineer performing lead-level delivery on the enterprise mandate management platform at a major Australian bank. Architected migration from legacy to new systems while preserving capabilities. Became subject matter expert in Temporal workflow orchestration for complex async processes. Pioneered AI-accelerated engineering practices with custom Claude agents and MCP configurations, multiplying team throughput. Owned end-to-end epic delivery including mandate cancellation and suspension workflows. Implemented comprehensive compliance logging and audit trails meeting ASIC/RBA regulatory requirements.",
+    description: "Performed lead-level delivery on the enterprise mandate management platform at a major Australian bank. Architected migration from legacy to new systems while preserving capabilities. Became subject matter expert in Temporal workflow orchestration for complex async processes. Pioneered AI-accelerated engineering practices with custom Claude agents and MCP configurations, multiplying team throughput. Owned end-to-end epic delivery of multiple mandate lifecycle events.",
     tags: ["TypeScript", "Temporal", "AI-Accelerated Development", "Enterprise", "Leadership"],
   },
   {

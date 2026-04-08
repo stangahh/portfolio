@@ -14,7 +14,7 @@ export const experiences: Experience[] = [
   {
     num: "now",
     title: "Senior Software Engineer",
-    company: "Versent · Hybrid",
+    company: "Versent",
     startDate: "2024-10-01",
     endDate: null,
     dateDisplay: "Oct 2024 —",
@@ -24,7 +24,7 @@ export const experiences: Experience[] = [
   {
     num: "prev",
     title: "Senior Software Engineer — UX Platform",
-    company: "Shell Energy Australia · Hybrid",
+    company: "Shell Energy Australia",
     startDate: "2023-07-01",
     endDate: "2024-08-01",
     dateDisplay: "Jul 2023 — Aug 2024",
