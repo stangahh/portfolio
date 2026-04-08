@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import TreeRings from '../components/TreeRings.astro';
-import { posts } from '../data/posts';
+import { getCollection } from 'astro:content';
 import { projects } from '../data/projects';
 import { skillGroups } from '../data/skills';
 
-const recentPosts = posts.slice(0, 2);
+const allPosts = await getCollection('writing');
+allPosts.sort((a, b) => b.data.dateId.localeCompare(a.data.dateId));
+const recentPosts = allPosts.slice(0, 2);
 const hasRecentPosts = recentPosts.length > 0;
 const featuredProjects = projects.slice(0, 3);
 ---
@@ -13,12 +15,12 @@ const featuredProjects = projects.slice(0, 3);
   <!-- Hero -->
   <section class="hero">
     <div class="hero-inner">
-      <p class="label fade-up fade-up-1">senior full stack engineer · ai tooling · ownership</p>
+      <p class="label fade-up fade-up-1">senior full stack engineer · ai-accelerated</p>
       <h1 class="hero-title fade-up fade-up-2">
         Jesse<br/><span class="hero-surname">Stanger</span>
       </h1>
       <p class="hero-sub fade-up fade-up-3">
-        Eight years accelerating teams at the forefront of AI. Obsessive attention to detail, uncompromising quality.
+        Eight years of full-stack engineering on complex systems. Startup to enterprise scale. Obsessive attention to detail, uncompromising quality.
       </p>
       <div class="hero-cta fade-up fade-up-4">
         <a href="/about" class="btn-primary">about me →</a>
@@ -44,14 +46,14 @@ const featuredProjects = projects.slice(0, 3);
           <span class="num">02</span>
           <div>
             <strong>Focus</strong>
-            <p>Full-stack engineering on distributed systems and infrastructure challenges</p>
+            <p>AI-accelerated engineering — custom Claude agents, MCP servers, and codebase-specific tooling that multiplies team throughput.</p>
           </div>
         </div>
         <div class="currently-item">
           <span class="num">03</span>
           <div>
             <strong>Building</strong>
-            <p>This site — and whatever catches my attention on weekends</p>
+            <p>This site, tools that make my workflow faster — and coffee ☕</p>
           </div>
         </div>
       </div>
@@ -71,7 +73,7 @@ const featuredProjects = projects.slice(0, 3);
     <div class="project-list">
       {featuredProjects.map(p => (
         <article class="project-card">
-          <span class="num">{p.num}</span>
+          <span class="num">{p.year}</span>
           <div class="project-body">
             <h3>{p.name}</h3>
             <p>{p.description}</p>
@@ -102,6 +104,7 @@ const featuredProjects = projects.slice(0, 3);
         </div>
       ))}
     </div>
+    <p class="skills-callout"><a href="/projects">explore more by technology in project filters →</a></p>
   </section>
 
   {hasRecentPosts && (
@@ -113,10 +116,10 @@ const featuredProjects = projects.slice(0, 3);
       </div>
       <div class="post-list">
         {recentPosts.map(post => (
-          <a href={`/writing/${post.slug}`} class="post-item">
-            <span class="post-date">{post.dateGroup}</span>
-            <h3>{post.title}</h3>
-            <p>{post.description}</p>
+          <a href={`/writing/${post.id}`} class="post-item">
+            <span class="post-date">{post.data.dateGroup}</span>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
           </a>
         ))}
       </div>
@@ -259,6 +262,21 @@ const featuredProjects = projects.slice(0, 3);
     letter-spacing: 0.5px;
     color: var(--chalk-dim);
   }
+
+  .skills-callout {
+    margin-top: 32px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+
+  .skills-callout a {
+    color: var(--warm);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .skills-callout a:hover { opacity: 0.7; }
 
   .post-list { display: flex; flex-direction: column; }
 
