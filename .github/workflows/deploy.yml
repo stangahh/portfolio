@@ -28,6 +28,7 @@ jobs:
         run: npm run build
 
       - name: Create Cloudflare Pages project
+        continue-on-error: true
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
