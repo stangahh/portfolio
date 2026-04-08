@@ -34,4 +34,8 @@ docker compose --profile dev up
 docker compose --profile prod up  # http://localhost:8080
 ```
 
-For agent instructions, see [agents.md](agents.md).
+## Deployment
+
+Automatically deployed to [Cloudflare Pages](https://pages.cloudflare.com/) on every push to `main` via GitHub Actions.
+
+For development guide, see [AGENTS.md](AGENTS.md).
