@@ -1,27 +1,25 @@
-# AGENTS
-
-Repository: https://github.com/stangahh/portfolio
+# Development Guide
 
 See [README.md](README.md) for setup and Docker instructions.
 
-## GitHub CLI
+## Astro Project Structure
 
-Always use `gh` for interacting with GitHub. Common commands:
-- `gh repo view` - view current repo info
-- `gh issue list` - list issues
-- `gh issue create` - create new issue
-- `gh pr create` - create pull request
-- `gh pr list` - list pull requests
-- `gh pr view` - view current PR
-
-## Debugging
-
-```bash
-docker compose logs dev -f # view container logs
-docker compose ps # view running containers
+```
+src/
+  components/    # Reusable UI components
+  data/         # Content data (projects, posts, skills, experiences)
+  layouts/      # Page layouts
+  pages/        # Route pages (auto-routed)
+  styles/       # Global styles
 ```
 
-## Tips
+## Development Tips
 
-- Astro auto-reloads in `src/` but server changes need full restart
-- Frontend debugging use browser DevTools
+- Astro auto-reloads `src/` changes (except server-side code)
+- Server changes require container restart: `docker compose restart dev`
+- Use browser DevTools for frontend debugging
+- Check container logs: `docker compose logs dev -f`
+
+## Deployment
+
+Automatically deployed to Cloudflare Pages on `main` branch push via GitHub Actions.
