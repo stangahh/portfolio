@@ -261,7 +261,7 @@ const {
 
       .particle-toggle {
         position: fixed;
-        bottom: 24px;
+        bottom: 28px;
         left: 24px;
         z-index: 200;
         font-family: "JetBrains Mono", monospace;
@@ -270,20 +270,32 @@ const {
         text-transform: uppercase;
         color: var(--warm);
         background: none;
-        border: 1px solid rgba(196, 122, 58, 0.3);
-        padding: 4px 10px;
+        border: 1px solid var(--warm-border);
+        padding: 6px 12px;
+        border-radius: 4px;
         cursor: pointer;
-        transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+        transition:
+          border-color 0.2s,
+          background 0.2s,
+          color 0.2s,
+          box-shadow 0.2s;
+        box-shadow: 0 0 8px rgba(196, 122, 58, 0.15);
+        backdrop-filter: blur(3px);
       }
 
       .particle-toggle:hover {
-        border-color: rgba(196, 122, 58, 0.7);
+        border-color: var(--warm);
+        background: rgba(196, 122, 58, 0.08);
+      }
+
+      .particle-toggle:active {
+        background: rgba(196, 122, 58, 0.15);
       }
 
       .particle-toggle.off {
         color: var(--chalk-dim);
         border-color: rgba(180, 170, 155, 0.2);
-        opacity: 0.5;
+        opacity: 0.6;
       }
 
       /* Progress bar */
@@ -564,7 +576,6 @@ const {
         color: var(--warm);
         font-family: "JetBrains Mono", monospace;
         font-size: 10px;
-        font-weight: 700;
         letter-spacing: 2px;
         text-transform: uppercase;
         transition:
@@ -572,15 +583,13 @@ const {
           background 0.2s,
           opacity 0.3s ease,
           transform 0.3s ease,
-          width 0.3s ease,
           margin 0.3s ease,
           box-shadow 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         opacity: 1;
-        transform: scale(1);
-        width: auto;
+        transform: translateX(0);
         margin: 0;
         box-shadow: 0 0 8px rgba(196, 122, 58, 0.15);
         backdrop-filter: blur(3px);
@@ -598,11 +607,12 @@ const {
       .scroll-btn.hidden {
         opacity: 0;
         pointer-events: none;
-        transform: scale(0.8);
-        width: 0;
+        transform: translateX(-20px);
         margin: 0;
-        padding: 0;
-        border: none;
+      }
+
+      .scroll-btn.hidden:last-child {
+        transform: translateX(20px);
       }
 
       @media (max-width: 768px) {
