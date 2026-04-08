@@ -1047,7 +1047,7 @@ const {
         function init() {
           const svg = document.getElementById("myceliumSvg");
           if (!svg) return;
-          if (window.location.pathname !== "/about") {
+          if (!window.location.pathname.startsWith("/about")) {
             svg.innerHTML = "";
             return;
           }

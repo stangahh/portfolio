@@ -11,6 +11,7 @@ services:
     environment:
       - NODE_ENV=development
       - ASTRO_FILE_WATCHER_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
       - ASTRO_TELEMETRY_DISABLED=true
     profiles:
       - dev
