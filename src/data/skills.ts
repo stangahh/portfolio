@@ -29,6 +29,7 @@ export const skillGroups: SkillGroup[] = [
     title: "Specialties",
     skills: [
       "AI-Accelerated Development (Claude, custom agents, MCP servers)",
+      "Monorepo Architecture",
       "Microfrontends (single-spa)",
       "Design Systems & Component Libraries",
       "3D Rendering & Performance (Three.js, WebGL)",
