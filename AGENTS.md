@@ -17,7 +17,7 @@ src/
 
 - Astro auto-reloads `src/` changes (except server-side code)
 - Server changes require container restart: `docker compose restart dev`
-- Use browser DevTools for frontend debugging
+- Use [Playwright](https://playwright.dev) for automated testing and debugging
 - Check container logs: `docker compose logs dev -f`
 
 ## Deployment
