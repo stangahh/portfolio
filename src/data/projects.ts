@@ -10,8 +10,14 @@ export const projects: Project[] = [
   {
     name: "Major Bank — Mandate Management Platform",
     year: "2025-present",
-    description: "Senior engineer performing lead-level delivery on the enterprise mandate management platform at a major Australian bank. Architected migration from legacy to new systems while preserving capabilities. Became subject matter expert in Temporal workflow orchestration for complex async processes. Pioneered AI-accelerated engineering practices with custom Claude agents and MCP configurations, multiplying team throughput. Owned end-to-end epic delivery including mandate cancellation and suspension workflows.",
+    description: "Senior engineer performing lead-level delivery on the enterprise mandate management platform at a major Australian bank. Architected migration from legacy to new systems while preserving capabilities. Became subject matter expert in Temporal workflow orchestration for complex async processes. Pioneered AI-accelerated engineering practices with custom Claude agents and MCP configurations, multiplying team throughput. Owned end-to-end epic delivery including mandate cancellation and suspension workflows. Implemented comprehensive compliance logging and audit trails meeting ASIC/RBA regulatory requirements.",
     tags: ["TypeScript", "Temporal", "AI-Accelerated Development", "Enterprise", "Leadership"],
+  },
+  {
+    name: "Agentic AI Platform — Vera & PixieOps",
+    year: "2025-present",
+    description: "Engineer on Versent's internal agentic AI platform, building AWS-native AI agents and Slack-integrated tools alongside two junior engineers. Stack includes AWS Bedrock and AWS Strands for agent orchestration. Implemented observability layer for AI/ML systems: OpenTelemetry instrumentation, Jaeger for distributed tracing, and Arize Phoenix for ML model monitoring and evaluation.",
+    tags: ["AWS Bedrock", "OpenTelemetry", "Jaeger", "Arize Phoenix", "Agentic AI", "TypeScript"],
   },
   {
     name: "Klir Skin AI Platform",
