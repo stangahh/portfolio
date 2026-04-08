@@ -16,6 +16,8 @@ import "@fontsource/instrument-sans/400.css";
 import "@fontsource/instrument-sans/500.css";
 import "@fontsource/instrument-sans/600.css";
 import "@fontsource/instrument-sans/700.css";
+import "@fontsource/playfair-display/700.css";
+import "@fontsource/playfair-display/700-italic.css";
 
 interface Props {
   title?: string;
@@ -142,10 +144,13 @@ const {
       }
 
       .nav-right {
+        position: absolute;
+        right: clamp(24px, 5vw, 80px);
+        top: 50%;
+        transform: translateY(-50%);
         display: flex;
         gap: 28px;
         align-items: center;
-        flex-shrink: 0;
       }
 
       .nav-links {
@@ -251,6 +256,33 @@ const {
         color: var(--warm);
         font-size: 14px;
         opacity: 0.6;
+      }
+
+      .particle-toggle {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        z-index: 200;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--warm);
+        background: none;
+        border: 1px solid rgba(196, 122, 58, 0.3);
+        padding: 4px 10px;
+        cursor: pointer;
+        transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+      }
+
+      .particle-toggle:hover {
+        border-color: rgba(196, 122, 58, 0.7);
+      }
+
+      .particle-toggle.off {
+        color: var(--chalk-dim);
+        border-color: rgba(180, 170, 155, 0.2);
+        opacity: 0.5;
       }
 
       /* Progress bar */
@@ -644,6 +676,7 @@ const {
         <li><a href="/links">LINKS</a></li>
       </ul>
     </nav>
+    <button id="leafToggle" class="particle-toggle" aria-label="Toggle falling leaves">✦ leaves</button>
 
     <div id="content">
       <slot />
@@ -1017,6 +1050,10 @@ const {
         function init() {
           const svg = document.getElementById("myceliumSvg");
           if (!svg) return;
+          if (window.location.pathname !== "/about") {
+            svg.innerHTML = "";
+            return;
+          }
           build();
           tick();
         }
@@ -1042,9 +1079,9 @@ const {
         // Three layers: far (faint/slow) → near (darker/faster).
         // rate is multiplied by viewport height, so shift is page-length-independent.
         const LAYERS = [
-          { opacity: 0.11, rate: 0.06, baseYFrac: 0.76, minH: 22, maxH: 52,  seed: 11 },
-          { opacity: 0.18, rate: 0.14, baseYFrac: 0.84, minH: 38, maxH: 88,  seed: 31 },
-          { opacity: 0.28, rate: 0.24, baseYFrac: 0.91, minH: 58, maxH: 130, seed: 53 },
+          { opacity: 0.11, rate: 0.02, baseYFrac: 0.76, minH: 22, maxH: 52,  seed: 11 },
+          { opacity: 0.18, rate: 0.05, baseYFrac: 0.84, minH: 38, maxH: 88,  seed: 31 },
+          { opacity: 0.28, rate: 0.10, baseYFrac: 0.91, minH: 58, maxH: 130, seed: 53 },
         ];
         const FILL = "rgb(25,44,18)";
 
@@ -1060,7 +1097,8 @@ const {
         // Build a filled pine-treeline silhouette path
         function buildTreeline(W, H, baseYFrac, minH, maxH, rng) {
           const baseY = H * baseYFrac;
-          let d = `M 0,${H} L 0,${baseY}`;
+          const bot = H * 1.5; // extend well below viewport so translateY never leaves a gap
+          let d = `M 0,${bot} L 0,${baseY}`;
           let x = -(maxH * 0.4);
 
           while (x < W + maxH * 0.4) {
@@ -1072,7 +1110,7 @@ const {
             x += gap + w;
           }
 
-          d += ` L ${W},${baseY} L ${W},${H} Z`;
+          d += ` L ${W},${baseY} L ${W},${bot} Z`;
           return d;
         }
 
@@ -1135,12 +1173,13 @@ const {
       /* ── Falling Leaf Parallax ── */
       (function () {
         const COLORS = ["#c47a3a", "#8b4513", "#d4a017", "#a06030"];
-        const COUNT  = 12;
+        const COUNT  = 6;
 
         let W, H, ctx, animId;
         let leaves = [];
         let scrollVel = 0;
         let lastScrollY = 0;
+        let paused = false;
 
         // Three organic leaf shapes drawn with bezier curves
         function drawShape(ctx, type, s) {
@@ -1184,6 +1223,7 @@ const {
         }
 
         function frame(ts) {
+          if (paused) return;
           ctx.clearRect(0, 0, W, H);
 
           for (const lf of leaves) {
@@ -1205,8 +1245,18 @@ const {
           }
 
           scrollVel *= 0.88;
-          animId = requestAnimationFrame(frame);
+          if (!paused) animId = requestAnimationFrame(frame);
         }
+
+        window._leafPause = function (val) {
+          paused = val;
+          if (paused) {
+            cancelAnimationFrame(animId);
+            if (ctx) ctx.clearRect(0, 0, W, H);
+          } else {
+            animId = requestAnimationFrame(frame);
+          }
+        };
 
         function resize() {
           const c = document.getElementById("leafCanvas");
@@ -1239,6 +1289,31 @@ const {
         }
 
         document.addEventListener("astro:page-load", init);
+      })();
+    </script>
+
+    <script is:inline>
+      /* ── Leaf toggle button ── */
+      (function () {
+        let on = true;
+
+        function setup() {
+          const btn = document.getElementById("leafToggle");
+          if (!btn) return;
+          btn.classList.toggle("off", !on);
+          btn.onclick = () => {
+            on = !on;
+            btn.classList.toggle("off", !on);
+            if (window._leafPause) window._leafPause(!on);
+          };
+        }
+
+        if (document.readyState === "complete") {
+          setup();
+        } else {
+          window.addEventListener("load", setup);
+        }
+        document.addEventListener("astro:page-load", setup);
       })();
     </script>
   </body>

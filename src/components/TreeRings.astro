@@ -176,21 +176,17 @@
       });
     }
 
-    let revealed = false;
-
     function init() {
       const section = document.getElementById("treeRingsSection");
       if (!section) return;
 
       buildRings();
-      revealed = false;
 
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting && !revealed) {
-            revealed = true;
+          if (entry.isIntersecting) {
+            buildRings();
             revealRings();
-            observer.disconnect();
           }
         },
         { threshold: 0.2 }

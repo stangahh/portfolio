@@ -15,7 +15,7 @@ const featuredProjects = projects.slice(0, 3);
     <div class="hero-inner">
       <p class="label fade-up fade-up-1">senior full stack engineer · ai tooling · ownership</p>
       <h1 class="hero-title fade-up fade-up-2">
-        Jesse<br/><em>Stanger</em>
+        Jesse<br/><span class="hero-surname">Stanger</span>
       </h1>
       <p class="hero-sub fade-up fade-up-3">
         Eight years accelerating teams at the forefront of AI. Obsessive attention to detail, uncompromising quality.
@@ -144,12 +144,16 @@ const featuredProjects = projects.slice(0, 3);
   }
 
   .hero-title {
+    font-family: "Playfair Display", serif;
     font-size: clamp(64px, 10vw, 140px);
     font-weight: 700;
+    font-style: normal;
     line-height: 0.9;
     margin: 8px 0;
     color: rgba(235,230,220,.95);
   }
+
+  .hero-surname { color: var(--warm); font-style: normal; }
 
   .hero-sub {
     font-family: Spectral, serif;
