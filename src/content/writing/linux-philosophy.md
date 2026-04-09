@@ -51,7 +51,7 @@ and commit. Confirm before pushing.
 
 Where a shell function crystallises a repeated terminal action, a skill crystallises a repeated AI interaction into something reusable and precise. The pattern is identical. The interface is English instead of [stdin](https://en.wikipedia.org/wiki/Standard_streams).
 
-Skills compose. A release skill can invoke the commit skill. A PR skill can invoke a review skill. Build primitives first, then pipelines. And apply the same discipline: the moment a skill starts doing two things, split it.
+Skills compose. A release skill can invoke the commit skill. A PR skill can invoke a review skill. Build primitives first, then pipelines. A skill that creates a worktree, names the branch, and pulls in Jira context is doing one thing: starting a feature branch. That's a pipeline, not a violation. The discipline is: the moment a skill's *concerns* diverge — when you'd want one part without the other — split it.
 
 <details>
 <summary>OpenCode equivalent</summary>
