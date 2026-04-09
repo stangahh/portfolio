@@ -71,6 +71,6 @@ export const projects: Project[] = [
     name: "Angular SPA & Component Libraries",
     year: "2018-2019",
     description: "Led the Full Site Release epic at Canstar — migrating all non-Angular pages to Angular, converting the website to a full SPA with lazy loading and server-side rendering. Built and maintained shared component libraries (CNSU, cnsu-animations, cnsui-presentation) used across all Canstar products.",
-    tags: ["Angular", "TypeScript", "Node.js", "RxJS", "SSR", "Component Libraries"],
+    tags: ["Angular", "TypeScript", "Node.js", "RxJS", "SSR", "Component Libraries", "Design Systems"],
   },
 ];

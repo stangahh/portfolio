@@ -4,6 +4,7 @@ import TreeRings from '../components/TreeRings.astro';
 import { getCollection } from 'astro:content';
 import { projects } from '../data/projects';
 import { skillGroups } from '../data/skills';
+import { findSkillTag } from '../lib/tagify';
 
 const allPosts = await getCollection('writing');
 allPosts.sort((a, b) => b.data.dateId.localeCompare(a.data.dateId));
@@ -78,7 +79,7 @@ const featuredProjects = projects.slice(0, 3);
             <h3>{p.name}</h3>
             <p>{p.description}</p>
             <div class="project-tags">
-              {p.tags.map(t => <span class="tag">{t}</span>)}
+              {p.tags.map(t => <a href={`/projects?tech=${t.toLowerCase()}`} class="tag">{t}</a>)}
             </div>
           </div>
         </article>
@@ -99,7 +100,12 @@ const featuredProjects = projects.slice(0, 3);
         <div class="skill-group">
           <h3 class="skill-group-title">{group.title}</h3>
           <ul>
-            {group.skills.map(skill => <li>{skill}</li>)}
+            {group.skills.map(skill => {
+                const tag = findSkillTag(skill);
+                return tag
+                  ? <li><a href={`/projects?tech=${tag.toLowerCase()}`} class="skill-link">{skill}</a></li>
+                  : <li>{skill}</li>;
+              })}
           </ul>
         </div>
       ))}
@@ -226,6 +232,25 @@ const featuredProjects = projects.slice(0, 3);
   }
 
   .project-card:first-child { border-top: 1px solid var(--chalk-faint); }
+
+  .project-card .num {
+    width: 100px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .project-card {
+      flex-direction: column;
+      gap: 6px;
+      padding: 24px 0;
+    }
+
+    .project-card .num {
+      width: auto;
+    }
+  }
+
   .project-body { flex: 1; }
   .project-body h3 { font-size: clamp(20px, 2.5vw, 28px); margin-bottom: 10px; }
   .project-body p { font-size: 15px; color: var(--chalk-dim); line-height: 1.7; margin-bottom: 16px; }
@@ -240,7 +265,12 @@ const featuredProjects = projects.slice(0, 3);
     color: var(--cool);
     border: 1px solid var(--cool-border);
     padding: 3px 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
   }
+
+  .tag:hover { opacity: 0.7; }
 
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 40px; }
 
@@ -261,6 +291,16 @@ const featuredProjects = projects.slice(0, 3);
     font-size: 12px;
     letter-spacing: 0.5px;
     color: var(--chalk-dim);
+  }
+
+  .skill-link {
+    color: var(--chalk-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .skill-link:hover {
+    color: var(--warm);
   }
 
   .skills-callout {

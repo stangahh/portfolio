@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
     endDate: null,
     dateDisplay: "Oct 2024 —",
     type: "now",
-    description: "Consulting engineer solving complex technical challenges across startups and enterprises. Leading architecture design, building microservices platforms (NestJS, AWS), and pioneering AI-accelerated development practices. Recent clients: Klir Skin AI (startup platform), Australian state government agency (open data platform), Major Australian bank (enterprise systems).",
+    description: "Consulting engineer solving complex technical challenges across startups and enterprises. Leading architecture design, building microservices platforms (NestJS, AWS), and pioneering AI-accelerated development practices. Recent clients: Klir Skin AI (startup platform), Australian state government agency (open data platform), Major Australian bank (enterprise payment systems).",
   },
   {
     num: "prev",
@@ -29,7 +29,7 @@ export const experiences: Experience[] = [
     endDate: "2024-08-01",
     dateDisplay: "Jul 2023 — Aug 2024",
     type: "prev",
-    description: "Responsible for extending, maintaining, and supporting a microfrontend platform and component library, built using React, TypeScript, single-spa stack. Providing technical guidance on Design System aspects and bringing Figma designs to life, delivering through a React component library. Independently create architectural designs for new systems and features, involved throughout the entire SDLC. Collaborating with many downstream teams that depend on the microfrontend platform, providing support and guidance, as well as implementing features to accelerate their workloads.",
+    description: "Responsible for extending, maintaining, and supporting a Microfrontends platform and component library, built using React, TypeScript, single-spa stack. Providing technical guidance on Design Systems and bringing Figma designs to life, delivering through a React component library. Independently create architectural designs for new systems and features, involved throughout the entire SDLC. Collaborating with many downstream teams that depend on the Microfrontends platform, providing support and guidance, as well as implementing features to accelerate their workloads.",
   },
   {
     num: "prev",

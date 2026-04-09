@@ -10,7 +10,7 @@ const writing = defineCollection({
     dateGroup: z.string(),
     dateId: z.string(),
     tags: z.array(z.string()),
-    category: z.enum(['technical', 'essays', 'notes', 'personal']),
+    category: z.enum(['technical', 'essays']),
   }),
 });
 

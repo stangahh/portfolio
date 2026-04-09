@@ -38,7 +38,7 @@ const allTechs = [...new Set(projects.flatMap(p => p.tags))];
       </aside>
 
       <!-- Main: editorial project blocks -->
-      <main class="projects-main" id="projectsMain">
+      <div class="projects-main" id="projectsMain">
         {projects.map(p => (
           <article
             class="project-block"
@@ -50,7 +50,7 @@ const allTechs = [...new Set(projects.flatMap(p => p.tags))];
             <h2 class="block-title">{p.name}</h2>
             <p class="block-desc">{p.description}</p>
             <div class="block-techs">
-              {p.tags.map(t => <span class="block-tech">{t}</span>)}
+              {p.tags.map(t => <button class="block-tech" data-tech={t.toLowerCase()}>{t}</button>)}
             </div>
             <div class="block-links">
               {p.github && <a href={p.github} target="_blank" rel="noopener">github →</a>}
@@ -59,7 +59,7 @@ const allTechs = [...new Set(projects.flatMap(p => p.tags))];
           </article>
         ))}
         <p class="no-results" id="noResults">No projects match that filter.</p>
-      </main>
+      </div>
 
     </div>
   </div>
@@ -250,6 +250,14 @@ const allTechs = [...new Set(projects.flatMap(p => p.tags))];
     color: var(--chalk);
     border: 0.667px solid rgba(235, 230, 220, 0.12);
     padding: 2px 8px;
+    background: none;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .block-tech:hover {
+    color: var(--warm);
+    border-color: var(--warm-border);
   }
 
   .block-links {
@@ -400,8 +408,36 @@ const allTechs = [...new Set(projects.flatMap(p => p.tags))];
         btn.classList.add('active');
         activeTech = btn.dataset.tech || 'all';
         filter();
+        history.replaceState(null, '', activeTech === 'all' ? '/projects' : `/projects?tech=${activeTech}`);
       });
     });
+
+    // Wire up block-tech buttons to trigger the sidebar filter
+    const blockTechBtns = document.querySelectorAll<HTMLButtonElement>('.block-tech');
+    blockTechBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tech = btn.dataset.tech || 'all';
+        techBtns.forEach(b => b.classList.remove('active'));
+        const matchingSidebarBtn = [...techBtns].find(b => b.dataset.tech === tech);
+        if (matchingSidebarBtn) matchingSidebarBtn.classList.add('active');
+        activeTech = tech;
+        filter();
+        history.replaceState(null, '', activeTech === 'all' ? '/projects' : `/projects?tech=${activeTech}`);
+      });
+    });
+
+    // Read initial tech from URL
+    const params = new URLSearchParams(window.location.search);
+    const initialTech = params.get('tech');
+    if (initialTech) {
+      const btn = [...techBtns].find(b => b.dataset.tech === initialTech.toLowerCase());
+      if (btn) {
+        techBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeTech = btn.dataset.tech || 'all';
+        filter();
+      }
+    }
   }
 
   // Run on initial load

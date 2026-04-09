@@ -13,7 +13,7 @@ for (const post of allPosts) {
   grouped[dateId].posts.push(post);
 }
 const groups = Object.values(grouped);
-const categories = ["all", "technical", "essays", "notes", "personal"];
+const categories = ["all", "technical", "essays"];
 ---
 <Base title="Writing — Jesse Stanger" description="Things I've written.">
   <div class="writing-wrap">
@@ -42,10 +42,10 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
         ))}
       </aside>
 
-      <main class="writing-main" id="writingMain">
+      <div class="writing-main" id="writingMain">
         {groups.map(g => (
           <section class="date-group" id={g.id} data-group={g.id}>
-            <h3 class="date-heading">{g.label}</h3>
+            <h2 class="date-heading">{g.label}</h2>
             {g.posts.map(post => (
               <article
                 class="resource-card"
@@ -56,9 +56,9 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
                   <span class="resource-badge">{post.data.category}</span>
                   {post.data.tags.map(t => <span class="resource-badge">{t}</span>)}
                 </div>
-                <h2 class="resource-title">
+                <h3 class="resource-title">
                   <a href={`/writing/${post.id}`}>{post.data.title}</a>
-                </h2>
+                </h3>
                 <div class="resource-body">
                   <p>{post.data.description}</p>
                 </div>
@@ -73,7 +73,7 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
           </section>
         ))}
         <p class="no-results" id="noResults">No posts match that filter.</p>
-      </main>
+      </div>
     </div>
 
   </div>
@@ -320,6 +320,26 @@ const categories = ["all", "technical", "essays", "notes", "personal"];
   @media (max-width: 768px) {
     .writing-wrap {
       padding-top: 60px;
+    }
+
+    .tab-controls {
+      flex-wrap: wrap;
+      padding: 0 16px;
+      gap: 0;
+    }
+
+    .tabs {
+      flex-wrap: wrap;
+      flex: 1 1 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      flex: 1 1 100%;
+      padding: 10px 4px;
+      border-top: 1px solid var(--chalk-faint);
+      border-bottom: 1px solid var(--chalk-faint);
+      margin-bottom: 4px;
     }
 
     .writing-layout {
