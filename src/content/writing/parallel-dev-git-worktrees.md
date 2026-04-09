@@ -1,9 +1,7 @@
 ---
 title: "Parallel Development with Git Worktrees and Claude Code"
 description: "Stop context-switching between tickets. Git worktrees give each task its own isolated workspace — and Claude Code skills automate the whole setup from a single prompt."
-date: "Feb 2026"
-dateGroup: "February 2026"
-dateId: "2026-02"
+date: "2026-02-12T11:47:00+11:00"
 tags: ["Claude Code", "Git", "Workflow", "AI"]
 category: "technical"
 ---

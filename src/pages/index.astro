@@ -7,7 +7,7 @@ import { skillGroups } from '../data/skills';
 import { findSkillTag } from '../lib/tagify';
 
 const allPosts = await getCollection('writing');
-allPosts.sort((a, b) => b.data.dateId.localeCompare(a.data.dateId));
+allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const recentPosts = allPosts.slice(0, 2);
 const hasRecentPosts = recentPosts.length > 0;
 const featuredProjects = projects.slice(0, 3);
@@ -123,7 +123,7 @@ const featuredProjects = projects.slice(0, 3);
       <div class="post-list">
         {recentPosts.map(post => (
           <a href={`/writing/${post.id}`} class="post-item">
-            <span class="post-date">{post.data.dateGroup}</span>
+            <span class="post-date">{post.data.date.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
             <h3>{post.data.title}</h3>
             <p>{post.data.description}</p>
           </a>

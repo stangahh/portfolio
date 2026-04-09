@@ -3,12 +3,22 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('writing');
-allPosts.sort((a, b) => b.data.dateId.localeCompare(a.data.dateId));
+allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function getDateId(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+function getDateGroup(d: Date) {
+  return `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
 
 type PostEntry = typeof allPosts[number];
 const grouped: Record<string, { label: string; id: string; posts: PostEntry[] }> = {};
 for (const post of allPosts) {
-  const { dateId, dateGroup } = post.data;
+  const dateId = getDateId(post.data.date);
+  const dateGroup = getDateGroup(post.data.date);
   if (!grouped[dateId]) grouped[dateId] = { label: dateGroup, id: dateId, posts: [] };
   grouped[dateId].posts.push(post);
 }
@@ -21,7 +31,7 @@ const categories = ["all", "technical", "essays"];
     <header class="editorial-hero">
       <p class="label fade-up fade-up-1">writing</p>
       <h1 class="fade-up fade-up-2">The <em>Archive</em></h1>
-      <p class="hero-sub fade-up fade-up-3">{allPosts.length} pieces across {groups.length} months</p>
+      <p class="hero-sub fade-up fade-up-3">{allPosts.length} {allPosts.length === 1 ? 'piece' : 'pieces'} across {groups.length} {groups.length === 1 ? 'month' : 'months'}</p>
     </header>
 
     <div class="tab-controls">
@@ -63,7 +73,7 @@ const categories = ["all", "technical", "essays"];
                   <p>{post.data.description}</p>
                 </div>
                 <div class="resource-meta">
-                  <span class="resource-date">{post.data.date}</span>
+                  <span class="resource-date" data-utc={post.data.date.toISOString()}>{post.data.date.toISOString()}</span>
                 </div>
                 <div class="resource-tags">
                   {post.data.tags.map(t => <span class="resource-tag">{t}</span>)}
@@ -202,7 +212,7 @@ const categories = ["all", "technical", "essays"];
     min-width: 0;
   }
 
-  .date-group { margin-bottom: 48px; }
+  .date-group { margin-bottom: 24px; }
 
   .date-heading {
     font-family: "JetBrains Mono", monospace;
@@ -222,7 +232,8 @@ const categories = ["all", "technical", "essays"];
     border-bottom: 1px solid var(--chalk-faint);
   }
 
-  .resource-card:first-of-type { border-top: 1px solid var(--chalk-faint); }
+  .resource-card:last-of-type { border-bottom: none; }
+
 
   .resource-badges {
     display: flex;
@@ -433,6 +444,11 @@ const categories = ["all", "technical", "essays"];
   }, { rootMargin: '-20% 0px -70% 0px' });
 
   groups.forEach(g => observer.observe(g));
+
+  // Local timezone tooltips
+  document.querySelectorAll<HTMLElement>('.resource-date[data-utc]').forEach(el => {
+    el.textContent = new Date(el.dataset.utc!).toString();
+  });
 
   // Smooth sidebar scroll on click (prevent default + manual scroll)
   sidebarItems.forEach(item => {
