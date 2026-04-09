@@ -34,7 +34,7 @@ export const projects: Project[] = [
   {
     name: "State Government OpenData Platform",
     year: "2024",
-    description: "Backend engineer on government data platform using CKAN OData extension for an Australian state government agency. Delivered three critical features: user API token management UI, file download security improvements, and hard-delete user purge API with compliance controls. Contributed effectively despite limited system access, demonstrating ability to deliver on unfamiliar platforms.",
+    description: "Backend engineer on government open data platform using CKAN OData extension for an Australian state government agency. Delivered three critical features: user API token management UI, file download security improvements, and hard-delete user purge API with compliance controls. Contributed effectively despite limited system access, demonstrating ability to deliver on unfamiliar platforms.",
     tags: ["CKAN", "OData", "Python", "PostgreSQL", "Azure", "Government Compliance", "API Design"],
   },
   {
