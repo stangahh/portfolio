@@ -1,6 +1,6 @@
 # Jesse Stanger — Portfolio
 
-Minimal, elegant portfolio site showcasing projects, writing, and experience. Built with [Astro](https://astro.build) with design inspiration from [o16g](https://o16g.com).
+Portfolio site showcasing projects, writing, and experience. Built with [Astro](https://astro.build) with design inspiration from [o16g](https://o16g.com).
 
 ## Features
 
