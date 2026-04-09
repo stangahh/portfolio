@@ -76,6 +76,26 @@ const {
         overflow-x: hidden;
       }
 
+      /* Skip navigation */
+      .skip-nav {
+        position: absolute;
+        top: -100%;
+        left: 0;
+        z-index: 9999;
+        padding: 8px 16px;
+        background: var(--warm);
+        color: #0f1014;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        transition: top 0.1s;
+      }
+
+      .skip-nav:focus {
+        top: 0;
+      }
+
       /* Graph paper background */
       .graph-paper {
         position: fixed;
@@ -119,7 +139,7 @@ const {
       }
 
       /* Main content layer */
-      #content {
+      #main-content {
         position: relative;
         z-index: 10;
       }
@@ -474,6 +494,26 @@ const {
 
       .see-all:hover { color: var(--warm); }
 
+      /* Inline skill/tag chip — links to /projects?tech=... */
+      .skill-chip {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65em;
+        letter-spacing: 0.5px;
+        color: var(--warm);
+        border: 0.667px solid var(--warm-border);
+        padding: 1px 7px;
+        text-decoration: none;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        transition: background 0.2s;
+      }
+
+      .skill-chip:hover {
+        background: rgba(196, 122, 58, 0.08);
+      }
+
       /* Divider */
       .divider {
         width: 1px;
@@ -678,6 +718,7 @@ const {
     </style>
   </head>
   <body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <div class="graph-paper"></div>
     <svg id="myceliumSvg" aria-hidden="true"></svg>
     <div class="chalk-texture"></div>
@@ -685,7 +726,7 @@ const {
     <canvas id="leafCanvas" aria-hidden="true"></canvas>
     <div class="progress-bar" id="progress"></div>
 
-    <nav>
+    <nav aria-label="Site navigation">
       <ul class="nav-links">
         <li><a href="/">HOME</a></li>
         <li><a href="/about">ABOUT</a></li>
@@ -697,7 +738,7 @@ const {
     </nav>
     <button id="leafToggle" class="particle-toggle" aria-label="Toggle falling leaves">✦ leaves</button>
 
-    <div id="content">
+    <div id="main-content" role="main">
       <slot />
     </div>
 
