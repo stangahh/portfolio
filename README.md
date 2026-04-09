@@ -2,6 +2,8 @@
 
 [![Live Site](https://img.shields.io/badge/live-stangahh.dev-brightgreen)](https://stangahh.dev)
 
+![Portfolio preview](.github/preview.gif)
+
 Portfolio site showcasing projects, writing, and experience. Built with [Astro](https://astro.build) with design inspiration from [o16g](https://o16g.com).
 
 ## Features
