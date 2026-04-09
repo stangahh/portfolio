@@ -13,7 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./github/actions/node-build
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/node-build
 
   deploy:
     needs: build
