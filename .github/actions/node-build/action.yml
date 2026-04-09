@@ -1,0 +1,25 @@
+name: Node.js Build
+description: Checkout, setup Node.js, install dependencies, build, and upload artifact
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v5
+
+    - uses: actions/setup-node@v5
+      with:
+        node-version: '22'
+        cache: 'npm'
+
+    - run: npm ci
+      shell: bash
+
+    - run: npm run build
+      shell: bash
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v6
+      with:
+        name: build
+        path: dist
+        retention-days: 1
