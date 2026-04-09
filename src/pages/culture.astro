@@ -436,6 +436,19 @@ import Base from '../layouts/Base.astro';
   </section>
 
 <script>
+  // Add aria-labels to spectrum bars for screen readers
+  document.querySelectorAll<HTMLElement>('.fit-row').forEach(row => {
+    const question = row.querySelector('.fit-question')?.textContent?.trim();
+    const wrap = row.querySelector<HTMLElement>('.spectrum-wrap');
+    const poles = wrap?.querySelectorAll('.spectrum-pole');
+    const score = wrap?.querySelector('.score-label')?.textContent?.trim();
+    if (wrap && question && poles && score) {
+      const left = poles[0]?.textContent?.trim();
+      const right = poles[1]?.textContent?.trim();
+      wrap.setAttribute('aria-label', `${question}: ${score} — from ${left} to ${right}`);
+    }
+  });
+
   // Hide nav while hero is visible
   const hero = document.querySelector('.page-hero');
   const nav = document.querySelector('.section-nav');
@@ -445,24 +458,36 @@ import Base from '../layouts/Base.astro';
     }, { threshold: 0 }).observe(hero);
   }
 
-  // Activate nav dot for the section currently in view
+  // Activate nav dot based on scroll position.
+  // The active section is whichever section's top has most recently scrolled past
+  // a threshold line (nav height + small buffer). This is immune to zoom level and
+  // multiple-sections-visible scenarios — there's always exactly one answer.
   const navLinks = document.querySelectorAll('.section-nav a');
-  const sectionObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const link = document.querySelector(`.section-nav a[href="#${entry.target.id}"]`);
-      if (!link) return;
-      if (entry.isIntersecting) {
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      }
-    });
-  }, { threshold: 0.3 });
 
-  document.querySelectorAll('[id]').forEach(s => {
-    if (document.querySelector(`.section-nav a[href="#${s.id}"]`)) {
-      sectionObs.observe(s);
+  const trackedSections = [...document.querySelectorAll('[id]')].filter(s =>
+    document.querySelector(`.section-nav a[href="#${s.id}"]`)
+  ) as HTMLElement[];
+
+  const NAV_OFFSET = 100; // sticky nav height (80px) + buffer
+
+  function updateActiveNav() {
+    const scrollY = window.scrollY + NAV_OFFSET;
+    let active: HTMLElement | null = null;
+    for (const section of trackedSections) {
+      if (section.offsetTop <= scrollY) {
+        active = section;
+      }
     }
-  });
+    if (!active) return;
+    const link = document.querySelector(`.section-nav a[href="#${active.id}"]`);
+    if (link) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    }
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
 </script>
 </Base>
 
@@ -742,11 +767,31 @@ import Base from '../layouts/Base.astro';
 
     .score-bar {
       width: 80px;
+      flex-shrink: 1;
+      min-width: 40px;
+    }
+
+    .spectrum-wrap {
+      flex-wrap: wrap;
+      gap: 6px;
+      max-width: 100%;
+    }
+
+    .spectrum-pole {
+      white-space: normal;
+      font-size: 9px;
+    }
+
+    .score-label {
+      white-space: nowrap;
     }
 
     .spectrum-tooltip {
       white-space: normal;
-      width: 260px;
+      width: auto;
+      max-width: calc(100vw - 32px);
+      left: 0;
+      right: 0;
     }
 
     .priority-list {
