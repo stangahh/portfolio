@@ -6,15 +6,20 @@ tags: ["Unix", "Workflow", "AI", "Tooling", "Philosophy"]
 category: "essays"
 ---
 
+<aside class="tldr">
+<span class="tldr-label">TL;DR</span>
+<p>Most developers use AI tooling passively — default prompts, default config, default behaviour. The <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a> (small tools, composed together, version-controlled) is the framework for owning it. Build focused skills. Layer <code>CLAUDE.md</code> files by scope. Put it all in git.</p>
+</aside>
+
 Most developers' AI workflows look like someone else's defaults.
 
 A system prompt copied from a blog post. Tool configuration that shipped with the extension. Instructions written once, never revisited. The same mistake we made with IDEs — hand the complexity to a monolith and adapt yourself to it.
 
-The Unix philosophy is the antidote. It's old. It applies to a completely new layer of the stack.
+The [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) is the antidote. It's old. It applies to a completely new layer of the stack.
 
 ## What it actually says
 
-Doug McIlroy's summary has outlasted most of what they were building at Bell Labs:
+[Doug McIlroy's](https://en.wikipedia.org/wiki/Douglas_McIlroy) summary has outlasted most of what they were building at [Bell Labs](https://en.wikipedia.org/wiki/Bell_Labs):
 
 > Write programs that do one thing and do it well. Write programs to work together. Write programs to handle text streams, because that is a universal interface.
 
@@ -24,7 +29,7 @@ The pipe is the whole game. Each tool knows nothing about the others. Each is in
 
 ## Skills as small tools
 
-A Claude Code skill is a markdown file. It lives in `~/.claude/skills/<name>/SKILL.md`. It does one thing. You invoke it with a slash command and it knows exactly what to do — because it was written for exactly that purpose, not every purpose.
+A [Claude Code](https://claude.ai/code) skill is a markdown file. It lives in `~/.claude/skills/<name>/SKILL.md`. It does one thing. You invoke it with a slash command and it knows exactly what to do — because it was written for exactly that purpose, not every purpose.
 
 ```
 /worktree-manager PROJ-123
@@ -44,14 +49,14 @@ Stage modified files, generate a conventional commit message from the diff,
 and commit. Confirm before pushing.
 ```
 
-Where a shell function crystallises a repeated terminal action, a skill crystallises a repeated AI interaction into something reusable and precise. The pattern is identical. The interface is English instead of stdin.
+Where a shell function crystallises a repeated terminal action, a skill crystallises a repeated AI interaction into something reusable and precise. The pattern is identical. The interface is English instead of [stdin](https://en.wikipedia.org/wiki/Standard_streams).
 
 Skills compose. A release skill can invoke the commit skill. A PR skill can invoke a review skill. Build primitives first, then pipelines. And apply the same discipline: the moment a skill starts doing two things, split it.
 
 <details>
 <summary>OpenCode equivalent</summary>
 
-OpenCode respects the `.claude/` directory structure. Drop skill directories under `.claude/skills/<name>/SKILL.md` in your project or home directory and OpenCode discovers and invokes them via the same slash-command interface. Your skill library is portable across both tools without modification.
+[OpenCode](https://opencode.ai) respects the `.claude/` directory structure. Drop skill directories under `.claude/skills/<name>/SKILL.md` in your project or home directory and OpenCode discovers and invokes them via the same slash-command interface. Your skill library is portable across both tools without modification.
 
 </details>
 
@@ -59,7 +64,7 @@ OpenCode respects the `.claude/` directory structure. Drop skill directories und
 
 Shell scripts in `~/bin` are global. Config in the repo is local. The distinction matters — global tools belong globally, project context belongs locally.
 
-Claude Code applies the same hierarchy to `CLAUDE.md` files. When you run Claude in a directory, it traverses *up* the tree and loads every `CLAUDE.md` it finds along the way. Subdirectory files are loaded on-demand, as Claude accesses files in those directories.
+[Claude Code](https://claude.ai/code) applies the same hierarchy to `CLAUDE.md` files. When you run Claude in a directory, it traverses *up* the tree and loads every `CLAUDE.md` it finds along the way. Subdirectory files are loaded on-demand, as Claude accesses files in those directories.
 
 ```
 ~/.claude/CLAUDE.md              ← always loaded (global prefs)
@@ -67,20 +72,20 @@ Claude Code applies the same hierarchy to `CLAUDE.md` files. When you run Claude
 ~/projects/api/src/CLAUDE.md     ← loaded when Claude touches src/
 ```
 
-Each layer knows its scope. The global file doesn't encode project-specific rules. The project file doesn't try to cover every repo. The agent inherits the full stack and applies the right level for the task. `$PATH` for context — local overrides global, specific overrides general.
+Each layer knows its scope. The global file doesn't encode project-specific rules. The project file doesn't try to cover every repo. The agent inherits the full stack and applies the right level for the task. [`$PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) for context — local overrides global, specific overrides general.
 
 Keep them under 500 lines. Move reference material into skill files, which are loaded on-demand rather than at session start.
 
 <details>
 <summary>OpenCode equivalent</summary>
 
-OpenCode reads the same `CLAUDE.md` hierarchy. A `CLAUDE.md` at your project root provides project context; `~/.claude/CLAUDE.md` provides your global preferences. If you already maintain these files for Claude Code, OpenCode picks them up automatically — no duplication needed.
+[OpenCode](https://opencode.ai) reads the same `CLAUDE.md` hierarchy. A `CLAUDE.md` at your project root provides project context; `~/.claude/CLAUDE.md` provides your global preferences. If you already maintain these files for Claude Code, OpenCode picks them up automatically — no duplication needed.
 
 </details>
 
 ## Version control is the only discipline that matters
 
-A dotfile not in git is technical debt — one drive failure from years of preferences, gone. Your AI toolchain has the same problem with ten times the stakes.
+A [dotfile](https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory) not in git is technical debt — one drive failure from years of preferences, gone. Your AI toolchain has the same problem with ten times the stakes.
 
 Your skills encode decisions. How you want PRs drafted. How you want migrations reviewed. How you want release notes structured. That's not configuration — it's experience. It belongs in a repo.
 
@@ -97,14 +102,14 @@ Your skills encode decisions. How you want PRs drafted. How you want migrations 
       reference.md       ← loaded on-demand, not at session start
 ```
 
-Version-controlled, committed, pushed. Your toolchain survives a new machine. The git log records when you decided PRs should always include a test plan. You can bisect if a skill starts behaving unexpectedly.
+Version-controlled, committed, pushed. Your toolchain survives a new machine. The [git](https://git-scm.com) log records when you decided PRs should always include a test plan. You can bisect if a skill starts behaving unexpectedly.
 
 The commit history is the archaeology of your judgment. Every entry in `skills/` is a decision that something was worth automating — and now that decision has a timestamp.
 
 <details>
 <summary>OpenCode equivalent</summary>
 
-OpenCode respects the same `.claude/` directory in your home folder. A single dotfiles repo containing `~/.claude/` works for both tools. One source of truth, two AI environments.
+[OpenCode](https://opencode.ai) respects the same `.claude/` directory in your home folder. A single [dotfiles repo](https://dotfiles.github.io) containing `~/.claude/` works for both tools. One source of truth, two AI environments.
 
 </details>
 

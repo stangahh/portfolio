@@ -6,6 +6,11 @@ tags: ["Claude Code", "Git", "Workflow", "AI"]
 category: "technical"
 ---
 
+<aside class="tldr">
+<span class="tldr-label">TL;DR</span>
+<p>Git worktrees give each ticket its own isolated directory and branch — no stashing, no context loss. A Claude Code skill automates the setup from a single prompt. Install it, tell Claude the ticket number, and work three things in parallel.</p>
+</aside>
+
 Three tickets. All urgent. All yours.
 
 The usual dance: `git stash`, switch branches, wait for rebuild. By the time you context-switch to ticket #2, you've already forgotten the edge case you were debugging in #1. Your teammates can't help because they'd conflict with your WIP branch. You're the bottleneck.
