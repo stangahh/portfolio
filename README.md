@@ -1,5 +1,7 @@
 # Jesse Stanger — Portfolio
 
+[![Live Site](https://img.shields.io/badge/live-stangahh.dev-brightgreen)](https://stangahh.dev)
+
 Portfolio site showcasing projects, writing, and experience. Built with [Astro](https://astro.build) with design inspiration from [o16g](https://o16g.com).
 
 ## Features
@@ -38,4 +40,3 @@ docker compose --profile prod up  # http://localhost:8080
 
 Automatically deployed to [Cloudflare Pages](https://pages.cloudflare.com/) on every push to `main` via GitHub Actions.
 
-For development guide, see [AGENTS.md](AGENTS.md).
