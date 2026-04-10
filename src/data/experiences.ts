@@ -29,7 +29,7 @@ export const experiences: Experience[] = [
     endDate: "2024-08-01",
     dateDisplay: "Jul 2023 — Aug 2024",
     type: "prev",
-    description: "Responsible for extending, maintaining, and supporting a Microfrontends platform and component library, built using React, TypeScript, single-spa stack. Providing technical guidance on Design Systems and bringing Figma designs to life, delivering through a React component library. Independently create architectural designs for new systems and features, involved throughout the entire SDLC. Collaborating with many downstream teams that depend on the Microfrontends platform, providing support and guidance, as well as implementing features to accelerate their workloads.",
+    description: "Extended and maintained a Microfrontends platform and React component library (TypeScript, single-spa), delivering Design System guidance and translating Figma designs into reusable components. Designed architecture for new systems and features independently across the full SDLC. Supported and enabled downstream teams building on the platform.",
   },
   {
     num: "prev",
@@ -39,7 +39,7 @@ export const experiences: Experience[] = [
     endDate: "2023-01-01",
     dateDisplay: "Aug 2022 — Jan 2023",
     type: "prev",
-    description: "Role made redundant. Joined Redbubble in the Artist Experience team, working to provide Artists on the Redbubble marketplace with features and tooling that enable them to create and sell high quality products. Worked with a cross-functional highly performant team on a bleeding edge platform designed to improve the artist experience of adding works to the marketplace. Established new best practices, collaborating with Product and Design to build robust and highly intuitive experiences. Introduced dynamic rendering fidelity to the Three.js rendering pipeline, greatly improving performance and responsiveness across all devices; mobile, tablet, and desktop. Implemented a coordinate system that greatly improved the accuracy of recording the artists' artwork placement intentions compared to the previous system (accurate recording of placement is imperative to accurate product fulfilment). Improved cross-browser compatibility of the WebGL 2.0 rendering implementation. Refactored aspects of the Three.js implementation and introduced React Three Fiber (React based Three.js superset) to the stack to improve developer productivity, reduce mental load, and improve performance.",
+    description: "Joined the Artist Experience team building a next-generation artwork placement platform for Redbubble's marketplace. Introduced dynamic rendering fidelity to the Three.js pipeline, improving performance and responsiveness across all devices. Implemented a coordinate system that significantly improved artwork placement accuracy, directly improving product fulfilment quality. Improved cross-browser WebGL 2.0 compatibility and introduced React Three Fiber to reduce complexity and boost developer productivity. Role made redundant.",
   },
   {
     num: "prev",
@@ -69,7 +69,7 @@ export const experiences: Experience[] = [
     endDate: "2021-03-01",
     dateDisplay: "Oct 2020 — Mar 2021",
     type: "prev",
-    description: "Company collapsed due to founder fraud. Leading the development efforts of the team. Micro and macro productivity by organising tasks into deliverable slices, and delivering on them consistently. Implemented secure, repeatable and scalable solutions for secret management, identity and access management, and DevOps on Kubernetes. All created with infrastructure as code and configuration as code tooling. Build and work with complex Dockerised application ecosystems, easy to use development tooling via docker-compose. Orchestrate secure and consistent deployment to AWS. Continuous integration and deployment. Tight collaboration with Product and Design teams for immediate feedback loops, edge case handling, prioritisation, and effective delivery.",
+    description: "Led development efforts across the team, breaking work into deliverable slices and shipping consistently. Built secure, scalable solutions for secret management, IAM, and Kubernetes-based DevOps using infrastructure and configuration as code. Maintained Dockerised application ecosystems with streamlined docker-compose tooling and CI/CD pipelines to AWS. Collaborated closely with Product and Design for tight feedback loops. Company collapsed due to founder fraud.",
   },
   {
     num: "prev",
@@ -91,7 +91,7 @@ export const experiences: Experience[] = [
     dateDisplay: "Jul 2019 — Mar 2020",
     type: "prev",
     canstarGroup: true,
-    description: "Designed, documented, implemented, and supported the team through a Release Process and Development Workflow overhaul, enabling the team to work in isolation in their features and epics, in addition to enabling valid testing to be done on epics such that they are up to date with upstream branches. This allows for less untested code to make it to production, and less testing effort and peer review effort to be wasted on code that is not ready for release. Investigated, estimated, lead, developed, and delivered an epic designed to make the website more accessible to Ad Blocking users, with one of my peer developers. This led to many major benefits to the business such as bringing in an extra AUD$550,000 in revenue in the first 6 months after release, providing a quality user experience when resources are blocked, improving brand perception, allowing more users to use the site in general, enabling more users to convert, enabling tracking of how many users are using ad blockers versus not, and adding ability to detect when an ad blocking user has converted through a monetised link. Mentored and supported junior developers through peer review, pair programming, tech support, etc.",
+    description: "Overhauled the team's release process and CI/CD workflow, enabling feature branch isolation and ensuring epics stay in sync with upstream before merge — reducing untested code reaching production and cutting wasted review cycles. Co-delivered an ad-blocker resilience epic in TypeScript/Angular that generated AUD $550K in new revenue within six months, while improving UX for blocked resources, increasing conversion opportunities, and adding visibility into ad-blocker usage. Mentored junior developers through code review, pair programming, and ongoing technical support.",
   },
   {
     num: "prev",
@@ -102,7 +102,7 @@ export const experiences: Experience[] = [
     dateDisplay: "Feb 2019 — Jul 2019",
     type: "prev",
     canstarGroup: true,
-    description: "Developed and delivered most of the frontend aspects of the 'Full Site Release' epic, where I ensured all previously non-Angular pages of the Canstar website were migrated to Angular, converted the Angular app to a Single Page App (SPA), converted all modules to properly utilise Angular Router and lazy loading, and fixed countless bugs surrounding link parsing, URL fragment handling, i18n language handling, innerHTML link interception, and redirection behaviour in server and browser app. This resulted in major site speed improvements for all pages that had now become Angular frontend, and massive user experience improvements as navigation around the website became near instant.",
+    description: "Led frontend delivery of the Full Site Release epic, migrating all remaining non-Angular pages to Angular and converting the app to a fully lazy-loaded SPA. Resolved deep routing bugs across link parsing, URL fragments, i18n handling, and server/browser redirection. Delivered major site speed improvements and near-instant client-side navigation across the entire site.",
   },
   {
     num: "prev",
