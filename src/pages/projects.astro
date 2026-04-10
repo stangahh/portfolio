@@ -316,9 +316,8 @@ const allTechs = [...new Set(projects.flatMap(p => p.tags))];
       max-height: none;
       overflow: hidden;
       display: flex;
-      flex-direction: row;
-      gap: 24px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 20px;
       align-items: flex-start;
       order: -1;
     }
@@ -326,25 +325,22 @@ const allTechs = [...new Set(projects.flatMap(p => p.tags))];
     .sidebar-section-label {
       padding: 0;
       margin-bottom: 0;
-      width: 100%;
-      flex-basis: 100%;
     }
 
     .stats {
       padding: 0;
       margin-bottom: 0;
-      flex: 1;
-      min-width: 150px;
+      flex-direction: row;
+      gap: 32px;
     }
 
     .tech-cloud {
       padding: 0;
       border: none;
-      padding-top: 0;
-      padding-bottom: 0;
+      border-top: 1px solid var(--chalk-faint);
+      padding-top: 16px;
       margin-top: 0;
-      flex: 1;
-      min-width: 150px;
+      width: 100%;
     }
 
     .projects-main {
