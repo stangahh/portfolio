@@ -10,13 +10,13 @@ export const projects: Project[] = [
   {
     name: "Major Bank — Mandate Management Platform",
     year: "2025-present",
-    description: "Performed lead-level delivery on the enterprise mandate management platform at a major Australian bank. Architected migration from legacy to new systems while preserving capabilities. Became subject matter expert in Temporal workflow orchestration for complex async processes. Pioneered AI-accelerated engineering practices with custom Claude agents and MCP configurations, multiplying team throughput. Owned end-to-end epic delivery of multiple mandate lifecycle events.",
+    description: "Performed lead-level delivery on the enterprise mandate management platform at a major Australian bank. Pioneered AI-accelerated engineering practices with custom Claude agents and MCP configurations, multiplying team throughput. Owned end-to-end epic delivery of multiple mandate lifecycle workstreams. Subject matter expert in Temporal workflow orchestration for complex async processes.",
     tags: ["TypeScript", "Node.js", "Express", "AWS", "Docker", "PostgreSQL", "CI/CD", "Temporal", "AI-Accelerated Development", "Enterprise", "Leadership"],
   },
   {
     name: "Agentic AI Platform — Vera & PixieOps",
     year: "2025-present",
-    description: "Engineer on Versent's internal agentic AI platform, building AWS-native AI agents and Slack-integrated tools alongside two junior engineers. Stack includes AWS Bedrock and AWS Strands for agent orchestration. Implemented observability layer for AI/ML systems: OpenTelemetry instrumentation, Jaeger for distributed tracing, and Arize Phoenix for ML model monitoring and evaluation.",
+    description: "Engineer on Versent's internal agentic AI platform, building AWS-native AI agents and Slack-integrated tools while mentoring junior engineers. Stack includes AWS Bedrock and AWS Strands for agent orchestration. Implemented observability layer for AI/ML systems: OpenTelemetry instrumentation, Jaeger for distributed tracing, and Arize Phoenix for ML model monitoring and evaluation.",
     tags: ["AWS Bedrock", "AWS Strands", "AWS", "Node.js", "TypeScript", "Slack", "OpenTelemetry", "Jaeger", "Arize Phoenix", "Agentic AI"],
   },
   {
