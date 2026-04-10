@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
     endDate: null,
     dateDisplay: "Oct 2024 —",
     type: "now",
-    description: "Consulting engineer solving complex technical challenges across startups and enterprises. Leading architecture design, building microservices platforms (NestJS, AWS), and pioneering AI-accelerated development practices. Recent clients: Klir Skin AI (startup platform), Australian state government agency (open data platform), Major Australian bank (enterprise payment systems).",
+    description: "Consulting engineer taking full ownership of complex epics across startups and enterprises — from requirements and solution design through Jira backlog creation, stakeholder alignment, and production release. At a major Australian bank: owned Payment Mandate epics end-to-end, presented architectural approaches to the team, and managed delivery dependencies. Became the team's Temporal framework SME — running open forum demos and distributing AI tooling to lift team-wide throughput. Other clients: Klir Skin AI (startup platform), Australian state government (open data platform).",
   },
   {
     num: "prev",
@@ -29,7 +29,7 @@ export const experiences: Experience[] = [
     endDate: "2024-08-01",
     dateDisplay: "Jul 2023 — Aug 2024",
     type: "prev",
-    description: "Extended and maintained a Microfrontends platform and React component library (TypeScript, single-spa), delivering Design System guidance and translating Figma designs into reusable components. Designed architecture for new systems and features independently across the full SDLC. Supported and enabled downstream teams building on the platform.",
+    description: "Technical lead for a shared Microfrontends platform and Design System serving multiple downstream product teams. Mentored teams on component design and platform usage, reviewed PRs for platform alignment, and ran regular feedback loops with Product and Design. Independently architected new systems across the full SDLC, translated Figma to production-ready React components, and proactively identified cross-team needs to accelerate shared capability delivery.",
   },
   {
     num: "prev",

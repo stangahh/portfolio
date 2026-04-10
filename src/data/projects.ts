@@ -17,19 +17,19 @@ export const projects: Project[] = [
     name: "Agentic AI Platform — Vera & PixieOps",
     year: "2025-present",
     description: "Engineer on Versent's internal agentic AI platform, building AWS-native AI agents and Slack-integrated tools while mentoring junior engineers. Stack includes AWS Bedrock and AWS Strands for agent orchestration. Implemented observability layer for AI/ML systems: OpenTelemetry instrumentation, Jaeger for distributed tracing, and Arize Phoenix for ML model monitoring and evaluation.",
-    tags: ["AWS Bedrock", "AWS Strands", "AWS", "Node.js", "TypeScript", "Slack", "OpenTelemetry", "Jaeger", "Arize Phoenix", "Agentic AI"],
+    tags: ["AWS Bedrock", "AWS Strands", "AWS", "Node.js", "TypeScript", "Slack", "OpenTelemetry", "Jaeger", "Arize Phoenix", "Agentic AI", "Mentoring"],
   },
   {
     name: "Klir Skin AI Platform",
     year: "2024-2025",
     description: "Lead technical consultant architecting complete NestJS microservices platform for skincare AI startup. Designed AWS infrastructure (ECS, RDS, S3) with Sceptre/CloudFormation handling 100k concurrent users. Implemented Playwright-based data scraping service with BrightData CDP integration. Established CI/CD via GitHub Actions with comprehensive documentation and knowledge transfer.",
-    tags: ["NestJS", "TypeScript", "Node.js", "AWS", "PostgreSQL", "Docker", "Playwright", "CI/CD", "Infrastructure as Code", "Monorepo"],
+    tags: ["NestJS", "TypeScript", "Node.js", "AWS", "PostgreSQL", "Docker", "Playwright", "CI/CD", "Infrastructure as Code", "Monorepo", "Leadership"],
   },
   {
     name: "UX Platform & Component Library",
     year: "2023-2024",
     description: "Senior engineer extending and maintaining microfrontend platform and shared React component library at Shell Energy. Built on React, TypeScript, and single-spa. Provided technical guidance on design system aspects and component APIs. Collaborated with multiple downstream teams to accelerate delivery and maintain platform reliability.",
-    tags: ["React", "TypeScript", "Node.js", "Docker", "CI/CD", "single-spa", "Storybook", "Design Systems", "Microfrontends"],
+    tags: ["React", "TypeScript", "Node.js", "Docker", "CI/CD", "single-spa", "Storybook", "Design Systems", "Microfrontends", "Leadership", "Mentoring"],
   },
   {
     name: "State Government OpenData Platform",
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     name: "GraphQL Federation Platform",
     year: "2020",
     description: "Lead architect on GraphQL federation platform built on Kubernetes at Canstar. Researched and documented the full system architecture, led a team of 8, and integrated Apollo Server across multiple backend services. Brought the platform from design through production deployment.",
-    tags: ["GraphQL", "Apollo", "Hasura", "MongoDB", "Node.js", "TypeScript", "Docker", "Kubernetes", "AWS", "CI/CD", "Monorepo"],
+    tags: ["GraphQL", "Apollo", "Hasura", "MongoDB", "Node.js", "TypeScript", "Docker", "Kubernetes", "AWS", "CI/CD", "Monorepo", "Leadership"],
   },
   {
     name: "Ad-blocker Monetisation Feature",
@@ -71,6 +71,6 @@ export const projects: Project[] = [
     name: "Angular SPA & Component Libraries",
     year: "2018-2019",
     description: "Led the Full Site Release epic at Canstar — migrating all non-Angular pages to Angular, converting the website to a full SPA with lazy loading and server-side rendering. Built and maintained shared component libraries (CNSU, cnsu-animations, cnsui-presentation) used across all Canstar products.",
-    tags: ["Angular", "TypeScript", "Node.js", "RxJS", "SSR", "Component Libraries", "Design Systems"],
+    tags: ["Angular", "TypeScript", "Node.js", "RxJS", "SSR", "Component Libraries", "Design Systems", "Leadership"],
   },
 ];

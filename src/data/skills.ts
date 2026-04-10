@@ -28,6 +28,9 @@ export const skillGroups: SkillGroup[] = [
   {
     title: "Specialties",
     skills: [
+      "Epic Ownership & End-to-End Delivery",
+      "Backlog Management & Stakeholder Communication",
+      "Technical Mentoring & Team Enablement",
       "AI-Accelerated Development (Claude, custom agents, MCP servers)",
       "Monorepo Architecture",
       "Microfrontends",
