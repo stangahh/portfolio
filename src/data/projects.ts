@@ -40,7 +40,7 @@ export const projects: Project[] = [
   {
     name: "3D Marketplace Rendering Pipeline",
     year: "2022-2023",
-    description: "Optimized Three.js rendering pipeline for Redbubble's artist marketplace. Introduced dynamic rendering fidelity to improve performance across mobile, tablet, and desktop devices. Implemented improved coordinate system for accurate artwork placement. Migrated to React Three Fiber for improved developer productivity and reduced cognitive load.",
+    description: "Optimised Three.js rendering pipeline for Redbubble's artist marketplace. Introduced dynamic rendering fidelity to improve performance across mobile, tablet, and desktop devices. Implemented improved coordinate system for accurate artwork placement. Migrated to React Three Fiber for improved developer productivity and reduced cognitive load.",
     tags: ["React", "Next.js", "Node.js", "TypeScript", "GraphQL", "Three.js", "React Three Fiber", "WebGL 2.0", "Storybook", "Docker", "CI/CD", "Monorepo", "Performance"],
   },
   {
@@ -52,7 +52,7 @@ export const projects: Project[] = [
   {
     name: "Workforce Platform — Mission-Critical Systems",
     year: "2021-2022",
-    description: "Implemented test-driven development across Roubler's mission-critical workforce management systems — billing, expenses, leave, and timesheets. Built on a Node.js/TypeScript monorepo with PostgreSQL. Established rigorous TDD practices where correctness is non-negotiable. Dockerized the full development and CI environment via Docker Compose and CircleCI, significantly improving feedback speed and deployment reliability.",
+    description: "Implemented test-driven development across Roubler's mission-critical workforce management systems — billing, expenses, leave, and timesheets. Built on a Node.js/TypeScript monorepo with PostgreSQL. Established rigorous TDD practices where correctness is non-negotiable. Dockerised the full development and CI environment via Docker Compose and CircleCI, significantly improving feedback speed and deployment reliability.",
     tags: ["Node.js", "TypeScript", "TDD", "PostgreSQL", "Docker", "CI/CD", "Monorepo", "CircleCI"],
   },
   {
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     tags: ["GraphQL", "Apollo", "Hasura", "MongoDB", "Node.js", "TypeScript", "Docker", "Kubernetes", "AWS", "CI/CD", "Monorepo"],
   },
   {
-    name: "Ad-blocker Monetization Feature",
+    name: "Ad-blocker Monetisation Feature",
     year: "2019-2020",
     description: "Designed and built a UX workaround for ad-blocked users at Canstar, recovering revenue lost to ad blockers. Required deep research into ad-blocking behaviour, creative front-end engineering, and close collaboration with product and commercial stakeholders. Feature was directly attributed to $550k AUD in recovered annual revenue.",
     tags: ["Angular", "TypeScript", "RxJS", "UX Engineering", "Revenue Impact"],

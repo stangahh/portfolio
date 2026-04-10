@@ -96,12 +96,12 @@ The key design principle: small, focused skills that chain together. Not a monol
 - Autonomous merge conflict resolution is still something LLMs get wrong — keep that step human
 
 **The mental model shift:**
-One worktree = one task. Internalize that, and the workflow is fluid. Ignore it, and you'll end up with 12 worktrees in various states of done.
+One worktree = one task. Internalise that, and the workflow is fluid. Ignore it, and you'll end up with 12 worktrees in various states of done.
 
 ## Extensions
 
 - **Conventional commits?** Pair a commit-message skill with `git-branching` for end-to-end branch and commit convention enforcement.
-- **Speed it up further?** Ask Claude to use subagents — it can parallelize research, file search, and implementation across worktrees. Good for reducing context rot on long-running tasks.
+- **Speed it up further?** Ask Claude to use subagents — it can parallelise research, file search, and implementation across worktrees. Good for reducing context rot on long-running tasks.
 - **Share it with your team?** Commit the skills to your project's `.claude/` directory and everyone gets them automatically. Works with [OpenCode](https://opencode.ai) too — it reads `.claude/skills/` natively.
 
 ---
