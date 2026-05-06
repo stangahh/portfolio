@@ -18,6 +18,6 @@
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/playfair-display": "^5.2.8",
     "@fontsource/spectral": "^5.2.8",
-    "astro": "^6.1.4"
+    "astro": "^6.2.2"
   }
 }
