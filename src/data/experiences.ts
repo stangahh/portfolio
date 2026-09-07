@@ -13,12 +13,22 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     num: "now",
+    title: "Lead Engineer",
+    company: "Versent",
+    startDate: "2026-09-01",
+    endDate: null,
+    dateDisplay: "Sep 2026 —",
+    type: "now",
+    description: "",
+  },
+  {
+    num: "prev",
     title: "Senior Software Engineer",
     company: "Versent",
     startDate: "2024-10-01",
-    endDate: null,
-    dateDisplay: "Oct 2024 —",
-    type: "now",
+    endDate: "2026-09-01",
+    dateDisplay: "Oct 2024 — Sep 2026",
+    type: "prev",
     description: "Consulting engineer taking full ownership of complex epics across startups and enterprises — from requirements and solution design through Jira backlog creation, stakeholder alignment, and production release. At a major Australian bank: owned Payment Mandate epics end-to-end, presented architectural approaches to the team, and managed delivery dependencies. Became the team's Temporal framework SME — running open forum demos and distributing AI tooling to lift team-wide throughput. Other clients: Klir Skin AI (startup platform), Australian state government (open data platform).",
   },
   {
