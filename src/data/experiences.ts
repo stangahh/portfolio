@@ -43,7 +43,7 @@ export const experiences: Experience[] = [
   },
   {
     num: "prev",
-    title: "Software Engineer — Artist Experience",
+    title: "Senior Software Engineer — Artist Experience",
     company: "Redbubble",
     startDate: "2022-08-01",
     endDate: "2023-01-01",
