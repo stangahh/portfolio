@@ -37,7 +37,7 @@ const sortedExperiences = [...experiences].sort((a, b) => {
           <div class="timeline-body">
             <h2>{exp.title}</h2>
             <p class="timeline-company">{exp.company}</p>
-            {exp.description && <p set:html={tagify(exp.description)} />}
+            {(exp.description || exp.type === 'now') && <p set:html={tagify(exp.description)} />}
           </div>
         </div>
       ))}
