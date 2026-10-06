@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.8/schema.json
+cv:
+  name: Jesse Stanger
+  headline: Lead Engineer · Full-Stack & AI-Accelerated Development
+  location: Melbourne, Australia
+  email: me@stangahh.dev
+  photo:
+  phone:
+  website:
+  social_networks:
+  custom_connections:
+    - placeholder: Portfolio
+      url: https://stangahh.dev
+      fontawesome_icon: globe
+    - placeholder: LinkedIn
+      url: https://www.linkedin.com/in/stangahh/
+      fontawesome_icon: linkedin
+    - placeholder: GitHub
+      url: https://github.com/stangahh
+      fontawesome_icon: github
+  sections:
+    summary:
+      - Lead Engineer with 8 years of experience across startups and enterprises, focused on AI-accelerated engineering. Takes ownership of epics end-to-end — from backlog and solution design through execution and release. Mentors engineers, presents to stakeholders, and builds frameworks/tooling that multiply team throughput.
+    experience:
+      - company: Versent
+        position: Lead Engineer
+        start_date: 2026-09
+        end_date: present
+        location: Melbourne, Australia
+        highlights:
+          - Consulting engineer with full ownership of complex epics across startup and enterprise clients, from requirements through solution design, Jira backlog breakdown, stakeholder alignment, and production release.
+      - company: Versent
+        position: Senior Software Engineer
+        start_date: 2024-10
+        end_date: 2026-09
+        location: Melbourne, Australia
+        highlights:
+          - 'At a major Australian bank: owned Payment Mandate epics end-to-end, presenting architectural approaches and managing delivery dependencies.'
+          - "Team's Temporal workflow orchestration SME — ran open-forum demos and distributed AI-accelerated tooling (custom Claude agents, MCP configurations)."
+          - Delivered platform work for additional clients including an AI-driven skincare startup and a state government open data platform.
+      - company: Shell Energy Australia
+        position: Senior Software Engineer — UX Platform
+        start_date: 2023-07
+        end_date: 2024-08
+        location: Melbourne, Australia
+        highlights:
+          - Technical lead for a shared Microfrontends platform and Design System serving multiple downstream product teams.
+          - Mentored engineers on component design and platform usage, reviewed PRs, and ran feedback loops with Product and Design.
+          - Architected new systems across the full SDLC, including Figma-to-React workflows, identifying cross-team platform needs.
+      - company: Redbubble
+        position: Senior Software Engineer — Artist Experience
+        start_date: 2022-08
+        end_date: 2023-01
+        location: Melbourne, Australia
+        highlights:
+          - Built next-generation artwork placement platform, introducing dynamic rendering fidelity to the Three.js pipeline to improve performance across devices.
+          - Implemented an improved coordinate system increasing placement accuracy; introduced React Three Fiber and improved cross-browser WebGL 2.0 compatibility.
+      - company: Roubler
+        position: Senior Full Stack Developer
+        start_date: 2021-03
+        end_date: 2022-02
+        location: Melbourne, Australia
+        highlights:
+          - "Designed and delivered an OAuth 2.0/OIDC provider from MVP through production scale, deprecating Auth0, working alongside the company Architect."
+          - Applied TDD on mission-critical billing, expenses, leave, and timesheet systems; dockerised testing and deployment to AWS, improving CI speed and reliability.
+      - company: Easier Australia
+        position: Senior Software Developer
+        start_date: 2020-10
+        end_date: 2021-03
+        location: Melbourne, Australia
+        highlights:
+          - Led development of secure, scalable solutions for secret management and IAM, with Kubernetes DevOps via Infrastructure as Code.
+      - company: Canstar
+        position: Graduate Developer → Senior Developer
+        start_date: 2018-05
+        end_date: 2020-10
+        location: Brisbane/Melbourne, Australia
+        highlights:
+          - Progressed from Graduate Developer to Senior Developer; led the Full Site Release epic (fully lazy-loaded Angular SPA) and the GraphQL Federation platform on Kubernetes, managing teams of up to 8; co-delivered an ad-blocker resilience feature generating AUD $550K in new annual revenue within 6 months.
+    education:
+      - institution: Queensland University of Technology
+        area: Business and Information Technology
+        degree: BBus/BIT
+        start_date: 2014
+        end_date: 2017
+        location: Brisbane, Australia
+        highlights:
+          - Majoring in Marketing and Computer Science.
+    skills:
+      - label: Languages & Frameworks
+        details: 'TypeScript | JavaScript | Node.js | React | NestJS | Express | Next.js | Angular | RxJS | GraphQL (Federation)'
+      - label: Cloud & Platform
+        details: 'AWS (ECS, Fargate, Lambda, DynamoDB, S3, IAM, Bedrock) | Docker | Kubernetes | Terraform | CloudFormation | GitHub Actions | GitLab CI/CD | Linux'
+      - label: AI Engineering
+        details: 'Claude Code | MCP | Agentic AI (Strands Agents, Pydantic AI)'
+      - label: Architecture & Practices
+        details: 'Microservices | Monorepo (Turborepo) | Microfrontends | Design Systems (Storybook) | OAuth 2.0/OIDC | OpenTelemetry | Temporal | TDD (Jest, Vitest, Playwright) | Agile'
+    certifications:
+      - bullet: '**Claude Certified Architect – Foundations (CCA-F)** — Anthropic, 2026'
+      - bullet: '**Microsoft Certified: Azure Fundamentals (AZ-900)** — Microsoft, 2025'
+    references:
+      - bullet: 'Principal Engineer, Versent'
+      - bullet: 'Delivery Lead, Shell Energy'
+      - bullet: 'Engineering Manager, Redbubble'
+      - bullet: '*Contact details available on request.*'
+
+design:
+  theme: ember
+locale:
+  language: english
+settings:
+  current_date: today
+  render_command:
+    output_folder: rendercv_output
+    design:
+    locale:
+    typst_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ
+    pdf_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf
+    markdown_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md
+    html_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html
+    png_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png
+    dont_generate_markdown: true
+    dont_generate_html: true
+    dont_generate_typst: false
+    dont_generate_pdf: false
+    dont_generate_png: true
+  bold_keywords: []
+  pdf_title: Jesse Stanger - CV

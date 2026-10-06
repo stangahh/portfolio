@@ -38,6 +38,8 @@ These three data files are tightly coupled. Changes to one almost always require
 - **`src/data/skills.ts`** — Skill names listed here appear on the homepage (`/`) skills grid. **Skill names must exactly match project tags** (case-sensitive) wherever you want them to interlink. If a skill name doesn't match a tag, the connection is broken.
 - **`src/data/experiences.ts`** — Experience descriptions are plain text. The `tagify()` function in `src/pages/about.astro` scans these descriptions at build time and wraps any exact tag matches (case-insensitive, word-boundary constrained) in clickable `<a class="skill-chip">` links pointing to `/projects?tech=<tag>`.
 
+**`src/data/muchskills.ts`** is a separate snapshot of the self-assessed skill levels and certifications from the MuchSkills profile (Versent). No page imports it, it is not linked to the tag system, and the resume doesn't use it. Don't wire it in unless asked.
+
 ### Rules for keeping the system consistent
 
 1. **Adding a new skill**: Add it to `skills.ts` AND ensure at least one project in `projects.ts` carries the matching tag. The tag name in `projects.ts` is the canonical form — the skill name should match it exactly.
@@ -50,7 +52,16 @@ These three data files are tightly coupled. Changes to one almost always require
 
 When instructed to "research", "investigate", "explore", or "look into" something, always delegate to a subagent via the Agent tool. This keeps research context isolated from the main conversation and prevents context bloat. Return only a concise summary of findings to the main conversation — not the full raw output.
 
+## Resume
+
+`resume/Jesse_Stanger_CV.yaml` is the source for the PDF resume, built with [RenderCV](https://rendercv.com) (`ember` theme). Output PDFs are gitignored. Keep it in sync with `src/data/` when relevant.
+
+```bash
+cd resume && rendercv render Jesse_Stanger_CV.yaml && cp rendercv_output/Jesse_Stanger_CV.pdf Jesse_Stanger_Resume.pdf
+```
+
 ## Keeping AGENTS.md and README.md up to date
+
 
 After making any change that affects how the project works — including new pages, routes, components, integrations, config changes, deployment changes, or data structures — update both files as needed:
 
