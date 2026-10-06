@@ -57,8 +57,10 @@ When instructed to "research", "investigate", "explore", or "look into" somethin
 `resume/Jesse_Stanger_CV.yaml` is the source for the PDF resume, built with [RenderCV](https://rendercv.com) (`ember` theme). Output PDFs are gitignored. Keep it in sync with `src/data/` when relevant.
 
 ```bash
-cd resume && rendercv render Jesse_Stanger_CV.yaml && cp rendercv_output/Jesse_Stanger_CV.pdf Jesse_Stanger_Resume.pdf
+cd resume && make resume   # or: rendercv render Jesse_Stanger_CV.yaml && cp rendercv_output/Jesse_Stanger_CV.pdf Jesse_Stanger_Resume.pdf
 ```
+
+For tailoring a resume + cover letter to a specific job listing, see the `job-application` skill (`.opencode/skills/job-application/SKILL.md`). Output lives in gitignored `resume/jobs/<slug>/`.
 
 ## Keeping AGENTS.md and README.md up to date
 

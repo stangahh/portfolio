@@ -2,11 +2,13 @@
 dist/
 resume/rendercv_output/
 resume/Jesse_Stanger_Resume.pdf
+resume/jobs/
 # generated types
 .astro/
 
 # dependencies
 node_modules/
+__pycache__/
 
 # logs
 npm-debug.log*
@@ -33,7 +35,3 @@ Thumbs.db
 
 # claude code
 .claude/
-
-# old reference resume (not for commit)
-CV_Stanger_Jesse_2024_07.pdf
-
