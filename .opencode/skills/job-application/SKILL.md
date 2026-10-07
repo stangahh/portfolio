@@ -56,12 +56,31 @@ under `resume/jobs/<slug>/`.
      and `resume/Jesse_Stanger_CV.yaml`. "Evidence" means an actual skill
      entry, project, or bullet — not an adjacent/transferable skill assumed to
      cover it.
-   - If one or more mandatory-tier items have no real evidence, this is a
-     **hard gap**, not a soft one. Tell the user plainly, before doing any
-     further work: which mandatory items are unmet, and that this materially
-     increases the odds of rejection regardless of how well the rest of the
-     profile fits. Give an honest fit verdict (good fit / stretch / hard gap)
-     and let the user decide whether to continue.
+   - **Report every mandatory-tier item in a table**, not prose, so fit is
+     scannable and consistent across every role:
+     ```
+     | Requirement | Evidence | Match |
+     |---|---|---|
+     | <requirement as stated> | <specific skill/project/bullet, or "none found"> | Strong / Partial / None |
+     ```
+     - **Strong** — directly evidenced, comfortably meets what's asked.
+     - **Partial** — real evidence exists but is thinner than what's asked
+       (e.g. self-rated Intermediate where "Strong" is required, or one
+       project vs. sustained experience).
+     - **None** — no evidence anywhere in the data sources. This is a hard
+       gap by definition.
+   - After the table, give a **single verdict line**: `Verdict: Strong Fit /
+     Good Fit / Stretch / Hard Gap`, plus an at-a-glance count, e.g.
+     `6 Strong, 2 Partial, 0 None`. Use:
+     - **Strong Fit** — all/nearly all Strong, no None.
+     - **Good Fit** — mostly Strong with some Partial, no None.
+     - **Stretch** — multiple Partial or one None, still arguably worth
+       applying.
+     - **Hard Gap** — one or more None on items central to the role (not
+       edge-case asks), or several None items.
+   - If there's a **None**, say so plainly and note it materially increases
+     rejection odds regardless of how well the rest of the profile fits.
+     Let the user decide whether to continue — don't decide for them.
    - If the user doesn't explicitly ask about fit, do this assessment anyway
      and lead with it — the whole point is catching rejection-on-mandatory-
      requirements before time is spent building a tailored resume and letter.
