@@ -157,8 +157,10 @@ under `resume/jobs/<slug>/`.
    ```bash
    cd resume && make job JOB=<slug>
    ```
-   This produces `Jesse_Stanger_Resume.pdf` and `Jesse_Stanger_Cover_Letter.pdf`
-   in `resume/jobs/<slug>/`.
+   This produces `Jesse_Stanger_Resume_<slug>.pdf` and
+   `Jesse_Stanger_Cover_Letter_<slug>.pdf` in `resume/jobs/<slug>/` — outputs
+   are suffixed with the job slug so files stay identifiable once downloaded
+   or attached to an application.
 
 9. **Verify the resume PDF renders correctly.** Temporarily flip
    `dont_generate_png: true` to `false` in the job's YAML, re-render, and view

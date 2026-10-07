@@ -5,6 +5,8 @@
 # Usage:
 #   make resume                 Render the main resume (Jesse_Stanger_CV.yaml -> Jesse_Stanger_Resume.pdf)
 #   make job JOB=acme-se        Render a tailored resume + cover letter for resume/jobs/acme-se/
+#                               Outputs are suffixed with the job slug, e.g.
+#                               Jesse_Stanger_Resume_acme-se.pdf
 #   make clean                  Remove all generated rendercv_output/ build directories
 #
 # A job application lives in resume/jobs/<JOB>/ and must contain:
@@ -26,10 +28,10 @@ ifndef JOB
 	$(error Usage: make job JOB=<folder-name under resume/jobs/>)
 endif
 	$(RENDERCV) render jobs/$(JOB)/Jesse_Stanger_CV.yaml --output-folder rendercv_output
-	cp jobs/$(JOB)/rendercv_output/Jesse_Stanger_CV.pdf jobs/$(JOB)/Jesse_Stanger_Resume.pdf
-	$(COMPILE_LETTER) jobs/$(JOB)/cover_letter.json jobs/$(JOB)/Jesse_Stanger_Cover_Letter.pdf
-	@echo "-> resume/jobs/$(JOB)/Jesse_Stanger_Resume.pdf"
-	@echo "-> resume/jobs/$(JOB)/Jesse_Stanger_Cover_Letter.pdf"
+	cp jobs/$(JOB)/rendercv_output/Jesse_Stanger_CV.pdf jobs/$(JOB)/Jesse_Stanger_Resume_$(JOB).pdf
+	$(COMPILE_LETTER) jobs/$(JOB)/cover_letter.json jobs/$(JOB)/Jesse_Stanger_Cover_Letter_$(JOB).pdf
+	@echo "-> resume/jobs/$(JOB)/Jesse_Stanger_Resume_$(JOB).pdf"
+	@echo "-> resume/jobs/$(JOB)/Jesse_Stanger_Cover_Letter_$(JOB).pdf"
 
 clean:
 	rm -rf rendercv_output jobs/*/rendercv_output
