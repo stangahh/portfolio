@@ -86,6 +86,15 @@ under `resume/jobs/<slug>/`.
      pad the letter to hit 4 paragraphs.
    - **Matching experience** — the 2-3 strongest, most relevant pieces of
      real experience from the tailored resume, in the person's own voice.
+   - **Gap disclosure, if there are gaps** — name what's genuinely missing
+     against the listing's requirements, then back any adaptability claim
+     with specific tools/stacks the person has already picked up on the job
+     (check `src/data/muchskills.ts` and the experience bullets for real
+     examples). Don't close a gap disclosure with an abstract trait claim
+     like "I'm a fast learner" or "I can pick up anything" — that's exactly
+     the kind of unfalsifiable claim this rule set is trying to avoid. Anchor
+     it in a named, checkable example instead (e.g. "X, Y, and Z were all new
+     to me when I started building with them").
    - **Closing** — enthusiasm to contribute, a thank-you for considering the
      application, and a soft next-steps line (e.g. "I'd welcome the chance
      to discuss this further").
