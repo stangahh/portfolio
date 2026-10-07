@@ -160,21 +160,84 @@ under `resume/jobs/<slug>/`.
    This produces `Jesse_Stanger_Resume.pdf` and `Jesse_Stanger_Cover_Letter.pdf`
    in `resume/jobs/<slug>/`.
 
-9. **Verify the resume PDF.** Temporarily flip `dont_generate_png: true` to
-   `false` in the job's YAML, re-render, and view the PNG pages to confirm:
-   page count (must be 2), no obvious overflow/cut-off text, no fabricated
-   claims slipped in. Flip the setting back to `true` and re-render once
-   confirmed (keeps the committed-if-ever-needed YAML consistent with the
-   main resume's settings).
+9. **Verify the resume PDF renders correctly.** Temporarily flip
+   `dont_generate_png: true` to `false` in the job's YAML, re-render, and view
+   the PNG pages to confirm page count (must be 2) and no overflow/cut-off
+   text. Flip the setting back to `true` and re-render once confirmed (keeps
+   the committed-if-ever-needed YAML consistent with the main resume's
+   settings). This step checks *rendering* only — claim accuracy is step 10's
+   job, and eyeballing the PDF yourself is not a substitute for it.
 
-10. **Report back** the two PDF paths and a one-paragraph summary of what was
-   emphasised and why, so the user can review before submitting.
+10. **Audit every claim with a fresh-context subagent.** This is mandatory and
+    must happen before reporting back. Do not do it yourself inline — the agent
+    that wrote the claims is the worst possible auditor of them, because it
+    already accepts the framing it chose. Composite claims in particular are
+    close to invisible to their own author and obvious to a fresh reader.
+
+    Launch a subagent via the Task tool (`general`), and give it **only**:
+    - the paths to the tailored `resume/jobs/<slug>/Jesse_Stanger_CV.yaml` and
+      `resume/jobs/<slug>/cover_letter.json`
+    - the source-of-truth paths: `resume/Jesse_Stanger_CV.yaml`,
+      `src/data/experiences.ts`, `src/data/projects.ts`, `src/data/skills.ts`,
+      `src/data/muchskills.ts`
+
+    Do **not** give it your reasoning, your summary of what you emphasised, or
+    any statement that the drafts look correct — all of that primes it to
+    agree with you and defeats the purpose.
+
+    Ask it to return one row per factual assertion in both documents:
+    ```
+    | claim (quoted) | supporting source file:line, or "none" | VERIFIED / OVERREACH / UNSUPPORTED |
+    ```
+    and to check specifically for:
+    - **composite claims** — individually true facts joined into a false whole
+      (duration applied to the wrong activity, seniority stretched across a
+      whole career, a client/employer attached to work they didn't cover)
+    - **unsourced adjectives** — "concurrent", "simultaneous", "large-scale",
+      "enterprise", "production", "strong", "extensive" added for rhythm
+    - **skill-level inflation** — anything described more strongly than its
+      `muchskills.ts` rank supports
+    - **invented specifics** — numbers, dates, durations, client names, or
+      outcomes with no source
+
+    Tell it explicitly to flag anything it cannot trace to a specific line,
+    and that returning zero findings is a valid result only if it genuinely
+    verified every claim against source.
+
+    Fix everything marked OVERREACH or UNSUPPORTED, re-render, and re-run the
+    audit if any fix materially changed wording. Report the audit outcome to
+    the user alongside the PDFs — including a clean result, so they know the
+    check actually ran.
+
+11. **Report back** the two PDF paths, the audit outcome from step 10, and a
+    one-paragraph summary of what was emphasised and why, so the user can
+    review before submitting.
 
 ## Rules
 
 - Never fabricate experience, skills, dates, or employers. Every claim in the
   tailored resume and cover letter must trace to something already in
   `src/data/`, `resume/Jesse_Stanger_CV.yaml`, or `src/data/muchskills.ts`.
+- **Composite claims are the most common fabrication here, and the hardest to
+  catch.** A sentence can be assembled entirely from true facts and still
+  assert something false, because the *combination* is unsourced. Real
+  examples that slipped through: "8 years as a consulting engineer" (8 years is
+  total career; consulting is only the most recent role) and "multiple
+  concurrent clients" (multiple clients is true, concurrent was invented).
+  Before writing any sentence that joins more than one fact, check the joins,
+  not just the facts:
+  - Does that **duration** actually apply to that activity, or is it the
+    career total?
+  - Does that **seniority** apply to that whole period, or just the latest role?
+  - Is that **adjective** sourced (concurrent, simultaneous, large-scale,
+    enterprise, production), or did it get added for rhythm?
+  - Is the **employer/client** actually attached to that piece of work?
+  When in doubt, write the narrower sentence. Obviously-true and slightly
+  flatter beats broader phrasing that needs a charitable reading to be correct.
+- Don't inflate self-assessed skill levels. Ranks in `src/data/muchskills.ts`
+  are evidence of *level*, not just presence — a rank-5 ("Intermediate") skill
+  must not be described as "strong", "deep", "extensive", or "expert" in
+  either document.
 - Don't touch the canonical `resume/Jesse_Stanger_CV.yaml` — always work on
   the copy inside `resume/jobs/<slug>/`.
 - `resume/jobs/` is gitignored (see root `.gitignore`) — these are personal,
