@@ -27,15 +27,46 @@ under `resume/jobs/<slug>/`.
 2. **Pick a slug** for the folder: `<company>-<role>` in lowercase-with-hyphens
    (e.g. `acme-senior-engineer`). Create `resume/jobs/<slug>/` and save the
    listing text to `resume/jobs/<slug>/listing.md` (include the URL at the top).
+   Preserve the listing's original section structure and headings verbatim —
+   don't summarize or flatten sections like "What You Need" / "What You'll
+   Bring" vs "Nice to Have" / "Highly Regarded" into a single merged list.
+   Step 4's fit assessment depends on that tiering surviving intact; losing it
+   here means a hard requirement can get silently miscategorised as optional
+   later. If the source page's structure is genuinely unclear or unmarked,
+   note that explicitly in listing.md rather than inventing a structure.
 
 3. **Research the company briefly.** Check the company's site, About page, or
    recent news for one or two concrete, specific details (a product, a stated
    value, a market position, something they've shipped or announced) — not
    generic flattery like "innovative" or "fast-growing." This feeds the
-   company-interest beat in the cover letter (step 5). If nothing concrete
+   company-interest beat in the cover letter (step 6). If nothing concrete
    turns up, don't pad — skip this beat and keep the letter to 3 paragraphs.
 
-4. **Read the current resume and data sources** before writing anything:
+4. **Assess fit and flag hard gaps before building anything.** This is a gate,
+   not just a note for later — don't start tailoring until this is done:
+   - Split the listing's requirements into a mandatory tier and a
+     preferred/nice-to-have tier. Listings rarely use the literal words
+     "mandatory" or "essential" — look for structural signals instead: a
+     "What You Will Bring" / "Requirements" / "You'll need" section is the
+     mandatory tier; a "Highly Regarded" / "Nice to Have" / "Bonus" section is
+     the preferred tier. If there's only one undifferentiated list, treat all
+     of it as the mandatory tier.
+   - Cross-check every mandatory-tier item against real evidence in
+     `src/data/muchskills.ts`, `src/data/experiences.ts`, `src/data/projects.ts`,
+     and `resume/Jesse_Stanger_CV.yaml`. "Evidence" means an actual skill
+     entry, project, or bullet — not an adjacent/transferable skill assumed to
+     cover it.
+   - If one or more mandatory-tier items have no real evidence, this is a
+     **hard gap**, not a soft one. Tell the user plainly, before doing any
+     further work: which mandatory items are unmet, and that this materially
+     increases the odds of rejection regardless of how well the rest of the
+     profile fits. Give an honest fit verdict (good fit / stretch / hard gap)
+     and let the user decide whether to continue.
+   - If the user doesn't explicitly ask about fit, do this assessment anyway
+     and lead with it — the whole point is catching rejection-on-mandatory-
+     requirements before time is spent building a tailored resume and letter.
+
+5. **Read the current resume and data sources** before writing anything:
    - `resume/Jesse_Stanger_CV.yaml` — the canonical resume content
    - `src/data/experiences.ts`, `src/data/projects.ts`, `src/data/skills.ts` —
      fuller detail than what's condensed into the resume
@@ -43,7 +74,7 @@ under `resume/jobs/<slug>/`.
      whether a skill the listing asks for is genuinely strong, middling, or
      weak before deciding how much to emphasise it
 
-5. **Tailor a copy of the resume**, not the canonical one:
+6. **Tailor a copy of the resume**, not the canonical one:
    - Copy `resume/Jesse_Stanger_CV.yaml` to `resume/jobs/<slug>/Jesse_Stanger_CV.yaml`
    - Reorder/reword the Skills lines and experience bullets to foreground what
      the listing asks for, using the person's own existing wording as the
@@ -55,7 +86,7 @@ under `resume/jobs/<slug>/`.
    - Update `settings.render_command.output_folder` is not needed — the
      Makefile passes `--output-folder` explicitly.
 
-6. **Write the cover letter data** to `resume/jobs/<slug>/cover_letter.json`,
+7. **Write the cover letter data** to `resume/jobs/<slug>/cover_letter.json`,
    matching the fields `cover_letter_template.typ` expects:
    ```json
    {
@@ -103,21 +134,21 @@ under `resume/jobs/<slug>/`.
    company-interest beat is the one most prone to sounding like AI-generated
    flattery — hold it to the same no-fabrication bar as experience claims.
 
-7. **Render both documents:**
+8. **Render both documents:**
    ```bash
    cd resume && make job JOB=<slug>
    ```
    This produces `Jesse_Stanger_Resume.pdf` and `Jesse_Stanger_Cover_Letter.pdf`
    in `resume/jobs/<slug>/`.
 
-8. **Verify the resume PDF.** Temporarily flip `dont_generate_png: true` to
+9. **Verify the resume PDF.** Temporarily flip `dont_generate_png: true` to
    `false` in the job's YAML, re-render, and view the PNG pages to confirm:
    page count (must be 2), no obvious overflow/cut-off text, no fabricated
    claims slipped in. Flip the setting back to `true` and re-render once
    confirmed (keeps the committed-if-ever-needed YAML consistent with the
    main resume's settings).
 
-9. **Report back** the two PDF paths and a one-paragraph summary of what was
+10. **Report back** the two PDF paths and a one-paragraph summary of what was
    emphasised and why, so the user can review before submitting.
 
 ## Rules
