@@ -28,7 +28,14 @@ under `resume/jobs/<slug>/`.
    (e.g. `acme-senior-engineer`). Create `resume/jobs/<slug>/` and save the
    listing text to `resume/jobs/<slug>/listing.md` (include the URL at the top).
 
-3. **Read the current resume and data sources** before writing anything:
+3. **Research the company briefly.** Check the company's site, About page, or
+   recent news for one or two concrete, specific details (a product, a stated
+   value, a market position, something they've shipped or announced) — not
+   generic flattery like "innovative" or "fast-growing." This feeds the
+   company-interest beat in the cover letter (step 5). If nothing concrete
+   turns up, don't pad — skip this beat and keep the letter to 3 paragraphs.
+
+4. **Read the current resume and data sources** before writing anything:
    - `resume/Jesse_Stanger_CV.yaml` — the canonical resume content
    - `src/data/experiences.ts`, `src/data/projects.ts`, `src/data/skills.ts` —
      fuller detail than what's condensed into the resume
@@ -36,7 +43,7 @@ under `resume/jobs/<slug>/`.
      whether a skill the listing asks for is genuinely strong, middling, or
      weak before deciding how much to emphasise it
 
-4. **Tailor a copy of the resume**, not the canonical one:
+5. **Tailor a copy of the resume**, not the canonical one:
    - Copy `resume/Jesse_Stanger_CV.yaml` to `resume/jobs/<slug>/Jesse_Stanger_CV.yaml`
    - Reorder/reword the Skills lines and experience bullets to foreground what
      the listing asks for, using the person's own existing wording as the
@@ -48,7 +55,7 @@ under `resume/jobs/<slug>/`.
    - Update `settings.render_command.output_folder` is not needed — the
      Makefile passes `--output-folder` explicitly.
 
-5. **Write the cover letter data** to `resume/jobs/<slug>/cover_letter.json`,
+6. **Write the cover letter data** to `resume/jobs/<slug>/cover_letter.json`,
    matching the fields `cover_letter_template.typ` expects:
    ```json
    {
@@ -66,26 +73,42 @@ under `resume/jobs/<slug>/`.
      "sign-off": "Kind regards,"
    }
    ```
-   Keep the letter to 3 short paragraphs: why this role/company, the 2-3
-   strongest matching pieces of real experience, and a closing line. Write in
-   the person's own voice — direct, no filler, no generic enthusiasm claims
-   that aren't backed by something concrete from their history.
+   Structure the letter around three beats, flexibly split into 3 or 4 short
+   paragraphs depending on how much real material there is:
+   - **Opening hook** — career stage and trajectory tied to this specific
+     role (e.g. "I've built X and Y as a [current role]; the [role title] at
+     [company] is the natural next step"). Not a generic "I am writing to
+     apply for..." opener.
+   - **Company-specific interest** — a genuine, specific reason this
+     *company* (not just the role) appeals, grounded in whatever concrete
+     detail turned up in step 3. If step 3 found nothing concrete, fold this
+     into the opening paragraph instead of inventing generic flattery — don't
+     pad the letter to hit 4 paragraphs.
+   - **Matching experience** — the 2-3 strongest, most relevant pieces of
+     real experience from the tailored resume, in the person's own voice.
+   - **Closing** — enthusiasm to contribute, a thank-you for considering the
+     application, and a soft next-steps line (e.g. "I'd welcome the chance
+     to discuss this further").
+   Write in the person's own voice — direct, no filler, no generic enthusiasm
+   claims that aren't backed by something concrete from their history. The
+   company-interest beat is the one most prone to sounding like AI-generated
+   flattery — hold it to the same no-fabrication bar as experience claims.
 
-6. **Render both documents:**
+7. **Render both documents:**
    ```bash
    cd resume && make job JOB=<slug>
    ```
    This produces `Jesse_Stanger_Resume.pdf` and `Jesse_Stanger_Cover_Letter.pdf`
    in `resume/jobs/<slug>/`.
 
-7. **Verify the resume PDF.** Temporarily flip `dont_generate_png: true` to
+8. **Verify the resume PDF.** Temporarily flip `dont_generate_png: true` to
    `false` in the job's YAML, re-render, and view the PNG pages to confirm:
    page count (must be 2), no obvious overflow/cut-off text, no fabricated
    claims slipped in. Flip the setting back to `true` and re-render once
    confirmed (keeps the committed-if-ever-needed YAML consistent with the
    main resume's settings).
 
-8. **Report back** the two PDF paths and a one-paragraph summary of what was
+9. **Report back** the two PDF paths and a one-paragraph summary of what was
    emphasised and why, so the user can review before submitting.
 
 ## Rules
